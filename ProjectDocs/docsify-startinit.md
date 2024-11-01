@@ -45,7 +45,7 @@
 ```*也可以使用『软件包管理器』进行安装```
 点击官网中的```下载 Node.js(LTS) ```进行下载，这里我们得到安装文件```node-v22.11.0-x64.msi```，双击进入安装步骤。
 
-```参考链接```
+```参考链接```  
 [1][软件的Alpha、Beta、GM、OEM、LTS等版本的含义](https://blog.csdn.net/qq_36761831/article/details/83188138)  
 [2][msi和exe安装文件有什么区别](https://blog.csdn.net/weixin_43924896/article/details/120707191)
 
@@ -66,7 +66,7 @@
 输入```npm -v```显示```npm版本```，
 如果都能显示数字字符串则证明```node```和```npm```安装成功。
 
-```参考链接```
+```参考链接```  
 [1][全网最详细的nodejs卸载和安装教程](https://blog.csdn.net/qq_42257666/article/details/129909941)  
 [2][下载并安装 node 和 npm](https://npm.nodejs.cn/cli/v8/configuring-npm/install)
 
@@ -87,7 +87,7 @@
 其中 node_cache 和 node_global 是新建的文件夹。
 ```
 然后打开```CMD（注意应为管理员模式）```分别输入以下指令：  
-```「# 」所在行的 # 后的内容不输入```
+```「#」所在行的 # 后的内容不输入```
 ```
 # 设置全局模块安装路径到 "NodeJs的安装目录\node_global"
 npm config set prefix "D:\NodeJs\node_global"
@@ -123,7 +123,7 @@ npm install -g vue # -g 表示全局安装
 ```
 应显示```Add 数字 package from 数字 contributor in 数字s```，进入上一步设置路径```D:\NodeJs\node_global\node_modules```中发现会新出现两个文件夹```Express```和```vue```。
 
-```参考链接```
+```参考链接```  
 [1][NodeJs 的安装及配置环境变量](https://blog.csdn.net/zimeng303/article/details/112167688)  
 [2][避坑了避坑了！！！全网最详细Nodejs安装配置](https://blog.csdn.net/weixin_45754463/article/details/135279187)  
 
@@ -240,7 +240,7 @@ Listening at http://localhost:3000
 </html>
 ```
 
-```参考链接```
+```参考链接```  
 [1][使用轻量应用服务器部署Docsify在线文档平台](https://developer.aliyun.com/article/858583)
 
 
@@ -314,13 +314,31 @@ Listening at http://localhost:3000
 > 4. 配置宝塔面板
 > 5. 优化访问效率（更改配置文件）
 
-
+内容未完工 —— 休息够了再写吧
 
 ---
 
 ## 后话与参考链接
 
 ### 一点碎碎念
+确实好久没写碎碎念了！最近一直都很懈怠能量很低TT  
+转眼大三上也已经过去一半了，明年这个时候可能已经成社畜了（目移），也有可能在准备考研？
+未来的事情未来再纠结！  
+
+建立这个网站的初衷其实就是很简单的知识构建、回看，甚至算不上分享什么的，可能一年过去也不会有多少访问量，显然谈不上分享。  
+唔，希望能从这个 Docsify 项目开始系统整理学过的知识吧！  
+唔，感觉数学也可以建立一个单独的合集——虽然我没学到什么但是就是想记！  
+数学我还蛮喜欢记笔记的，计算机的话其实我也喜欢自己记记写写。  
+其实也都说要做知识结构框架？唔，于我个人而言是方便回头看，不用再捋那些繁杂的学习之路，可以方便的知道做过什么学过什么。  
+
+蛮有趣的！一次性写五六百行 Markdown 文本，好像又回到年纪小的时候偷偷写网文的日子。（目移）  
+
+下周就学期第 10 周了，期末考试就要来了啊啊啊啊啊！  
+
+希望一切顺利 ——
+
+```小记于24.11.2凌晨4时```  ```剁椒鱼头留记```
+
 
 ### 参考链接
 [Docsify 官网（需魔法）](https://docsify.js.org/)  

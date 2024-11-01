@@ -7,11 +7,11 @@
 这是一个记录个人学习记录的页面。于 2024.11.1 使用 docsify 建立，期待以后会逐步完善。
 
 ## 任务清单
-- 目前待完成的网页：
-    - Node.Js 的下载与初始化
-    - docsify 的下载与初始化
+- 目前待完成的部分：
+    - Node.Js 的下载与初始化（100%）
+    - docsify 的下载与初始化（70%）
     - Git 的使用（更改端口）
-    - Markdown 语法
+    - Markdown 语法记录（20%）
     - LaTex 语法记录
     - 使用 draw.io 绘制图像
     - 控制台、Powershell、WindowsPowershell 的异同
