@@ -1,13 +1,14 @@
 <!-- _coverpage.md -->
 
-# Docsify使用指南 
+# 剁椒老鱼头的个人主页
 
-> 💪Docsify使用指南，使用Docsify打造轻量级的个人文档。
+> 💪使用Docsify打造的轻量个人文档
 
  简单、轻便 (压缩后 ~21kB)
+ 
 - 无需生成 html 文件
 - 众多主题
 
 
-[开始使用 Let Go](/README.md)
+[下滑或点击这里](/README.md)
 
