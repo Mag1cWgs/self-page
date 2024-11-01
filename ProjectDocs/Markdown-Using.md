@@ -31,9 +31,8 @@ Content in the first column | Content in the second column
 H~2~O
 
 ### 脚注
-Content [^1]
-
-[^1]: Hi! This is a footnote
+~~Content [^1]~~
+~~[^1]: Hi! This is a footnote~~
 
 ### 缩略
 
