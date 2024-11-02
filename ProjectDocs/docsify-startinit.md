@@ -310,9 +310,19 @@ Listening at http://localhost:3000
 > 参考: [使用轻量应用服务器部署Docsify在线文档平台](https://developer.aliyun.com/article/858583)
 > 1. 选择云服务商购买服务器
 > 2. 建立实例并成功登陆
+[阿里云服务器修改主机名即ID(登陆时root@后显示名)【图文】](https://blog.csdn.net/weixin_51253120/article/details/132008017)
 > 3. 安装宝塔面板、配置安全组
+开放宝塔所用端口
 > 4. 配置宝塔面板
+更改宝塔面板账户信息
 > 5. 优化访问效率（更改配置文件）
+> 6. 购买域名
+> 7. 配置ssh证书、放行443端口、重启服务器
+[Nginx常用命令（启动、重启、关闭、检查](https://blog.csdn.net/qq_28624243/article/details/115598416)
+[宝塔面板SSL证书文件存放目录位置在哪里?](https://blog.csdn.net/wx23986/article/details/141440990)
+[在宝塔面板安装SSL证书](https://help.aliyun.com/zh/ssl-certificate/user-guide/install-a-certificate-on-bt-panel?spm=a2c4g.11186623.0.i1)
+> 8. 网站ICP备案
+> 9. 后续更改/重新部署[部署证书至阿里云轻量应用服务器或ECS（云服务器部署）](https://help.aliyun.com/zh/ssl-certificate/user-guide/deploy-ssl-certificates-to-cloud-servers?spm=a2c4g.11186623.help-menu-28533.d_2_1_6_5.4e483574JLTEsM)
 
 内容未完工 —— 休息够了再写吧
 
