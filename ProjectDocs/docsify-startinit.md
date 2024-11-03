@@ -493,8 +493,7 @@ nginx: configuration file /配置路径/nginx.conf test is successful
 又熬大夜了啊啊啊 ——  
 ```小记与24.11.3凌晨6时``` ```熬夜鱼头留记```  
 
-#### 碎碎念 ver3.0
-引入了Docsify的一些插件，具体参考[docsify的插件](https://xhhdd.cc/index.php/archives/80/)，并将 countable 插件本地部署后修改配置。
+
 
 ### 参考链接
 [Docsify 官网（需魔法）](https://docsify.js.org/)  
@@ -506,4 +505,5 @@ nginx: configuration file /配置路径/nginx.conf test is successful
 [Docsify文档的部署](https://gitee.com/shafish/docsify-reference/blob/master/Docsify%E6%96%87%E6%A1%A3%E7%9A%84%E9%83%A8%E7%BD%B2.md)  
 [部署docsify项目时出现无法访问README.md](https://cloud.tencent.com/developer/article/1855878)  
 [关于docsify一直Loading及界面美化](https://zhuanlan.zhihu.com/p/663807103)  
+[docsify的插件](https://xhhdd.cc/index.php/archives/80/)  
 [使用docsify搭建自己的markdown服务器之后强刷访问慢](https://blog.csdn.net/u013530406/article/details/135899309)  
