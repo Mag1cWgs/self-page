@@ -86,31 +86,30 @@
 #### 1. 修改全局模块下载路径
 将全模块所在路径和缓存路径放在 node.js 安装的文件夹中：  
 找到你安装的「node.js」的安装位置```D:\NodeJs```，创建两个文件夹```node_global```和```node_cache```。
-```
-此时文件夹结构应为：
+``` 文件夹结构
 —— NodeJs
  | —— node_cache
  | —— node_global
  · —— node_modules
-其中 node_cache 和 node_global 是新建的文件夹。
+# 其中 node_cache 和 node_global 是新建的文件夹。
 ```
 然后打开「 CMD **（注意应为管理员模式）** 」分别输入以下指令：  
 ```「#」所在行的 # 后的内容不输入```
-```
+```shell
 # 设置全局模块安装路径到 "NodeJs的安装目录\node_global"
 npm config set prefix "D:\NodeJs\node_global"
 # 设置全局缓存存放路径 "NodeJs的安装目录\node_cache"
 npm config set cache "D:\NodeJs\node_cache"
 ```
 正常情况下应无任何输出，如若想确认是否设置完成可以再分别输入以下指令：
-```
+```shell
 # 查找 prefix 的安装路径
 npm config get prefix
 # 查找 cache 的安装路径
 npm config get cache
 ``` 
 应输出 :
-```
+```shell
 D:\NodeJs\node_global
 D:\NodeJs\node_cache
 ```
@@ -125,7 +124,7 @@ D:\NodeJs\node_cache
 ### 1.3: （可选）下载 Express / vue 进行测试
 测试是否配置成功：  
 进入 CMD ，输入下列指令：
-```
+```shell
 npm install Express
 npm install -g vue # -g 表示全局安装
 ```
@@ -149,32 +148,32 @@ npm install -g vue # -g 表示全局安装
 
 ### 2.1: 下载 Docsify 并进行初始化
 建立一个空文件夹，例如建立文件夹```F:\Docsify```，在文件夹内```Shift + 鼠标右键```选择```在终端中打开```，输入以下指令：
-```
+```shell
 # 用npm安装全局工具
 npm i docsify-cli -g
 ```
 而后输入下列指令:
-```
+```shell
 # 在 ./MyDocs 建立 doscify 实例 MyDocs
 docsify init ./MyDocs
 ```
 若初始化成功会弹出下列提示：
-```
+```shell
 Initalization succeeded! Please run docsify serve ./MyDoce
 ```
 而且在指定目录（对上条指令为当前文件夹）下会生成 Docsify 的初始页面文件，结构如下：
-```
+```文件夹结构
 —— MyDocs
  | —— .nojekyll
  | —— index.html
  · —— README.md
 ```
 最后在命令行内输入下列命令：
-```
+```shell
 docsify serve ./MyDocs
 ```
 如果返回下面提示，这说明服务已启动：
-```
+```shell
 Serving F:\Docsfy\Mydocs now.
 Listening at http://localhost:3000
 ```
