@@ -10,18 +10,53 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="description" content="Description">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    
     <!-- 默认主题 vue-->
     <link rel="stylesheet" href="//fastly.jsdelivr.net/npm/docsify/lib/themes/vue.css">
-    <!--//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css-->
-    <!-- 代码高亮配置 更改代码块外框 -->
-    <style>.markdown-section pre > code {padding: 5px;}</style>
-    <!-- LaTeX公式 -->
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css" />
+        <!--//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css-->
+
+    <!-- 引入LaTeX支持 -->
+    <script src="/js/latex-show/docsify-latex@0"></script>
+
+    <!-- 引入KeTeX引擎 -->
+    <link rel="stylesheet" href="/js/latex-show/katex.min.css" />
+    <script defer src="/js/latex-show/katex.min.js"></script>
+    
+
+
+    <!-- 侧边栏折叠主题 -->
+        <!--https://github.com/iPeng6/docsify-sidebar-collapse/tree/master-->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
+
+    <!-- 代码高亮配置 更改代码块外框 添加行号 -->
+    <style type = "text/css">
+        .markdown-section pre > code {padding: 5px;}
+    </style>
+
 </head>
 
 <body>
+
     <!-- 定义加载时候的动作 -->
     <div id="app">加载中...</div>
+
+    <script>
+        window.$docsify = {
+        // 使docsify支持在markdown里渲染LaTeX
+        markdown: {
+            renderer:{
+                code: function(code, lang) {
+                    if (lang === "tex") {
+                        return (
+                            '<span class="tex">'+ katex.renderToString(code, {throwOnError: false})+'</span>'
+                            );
+                        }
+                        return this.origin.code.apply(this, arguments);
+                    }
+                }
+            }
+        }
+    </script>
 
     <script>
         window.$docsify = {
@@ -41,6 +76,8 @@
             maxLevel: 4,
             // 自定义侧边栏后默认不会再生成目录，设置生成目录的最大层级，建议配置为1或者2
             subMaxLevel: 2,
+            // set sidebar display level
+            sidebarDisplayLevel: 1, 
             // 设置首页文件加载路径。
             homepage: 'README.md',
             // 文档加载的根路径，可以是二级路径或者是其他域名的路径。
@@ -53,13 +90,13 @@
                 // > [!note或tip或warning或attention|style:callout]
                 // > 填写你要的内容
                 style: 'flat', // 如果不改就默认callout，使用flat时无需加|style:flat
-                }
+                },
         }
     </script>
 
     <script>
-        // 搜索配置
         window.$docsify = {
+            // 搜索配置
             search: {
                 maxAge: 86400000,
                 paths: auto,
@@ -84,10 +121,7 @@
                 fontsize:'0.9em',
                 color:'rgb(90,90,90)',
                 language:'chinese',
-                localization: {
-                words: "字数",
-                minute: "分钟"
-                },
+                localization: {words: "字数",minute: "分钟"},
                 isExpected: true
             },
             // 分章节按钮
@@ -98,8 +132,11 @@
                 crossChapterText: true,
             },
 
-        }
+    }
     </script>
+
+
+
 
     <!-- docsify的js依赖 -->
     <script src="//fastly.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
@@ -109,20 +146,7 @@
     <script src="//fastly.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
     <!-- 搜索功能支持 -->
     <script src="//fastly.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-    <!-- 代码块可复制 -->
-    <script src="//unpkg.com/docsify-copy-code"></script>
-    <!-- 添加更新时间 -->
-    <script src="/js/time-update.js"></script>
-    <!-- 字数插件 -->
-    <script src="/js/countable.min.js"></script>
-    <!-- 分章节按钮 -->
-    <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
-    <!-- 文本高亮 -->
-    <script src="https://unpkg.com/docsify-plugin-flexible-alerts"></script>
-    <!-- LaTeX公式 -->
-    <script src="/js/latex-show/katex.min.js"></script>
-    <script src="/js/latex-show/markded@4"></script>
-    <script src="/js/latex-show/docsify-katex.js"></script>
+
     <!-- 代码高亮增强 -->
     <!--支持代码参考 https://cdn.jsdelivr.net/npm/prismjs@1/components/ -->
     <script src="/js/code-highlight/bash.js"></script>
@@ -136,6 +160,24 @@
     <script src="/js/code-highlight/rust.js"></script>
     <script src="/js/code-highlight/shell.js"></script>
     <script src="/js/code-highlight/sql.js"></script>
+
+
+
+    <!-- 代码块可复制 -->
+    <script src="//unpkg.com/docsify-copy-code"></script>
+    <!-- 添加更新时间 -->
+    <script src="/js/time-update.js"></script>
+    <!-- 字数插件 -->
+    <script src="/js/countable.min.js"></script>
+    <!-- 侧栏折叠 -->
+    <script src="/js/docsify-sidebar-collapse.js"></script>
+    <!-- 分章节按钮 -->
+    <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+    <!-- 文本高亮 -->
+    <script src="https://unpkg.com/docsify-plugin-flexible-alerts"></script>
+
+
+
 
 </body>
 
