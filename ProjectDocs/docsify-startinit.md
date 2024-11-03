@@ -46,7 +46,10 @@
 
 #### 1. 进入官网下载
 官网地址：[Link](https://nodejs.org/zh-cn)  
-「注意：安装包有『长期支持版（LTS）』长和『实验/最新版』两种。本地部署且无特殊需求时下载长期支持版安装足矣。```*也可以使用『软件包管理器』进行安装```」  
+> [!note]
+> 安装包有『长期支持版（LTS）』和『实验/最新版』两种。本地部署且无特殊需求时下载长期支持版安装足矣。  
+> ```*也可以使用『软件包管理器』进行安装```
+
 点击官网中的```下载 Node.js(LTS) ```进行下载，这里我们得到安装文件「node-v22.11.0-x64.msi」，双击进入安装步骤。
 
 ```参考链接```  
@@ -70,17 +73,18 @@
 输入```npm -v```显示「npm版本」，
 如果都能显示数字字符串则证明「node」和「npm」安装成功。
 
-```参考链接```  
-[1][全网最详细的nodejs卸载和安装教程](https://blog.csdn.net/qq_42257666/article/details/129909941)  
-[2][下载并安装 node 和 npm](https://npm.nodejs.cn/cli/v8/configuring-npm/install)
+> [!note|style:callout|label:参考链接] 
+> [1][全网最详细的nodejs卸载和安装教程](https://blog.csdn.net/qq_42257666/article/details/129909941)  
+> [2][下载并安装 node 和 npm](https://npm.nodejs.cn/cli/v8/configuring-npm/install)
 
 
 ### 1.2: 配置 Node.Js
-> 主要是对环境变量进行配置，其中涉及 CMD 步骤均需要在管理员模式下运行。  
-> 具体操作：按下```Win+R```输入```CMD```并按下```Shift + Ctrl + Enter```，选择```是```进入「管理员: CMD」。
+> [!attention]
+> 主要是对环境变量进行配置，其中涉及 CMD 步骤均需要在 **管理员模式** 下运行。  
+> 具体操作：按下```Win+R```输入```CMD```并按下```Shift + Ctrl + Enter```，选择```是```进入 **「管理员: CMD」** 。
 
 #### 1. 修改全局模块下载路径
-将全模块所在路径和缓存路径放在 node.js 安装的文件夹中：
+将全模块所在路径和缓存路径放在 node.js 安装的文件夹中：  
 找到你安装的「node.js」的安装位置```D:\NodeJs```，创建两个文件夹```node_global```和```node_cache```。
 ```
 此时文件夹结构应为：
@@ -90,7 +94,7 @@
  · —— node_modules
 其中 node_cache 和 node_global 是新建的文件夹。
 ```
-然后打开「CMD **（注意应为管理员模式）** 」分别输入以下指令：  
+然后打开「 CMD **（注意应为管理员模式）** 」分别输入以下指令：  
 ```「#」所在行的 # 后的内容不输入```
 ```
 # 设置全局模块安装路径到 "NodeJs的安装目录\node_global"
@@ -127,9 +131,9 @@ npm install -g vue # -g 表示全局安装
 ```
 应显示```Add 数字 package from 数字 contributor in 数字s```，进入上一步设置路径```D:\NodeJs\node_global\node_modules```中发现会新出现两个文件夹```Express```和```vue```。
 
-```参考链接```  
-[1][NodeJs 的安装及配置环境变量](https://blog.csdn.net/zimeng303/article/details/112167688)  
-[2][避坑了避坑了！！！全网最详细Nodejs安装配置](https://blog.csdn.net/weixin_45754463/article/details/135279187)  
+> [!note|style:callout|label:参考链接] 
+> [1][NodeJs 的安装及配置环境变量](https://blog.csdn.net/zimeng303/article/details/112167688)  
+> [2][避坑了避坑了！！！全网最详细Nodejs安装配置](https://blog.csdn.net/weixin_45754463/article/details/135279187)  
 
 
 
@@ -245,9 +249,8 @@ Listening at http://localhost:3000
 </body>
 </html>
 ```
-
-```参考链接```  
-[1][使用轻量应用服务器部署Docsify在线文档平台](https://developer.aliyun.com/article/858583)
+> [!note|style:callout|label:参考链接] 
+> [1][使用轻量应用服务器部署Docsify在线文档平台](https://developer.aliyun.com/article/858583)
 
 
 
@@ -325,10 +328,11 @@ Listening at http://localhost:3000
 > 7. 配置ssh证书、放行443端口、重启服务
 > 8. 网站ICP备案、无备案情况下更改端口
 > 9. 后续更改/重新部署  
-```参考链接```  
-[1][使用轻量应用服务器部署Docsify在线文档平台](https://developer.aliyun.com/article/858583)  
-[2][阿里云 —— 云服务器 ECS —— 产品概述](https://help.aliyun.com/zh/ecs/product-overview/?spm=a2c4g.11186623.help-menu-25365.d_0.9667629cTNjxmO)
-[3][阿里云服务器新手入门：从购买、配置到搭建网站全教程](https://blog.csdn.net/tencentcloud_/article/details/134270331)
+
+> [!note|style:callout|label:参考链接] 
+> [1][使用轻量应用服务器部署Docsify在线文档平台](https://developer.aliyun.com/article/858583)  
+> [2][阿里云 —— 云服务器 ECS —— 产品概述](https://help.aliyun.com/zh/ecs/product-overview/?spm=a2c4g.11186623.help-menu-25365.d_0.9667629cTNjxmO)  
+> [3][阿里云服务器新手入门：从购买、配置到搭建网站全教程](https://blog.csdn.net/tencentcloud_/article/details/134270331)
 
 
 ### 4.1: 选择云服务商、购买服务器
@@ -349,20 +353,21 @@ Listening at http://localhost:3000
 回到云服务器控制台概览页面后，刚刚启动的实例右上角出现```远程连接```选项，点击后弹出「远程连接」——「通过Workbench远程连接```默认```」，点击立即登录。
 此时会弹出一个以实例为名的窗口，此时需要用刚才更改的用户名和密码进行登录，等待几秒后会弹出 Ubuntu 终端窗口，说明服务器实例成功创立并成功登陆。
 
-```参考链接```  
-[1][阿里云服务器修改主机名即ID(登陆时root@后显示名)【图文】](https://blog.csdn.net/weixin_51253120/article/details/132008017)  
+> [!note|style:callout|label:参考链接]
+> [1][阿里云服务器修改主机名即ID(登陆时root@后显示名)【图文】](https://blog.csdn.net/weixin_51253120/article/details/132008017)  
 
 ### 4.3: 安装宝塔面板、配置安全组  
 
-#### 1. 安装宝塔面板
-点开[宝塔官网](https://www.bt.cn/new/index.html)，点击```立即免费安装```，进入「宝塔面板下载界面」，下拉找到「Linux面板安装脚本」，向下找到「Ubuntu/Deepin 安装脚本」，点击右端的```复制命令```，然后关闭该窗口即可。
-回到上一节中打开的 Ubuntu 终端窗口，使用```Ctrl + v```粘贴，在提示「命令包含换行符」窗口位置选择```是```，按下```回车```执行后等待服务器下载宝塔面板，直到弹出以下提示：
-```
-Do you want to install Bt-Panel to the /www directory now?(y/n): 
-```
+#### 1. 安装宝塔面板  
+点开[宝塔官网](https://www.bt.cn/new/index.html)，点击```立即免费安装```，进入「宝塔面板下载界面」，下拉找到「Linux面板安装脚本」，向下找到「Ubuntu/Deepin 安装脚本」，点击右端的```复制命令```，然后关闭该窗口即可。  
+回到上一节中打开的 Ubuntu 终端窗口，使用```Ctrl + v```粘贴，在提示「命令包含换行符」窗口位置选择```是```，按下```回车```执行后等待服务器下载宝塔面板，直到弹出以下提示：  
+```Ubuntu
+Do you want to install Bt-Panel to the /www directory now?(y/n):
+```  
 输入```y```后系统会自动安装，一分钟左右完成安装。  
-安装完成后，显示如下内容：
-```
+安装完成后，显示如下内容：  
+
+```Ubuntu
 ================================================
 Congratulations! Installed successfully
 ================================================
@@ -376,6 +381,7 @@ release the following panel port [端口号] in the security group
 因已开启面板自签证书，访问面板会提示不匹配证书，请参考以下链接配置证书
 https://www.bt.cn/bbs/thread-105443-1-1.html
 ```
+
 **保存好上述信息**，如果是通过外网登录宝塔后台，就是用外网面板地址，如果是在云服务器上登录宝塔可以使用内网面板地址。
 
 #### 2. 配置安全组
@@ -397,14 +403,15 @@ https://www.bt.cn/bbs/thread-105443-1-1.html
 点击面板主页左侧```面板设置```，在默认的```全部设置```页面下滑，在「面板账号」和「面板密码」右侧均有```设置```，点击后可以重新设置。```注意：更改后会需要重新登录```
 #### 2. 更改面板端口与安全入口
 点击面板主页左侧```面板设置```，选择```安全设置```页面下滑，在「面板端口」和「安全入口」处更改面板端口值```上一节的端口号```和安全入口值```上一节的八位标记符```。
-> 更改面板端口号后，需要参考上一节 **「4.3 安装宝塔面板、配置安全组」** 的小节 **「2. 配置安全组」** 中步骤，设置对新设置的端口的放行策略。
+> [!attention]
+> 更改面板端口号后，需要参考上上一节 **「4.3 安装宝塔面板、配置安全组」** 的小节 **「2. 配置安全组」** 中步骤，设置对新设置的端口的放行策略。
 
 ### 4.6: 购买域名、设置DNS解析
 
 #### 1. 购买域名
 购买域名有众多渠道，建议自行购买非中国大陆的域名，并设置其解析到刚才建立的服务器实例的IP地址上。  
 此处使用[阿里云万网](https://wanwang.aliyun.com/)进行购买。  
-详情请点击[「阿里云文档」域名产品](https://help.aliyun.com/zh/dws/?spm=a2c4g.750001.0.0.45632842ZUtjAN)进行注册与购买。
+``详情点击[「阿里云文档」域名产品](https://help.aliyun.com/zh/dws/?spm=a2c4g.750001.0.0.45632842ZUtjAN)``
 #### 2. 设置DNS解析
 同样也可以在域名服务商处设置域名解析，此处仍使用阿里云自带域名解析服务。
 打开阿里云「云解析DNS工作台」，选择左侧「公网DNS解析」——「权威域名解析」，在跳转窗口的「权威域名」界面点击```添加域名```，输入上一小节所购买域名，确认后会退回到「权威域名」界面。  
@@ -425,15 +432,15 @@ https://www.bt.cn/bbs/thread-105443-1-1.html
 重启nginx服务有两种方法：
 1. 回到「宝塔面板主页」——「左侧导航栏」——「网站」，在「PHP项目」管理页上侧「添加站点」的右侧有「nginx 版本号 ▶」，光标移动上去，选择```重启```。
 2. 回到「宝塔面板主页」——「左侧导航栏」——「终端」，输入```sudo systemctl restart nginx```或```sudo systemctl reload nginx```，而后输入```sudo nginx -t```以测试是否nginx是否存在任何语法或系统错误，若无错误则应如下列所示：
-```
+```Ubuntu
 nginx: the configuration file /配置路径/nginx.conf syntax is ok
 nginx: configuration file /配置路径/nginx.conf test is successful
 ```
 
-```参考链接```  
-[1][Nginx常用命令（启动、重启、关闭、检查](https://blog.csdn.net/qq_28624243/article/details/115598416)  
-[2][宝塔面板SSL证书文件存放目录位置在哪里?](https://blog.csdn.net/wx23986/article/details/141440990)  
-[3][在宝塔面板安装SSL证书](https://help.aliyun.com/zh/ssl-certificate/user-guide/install-a-certificate-on-bt-panel?spm=a2c4g.11186623.0.i1)  
+> [!note|style:callout|label:参考链接] 
+> [1][Nginx常用命令（启动、重启、关闭、检查](https://blog.csdn.net/qq_28624243/article/details/115598416)  
+> [2][宝塔面板SSL证书文件存放目录位置在哪里?](https://blog.csdn.net/wx23986/article/details/141440990)  
+> [3][在宝塔面板安装SSL证书](https://help.aliyun.com/zh/ssl-certificate/user-guide/install-a-certificate-on-bt-panel?spm=a2c4g.11186623.0.i1)  
 
 
 ### 4.8: 网站ICP备案、无备案情况下更改端口  
@@ -442,7 +449,7 @@ nginx: configuration file /配置路径/nginx.conf test is successful
 1. 方法1：自行更改配置文件： 
 ```/www/server/panel/vhost/nginx```中开头```listen 443```改为```listen 目标端口```以实现```https://网站域名:目标端口/```。
 2. 方法2：使用面盘网站设置更改端口转发：  
-点击主页左上角```消息盒子（橙色背景白色数字）```，出现提示安装完成后，点击面板主页左侧```网站```，进入「PHP项目」配置页面，点击部署网页右侧的```设置```，在弹出窗口左侧找到```配置文件```，更改其```listen 443 ssl http2 ;```为```listen 目标端口号 ssl http2 ;```
+点击主页左上角```消息盒子（橙色背景白色数字）```，出现提示安装完成后，点击面板主页左侧```网站```，进入「PHP项目」配置页面，点击部署网页右侧的```设置```，在弹出窗口左侧找到```配置文件```，更改其```listen 443 ssl http2 ;```为```listen 目标端口号 ssl http2 ;```。
 
 ### 4.9: 后续更改/重新部署  
 [部署证书至阿里云轻量应用服务器或ECS（云服务器部署）](https://help.aliyun.com/zh/ssl-certificate/user-guide/deploy-ssl-certificates-to-cloud-servers?spm=a2c4g.11186623.help-menu-28533.d_2_1_6_5.4e483574JLTEsM) 
@@ -483,11 +490,16 @@ nginx: configuration file /配置路径/nginx.conf test is successful
 
 #### 碎碎念 ver 2.0
 啊对我又碎碎念了，但是这次碎碎念后不会再继续撰写了这份教程了，个人能力有限，很多地方需要感谢```Evan76```和```狸猫```的解惑，说起来还是猫叔向我介绍的 docsify 呢！
-又熬大夜了啊啊啊 ——
-```小记与24.11.3凌晨6时``` ```熬夜鱼头留记```
+又熬大夜了啊啊啊 ——  
+```小记与24.11.3凌晨6时``` ```熬夜鱼头留记```  
+
+#### 碎碎念 ver3.0
+引入了Docsify的一些插件，具体参考[docsify的插件](https://xhhdd.cc/index.php/archives/80/)，并将 countable 插件本地部署后修改配置。
 
 ### 参考链接
 [Docsify 官网（需魔法）](https://docsify.js.org/)  
+[docsify的配置+全插件列表](https://xhhdd.cc/index.php/archives/80/)
+[docsify指南](https://yzqtpl.github.io/docsify-vitepress/)  
 [Docsify使用指南，使用Typora+Docsify打造最强、最轻量级的个人&团队文档，及免费和开源且低成本文档工具](https://blog.csdn.net/weixin_48290901/article/details/127772118)  
 [使用开源文档工具docsify，用写博客的姿势写文档](https://www.cnblogs.com/throwable/p/13605289.html#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE)  
 [Wiki系列（二）：docsify部署及配置](https://zhuanlan.zhihu.com/p/141540641)  
