@@ -13,7 +13,7 @@
     * [CMD 命令行常用](/ProjectDocs/cs/CMD/Command-CMDusing.md)
     * [Git版本管理工具](/ProjectDocs/cs/Git-Using.md)
     * [Markdown语法学习](/ProjectDocs/cs/Markdown-Using.md)
-    * [LaTex语法学习](/ProjectDocs/cs/LaTex-Learning.md)
+    * [LaTex语法学习](/ProjectDocs/cs/LaTeX/LaTex-Learning.md)
 * 其他知识相关
   * 微观经济学
     * [Chap 3: 需求理论](/ProjectDocs/MicroEconomic/TheoryOfElasticity.md)
