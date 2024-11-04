@@ -15,20 +15,18 @@
         <!--//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css-->
     <!-- 侧边栏折叠主题 -->
         <!--https://github.com/iPeng6/docsify-sidebar-collapse/tree/master-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
+    <link rel="stylesheet" href="js/docsify-sidebar-collapse/sidebar.min.css" />
     <!-- 代码高亮配置 更改代码块外框 添加行号 -->
     <style type = "text/css">
         .markdown-section pre > code {padding: 5px;}
     </style>
 
-     <!-- 加载 KeTeX 样式 -->
-     <link rel="stylesheet" href="/js/katex/katex.min.css" />
+    <!-- 加载 KeTeX 样式 -->
+    <link rel="stylesheet" href="js/katex/katex.min.css" />
     <!-- 引入 KeTeX 渲染引擎 -->
     <script src="js/katex/katex.min.js"defer ></script>
     <!-- 引入 Docsify 对 LaTeX 支持 -->
-    <script src="//fastly.jsdelivr.net/npm/docsify-latex@latest" defer></script>
-    
-    <!--<script src="js/docsify-katex-master/dist/docsify-katex.js" defer ></script>-->
+    <script src="js/docsify-latex.js" defer ></script>
 
 </head>
 
@@ -119,10 +117,16 @@
                 depth: 4,
                 // hideOtherSidebarContent: true,
             },
+            
+            // latex配置，参考:
+            // https://scruel.github.io/docsify-latex/#/?id=usage
             latex: {
                 inlineMath   : [['$', '$'], ['\\(', '\\)']], // default
                 displayMath  : [['$$', '$$']],               // default
-                customOptions: {}                            // default
+                customOptions: {
+                    scrict: true,    // false或者ignore
+                },
+                
             }
         }
     </script>
@@ -130,8 +134,8 @@
 
     <!-- docsify的js依赖 -->
     <script src="//fastly.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-    <!-- emoji表情支持 -->
-    <script src="//fastly.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
+    <!-- emoji表情已经原生支持 <script src="//fastly.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>-->
+    
     <!-- 图片放大缩小支持 -->
     <script src="//fastly.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
     <!-- 搜索功能支持 -->
@@ -144,7 +148,7 @@
     <script src="js/code-highlight/c.js"></script>
     <script src="js/code-highlight/cpp.js"></script>
     <script src="js/code-highlight/csharp.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-latex.min.js"></script>
+    <script src="js/code-highlight/latex.js"></script>
     <script src="js/code-highlight/java.js"></script>
     <script src="js/code-highlight/matlab.js"></script>
     <script src="js/code-highlight/nginx.js"></script>
@@ -163,7 +167,7 @@
     <script src="js/countable.min.js"></script>
 
     <!-- 侧栏折叠 -->
-    <script src="js/docsify-sidebar-collapse.js"></script>
+    <script src="js/docsify-sidebar-collapse/docsify-sidebar-collapse.js"></script>
 
     <!-- 分章节按钮 -->
     <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
