@@ -7,6 +7,18 @@
 
   * 前端语言学习
     * [Node.Js](/ProjectDocs/cs/NodeJs-DownloadInit.md)
+  
+  * 后端语言学习
+    * Python
+    * 使用 Python 实现数据结构算法
+      * 二叉树
+      * [图](/ProjectDocs/cs/AlgorithmTheory-using-python/graph.md)
+
+  * 编程思想
+    * OOP
+      * [委托](/ProjectDocs/cs/ObjectOrientedProgramming/5-12-delegate.md)
+      * [事件](/ProjectDocs/cs/ObjectOrientedProgramming/5-13-event.md)
+    * [设计模式](/ProjectDocs/cs/DesignPattern/init.md)
 
   * 工具
     * [命令行的艺术（转载、部分链接丢失）](/ProjectDocs/cs/CMD/Command-CMDart.md)
