@@ -15,7 +15,7 @@
       * [图](/ProjectDocs/cs/AlgorithmTheory-using-python/graph.md)
 
   * 编程思想
-    * OOP
+    * [ObjectOrientedProgramming](/ProjectDocs/cs/ObjectOrientedProgramming/Introduction.md)
       * [委托](/ProjectDocs/cs/ObjectOrientedProgramming/5-12-delegate.md)
       * [事件](/ProjectDocs/cs/ObjectOrientedProgramming/5-13-event.md)
     * [设计模式](/ProjectDocs/cs/DesignPattern/init.md)
@@ -27,5 +27,6 @@
     * [Markdown语法学习](/ProjectDocs/cs/Markdown-Using.md)
     * [LaTex语法学习](/ProjectDocs/cs/LaTeX/LaTex-Learning.md)
 * 其他知识相关
-  * 微观经济学
-    * [Chap 3: 需求理论](/ProjectDocs/MicroEconomic/TheoryOfElasticity.md)
+  * [微观经济学](/ProjectDocs/MicroEconomic/file.md)
+    * [Chap 2: 价格机制](/ProjectDocs/MicroEconomic/2-PriceMechanism.md)
+    * [Chap 3: 需求理论](/ProjectDocs/MicroEconomic/3-TheoryOfElasticity.md)
