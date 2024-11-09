@@ -6,19 +6,29 @@
     * [Docsify部署教程](/ProjectDocs/cs/docsify-startinit.md)
 
   * 前端语言学习
-    * [Node.Js](/ProjectDocs/cs/NodeJs-DownloadInit.md)
+    * [参考](/ProjectDocs/cs/Front-end-Development/Introduction.md)
+    * [Node.Js](/ProjectDocs/cs/Front-end-Development/NodeJs-DownloadInit.md)
   
   * 后端语言学习
     * Python
     * 使用 Python 实现数据结构算法
       * 二叉树
-      * [图](/ProjectDocs/cs/AlgorithmTheory-using-python/graph.md)
+      * [图](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/graph.md)
+    * Java
+      * [Java介绍与配置](/ProjectDocs/cs/Back-end-Development/Java-Learn/Introduction.md)
+      * Java 基础
+        * [1 快速入门——Hello](/ProjectDocs/cs/Back-end-Development/Java-Learn/Fast-Start/1HelloWorld.md)
+        * [2 基本语法](/ProjectDocs/cs/Back-end-Development/Java-Learn/Fast-Start/2BasicSyntax.md)
+        * [3 变量](/ProjectDocs/cs/Back-end-Development/Java-Learn/Fast-Start/3Variable.md)
+        * [4 运算符](/ProjectDocs/cs/Back-end-Development/Java-Learn/Fast-Start/4Operator.md)
+      * Java 面向对象/多线程/IO流
+      * Java 网络编程/数据库编程
+    * [C# 面向对象程序设计](/ProjectDocs/cs/Back-end-Development/ObjectOrientedProgramming/file.md)
+      * [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/ObjectOrientedProgramming/5-1-introduction.md)
+        * [委托](/ProjectDocs/cs/Back-end-Development/ObjectOrientedProgramming/5-12-delegate.md)
+        * [事件](/ProjectDocs/cs/Back-end-Development/ObjectOrientedProgramming/5-13-event.md)
 
-  * 编程思想
-    * [ObjectOrientedProgramming](/ProjectDocs/cs/ObjectOrientedProgramming/Introduction.md)
-      * [委托](/ProjectDocs/cs/ObjectOrientedProgramming/5-12-delegate.md)
-      * [事件](/ProjectDocs/cs/ObjectOrientedProgramming/5-13-event.md)
-    * [设计模式](/ProjectDocs/cs/DesignPattern/init.md)
+  * [设计模式](/ProjectDocs/cs/DesignPattern/init.md)
 
   * 工具
     * [命令行的艺术（转载、部分链接丢失）](/ProjectDocs/cs/CMD/Command-CMDart.md)
