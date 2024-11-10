@@ -40,3 +40,4 @@
   * [微观经济学](/ProjectDocs/MicroEconomic/file.md)
     * [Chap 2: 价格机制](/ProjectDocs/MicroEconomic/2-PriceMechanism.md)
     * [Chap 3: 需求理论](/ProjectDocs/MicroEconomic/3-TheoryOfElasticity.md)
+    * [Chap4 消费者选择](/ProjectDocs/MicroEconomic/4-ConsumerChoice.md)

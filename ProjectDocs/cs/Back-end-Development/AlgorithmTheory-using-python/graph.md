@@ -42,25 +42,26 @@ node1 | node2 | weight
 
 
 <div align="center">
-    <img src="/ProjectDocs/cs/AlgorithmTheory-using-python/image/graph-1-1.png" width = 40%>
+    <img src="/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/image/graph-1-1.png" width = 40%>
 </div>
 
 ### 邻接表 (Adjacency list)
 
 #### 无权图
 常用于无权图，其结构如下：
+
 图中节点部分 | 各节点对应联通位置
 ------  | ---------
 节点对应表中起始位置 | 可联通节点
 
 <div align="center">
-    <img src="/ProjectDocs/cs/AlgorithmTheory-using-python/image/graph-1-2.png" width = 80%>
+    <img src="/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/image/graph-1-2.png" width = 80%>
 </div>
 
 #### 有权图
 使用 **字典 (Dictionary)** 实现有权图：
 <div align="center">
-    <img src="/ProjectDocs/cs/AlgorithmTheory-using-python/image/graph-1-1.png" width = 40%>
+    <img src="/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/image/graph-1-1.png" width = 40%>
 </div>
 
 - 无权图：  
