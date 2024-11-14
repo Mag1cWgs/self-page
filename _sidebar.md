@@ -23,12 +23,26 @@
         * [4 运算符](/ProjectDocs/cs/Back-end-Development/Java-Learn/Fast-Start/4Operator.md)
       * Java 面向对象/多线程/IO流
       * Java 网络编程/数据库编程
-    * [C# 面向对象程序设计](/ProjectDocs/cs/Back-end-Development/ObjectOrientedProgramming/file.md)
-      * [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/ObjectOrientedProgramming/5-1-introduction.md)
-        * [委托](/ProjectDocs/cs/Back-end-Development/ObjectOrientedProgramming/5-12-delegate.md)
-        * [事件](/ProjectDocs/cs/Back-end-Development/ObjectOrientedProgramming/5-13-event.md)
+    * C# 面向对象程序设计
+      * [内容目录](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/file.md)
+      * [C#代码规范](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/NameRules.md)
+      * C# 语言概述
+      * C# 程序设计基础
+      * C# 控制语句
+      * C# 数组和集合
+      * 面向对象程序设计
+        * [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-1-introduction.md)
+        * [委托](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-12-delegate.md)
+        * [事件](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-13-event.md)
+      * 继承和接口设计
+        * [继承](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-1-Inheritance.md)
+        * [多态](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-2-Polymorphism.md)
+      * 泛型和反射
+      * 枚举器和迭代器
 
-  * [设计模式](/ProjectDocs/cs/DesignPattern/init.md)
+
+  * 设计模式
+    * [设计模式介绍](/ProjectDocs/cs/DesignPattern/init.md)
 
   * 工具
     * [命令行的艺术（转载、部分链接丢失）](/ProjectDocs/cs/CMD/Command-CMDart.md)

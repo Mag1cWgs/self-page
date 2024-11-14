@@ -39,6 +39,9 @@
 >   2. 配置 Node.Js
 >   3. 下载 Express / vue 进行测试（可选）
 
+> [!note|label:也可以使用 nvm 进行 Node 版本管理]
+> [1][nvm-Windows](https://github.com/coreybutler/nvm-windows)  
+> [2][【nvm】适合小白的 nvm 安装配置教程（Windows版](https://www.cnblogs.com/rnny/p/17839190.html)
 
 ### 1.1: 下载并安装 Node.Js
 > 1. 进入官网下载

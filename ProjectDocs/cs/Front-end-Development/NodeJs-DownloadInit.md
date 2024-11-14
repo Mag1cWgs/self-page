@@ -2,14 +2,14 @@
 
 
 ## 目录
--  1: 下载并安装 Node.Js
+- 1: 下载并安装 Node.Js
     - 1.1: 进入官网下载
     - 1.2: 配置安装
--  2: 配置 Node.Js
+- 2: 配置 Node.Js
     - 2.1: 修改全局模块下载路径
     - 2.2: 配置电脑环境变量
--  3: 下载 Express / vue 进行测试（可选）
-
+- 3: 下载 Express / vue 进行测试（可选）
+- 4: 使用 nvm-Windows 进行  Node 版本管理
 
 ---
 
@@ -99,7 +99,7 @@ D:\NodeJs\node_cache
 ---
 
 
-## 1.3: （可选）下载 Express / vue 进行测试
+## 3: （可选）下载 Express / vue 进行测试
 测试是否配置成功：  
 进入 CMD ，输入下列指令：
 ```
@@ -109,9 +109,33 @@ npm install -g vue # -g 表示全局安装
 应显示```Add 数字 package from 数字 contributor in 数字s```，进入上一步设置路径```D:\NodeJs\node_global\node_modules```中发现会新出现两个文件夹```Express```和```vue```。
 
 
+
 ---
+
+
+
+## 4: 使用 nvm-windows 进行  Node 版本管理
+0. 卸载现有 node ，清理文件夹，清除系统变量
+1. 下载并配置 nvm-windows
+2. 使用 nvm 进行 node 的下载和安装
+3. 配置 node 的 prefix（全局路径）和 cache（缓存路径）
+4. 重新配置环境变量
+5. 验证当前 node 版本
+6. 进阶：nvm 的其他用法
+
+
+
+
+> [!note|label:参考链接]  
+> [1][nvm-Windows](https://github.com/coreybutler/nvm-windows)  
+> [2][【nvm】适合小白的 nvm 安装配置教程（Windows版](https://www.cnblogs.com/rnny/p/17839190.html)
+
+
+
+---
+
 
 
 ```参考链接```  
 [1][NodeJs 的安装及配置环境变量](https://blog.csdn.net/zimeng303/article/details/112167688)  
-[2][避坑了避坑了！！！全网最详细Nodejs安装配置](https://blog.csdn.net/weixin_45754463/article/details/135279187
+[2][避坑了避坑了！！！全网最详细Nodejs安装配置](https://blog.csdn.net/weixin_45754463/article/details/135279187)
