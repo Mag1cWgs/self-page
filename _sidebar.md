@@ -37,6 +37,8 @@
       * 继承和接口设计
         * [继承](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-1-Inheritance.md)
         * [多态](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-2-Polymorphism.md)
+        * [抽象类](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-3-Abstract.md)
+        * [接口](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-4-Connector.md)
       * 泛型和反射
       * 枚举器和迭代器
 

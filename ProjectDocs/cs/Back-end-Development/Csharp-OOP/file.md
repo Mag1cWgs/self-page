@@ -22,8 +22,8 @@
 6. 继承和接口设计
     1. [继承](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-1-Inheritance.md)
     2. [多态性](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-2-Polymorphism.md)
-    3. 抽象类
-    4. 接口
+    3. [抽象类](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-3-Abstract.md)
+    4. [接口](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-4-Connector.md)
     5. 接口在集合排序中的应用
 7. 泛型和反射
 8. 枚举器和迭代器

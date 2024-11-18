@@ -112,6 +112,26 @@
 
 
 ### 6.2.3 dynamic 类型
+> [!attention|label:]
+> dynamic类型是**危险**的。
+> 实际上,dynamic类型是在 .NETFramework 4.0才引入的一个新概念，
+> 目的是增强与python等动态语言的互操作性，
+> 一般仅在处理非 .NET Framework 对象时使用。
+
+- C# 的多态性就像 C++ 的动态联编一样：
+    - 不是在程序编译时进行静态连接，
+    - 而是在程序运行时进行动态连接。
+- C# 基于动态性引人了 `dynamic` 类型：
+    - dynamic类型的变量只有在运行时才能被确定具体类型，
+    - 而编译器也会绕过对这种类型的语法检查。
+        - 即编译器内不会识别和判断确定其对应类型。
+    - 若对其进行了错误的使用时会抛出异常。
+        - 使用未定义成员时抛出 `RuntimeBinderException` 异常。
+- 在大多数情况下， `dynamic` 类型和 `object` 类型的行为是一样的：
+    - 只是编译器不会对包含 `dynamic` 类型表达式的操作进行解析或类型检查。
+- 编译器将有关该操作的信息打包在一起。并且该信息用于以后运行时的计算操作。
+    - 即 `dynamic` 类型仅在编译期间存在，
+    - 在运行期间它会被 `object` 类型替代。
 
 
 
@@ -148,7 +168,6 @@
     - 例如：  
         ```
         基类 Base
-            | 
             | —— 子类 Child_1
             · —— 子类 Child_2
         ```
@@ -166,8 +185,91 @@
         表示不能让 `TestObj_2` 指向 `Child_1` 的实例。
 
 
-
-
 #### 2. is 运算符
+- `is` 运算符用于检查对象是否为某种类型或可以转换为给定类型。
+    - 返回 Boolean 型变量
+    - 不能重载
+- 语法如下：  
+    ```cs
+    [operand] is [type]
+    ```
+    运算结果定义如下：
+    - `type` 是类类型，则以下情况返回 `true` ：
+        - `operand` 是同一类类型对象
+        - `operand` 是 `type` 的派生类的对象
+        - `operand` 可以装箱到 `type` 类型
+    - `type` 是接口类型，则以下情况返回 `true` ：
+        - `operand` 是同一接口类型
+        - `operand` 是实现该 `type` 类接口的的类型
+    - `type` 是值类型，则以下情况返回 `true` ：
+        - `operand` 是同一值类型
+        - `operand` 可以拆箱到 `type` 类型
+
+    > [!note|label:理解]
+    >  `operand` 对象是否可以有 `type` 特征。  
+    > 目标 `type` 为类类型时， `operand` 只能是其自身类或者派生类，或者可以装箱到目标类型。  
+    > 目标为接口类型时，只能是自身类或者实现类。  
+    > 目标为值类型时，只能是自身类，或者可以拆箱得到目标类型。
+
 
 #### 3. as 运算符
+- 提供了 `as` 运算符，用于在兼容的引用类型之间执行转换。
+    - 类似强制转换，但是失败时不会抛出异常，而会产生空值 `null` 。
+    - 语法格式：
+        ```cs
+        // 语法格式
+        operand as type
+        // 等价于三元语句：
+        operand is type ? (type)operand : (type)null
+        // 如果可以转换为 (type)operand 则转换；失败就返回空值 null
+        ```
+        - 例：对前例有
+            ```cs
+                // ChildClass 派生自 BaseClass
+                ChildClass chileExample = new ChildClass();
+                // 原例
+                BaseClass baseExample = childExample;
+                // 改为
+                BaseClass baseExample = chileExample as BaseClass；
+            ```
+-  `as` 运算符的适用情况
+    - 返回 `true` ：
+        - `operand` 是 `type` 类型
+        - `operand` 可以隐式转换为 `type` 类型
+        - `operand` 可以装箱到 `type` 类型
+    - 返回 `false` ：
+        - 不能从 `operand` 转换到 `type`
+            - 例如以下实例显然会返回 `null` ：
+                ```cs
+                    ExampleClass obj = new ExampleClass();
+                    string s = obj as obj;
+                ```
+    - 所有的对象都可以转换为 `object` 类的对象
+        - 所有类都从 `object` 类派生而来
+        - 例：使用 `as` 进行装箱转换
+            ```cs
+                int i = 1;
+                object obj = i as object;
+            ```
+- 与类对象引用转换（向上兼容性转换）的区别：
+    - 差异很小
+    - 例：对可能抛出异常的类对象引用转换改为用 as 处理：
+        ```cs
+        /* 原有代码 */
+            ClassA exampleClassA = new BClassA();
+            ClassB exampleClassB = (ClassB) exampleClassA;
+        /* 改写 */
+            ClassA exampleClassA = new ClassA();
+            ClassB exampleClassB = exampleClassA as ClassA;
+            if (exampleClassB != null)
+            { /* 可以转换时的代码 */ }
+            else
+            { /* 转换失败时的代码 */ }
+        ```
+        这样就可以避免异常处理
+- 与 `is` 运算符关系：
+    - 相同：都在运行时进行类型转换
+    - 不同：
+        - `is` 可以用于引用类型和值类型
+        - `as` 只能用于引用类型
+    - 通常用 `is` 判断类型，而后使用 `as` 或者其他强类型转换运算符。
