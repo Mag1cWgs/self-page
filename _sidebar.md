@@ -11,8 +11,13 @@
   
   * 后端语言学习
     * Python
-    * 使用 Python 实现数据结构算法
-      * 二叉树
+    * 算法导论初步（Python）
+      * [介绍](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Introduction.md)
+      * [排序](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Sort.md)
+      * [查找](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Search.md)
+      * [数组、链表](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Array_Linklist.md)
+      * [栈、队列](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Stack_Queue.md)
+      * [二叉树](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/BioTree.md)
       * [图](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/graph.md)
     * Java
       * [Java介绍与配置](/ProjectDocs/cs/Back-end-Development/Java-Learn/Introduction.md)
