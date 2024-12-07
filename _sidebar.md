@@ -41,6 +41,9 @@
         * [接口](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-4-Connector.md)
       * 泛型和反射
       * 枚举器和迭代器
+      * Windows 应用程序设计
+        * [窗体设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-1-Windows-Form-Design.md)
+        * [常用控件设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-2-Control-design.md)
 
 
   * 设计模式
@@ -52,6 +55,15 @@
     * [Git版本管理工具](/ProjectDocs/cs/Git-Using.md)
     * [Markdown语法学习](/ProjectDocs/cs/Markdown-Using.md)
     * [LaTex语法学习](/ProjectDocs/cs/LaTeX/LaTex-Learning.md)
+    * MySql 相关学习
+      * [MySql 概述](/ProjectDocs/cs/Sql/MySQL-front.md)
+      * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySQL-statements-and-data-types.md)
+      * [Sql 基础](ProjectDocs\cs\Sql\MySQL-SQL-basic.md)
+
+* 数学笔记
+  * [离散数学](/ProjectDocs/Mathematic/Discrete-Mathematic-Exam-Review.md)
+  * [复变函数](/ProjectDocs/Mathematic/Complex-Function-Exam-Review.md)
+
 * 其他知识相关
   * [微观经济学](/ProjectDocs/MicroEconomic/file.md)
     * [Chap 2: 价格机制](/ProjectDocs/MicroEconomic/2-PriceMechanism.md)

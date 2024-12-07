@@ -49,8 +49,38 @@
 ### 6.4.2 接口的定义
 
 #### 1. 声明接口
+- 接口的声明属于一个类型说明，其一般语法格式如下:
+    ```cs
+    [接口修饰符] interface 接口名 [:父接口列表]
+    //接口成员定义体
+    ```
+- 其中,接口修饰符可以是 `new` 、`public` 、`protected` 、`internal` 和 `private` 。
+    - new修饰符是在嵌套接口中唯一被允许存在的修饰符，表示用相同的名称隐藏一个继承的成员。
 
 #### 2. 继承接口
+- 接口可以从零个或多个接口中继承。
+    - 当一个接口从多个接口中继承时，使用“:”后跟被继承的接口名称的形式；
+    - 多个接口之间用“,”号分隔。
+- 被继承的接口应该是可以被访问的，即不能从 `internal` 或 `protected` 类型的接口继承。
+- 对一个接口继承也就继承了接口的所有成员。
+    - 例如，以下先声明了接口 `Ia`和 `Ib` ，另一个接口 `Ic` 是从它们派生的:
+    ```cs
+    public interface Ia
+    {
+        //接口a的声明
+        void mymethod1();
+    }
+    public interface Ib
+    {
+        //接口Ib的声明
+        int mymethod2(int x):
+    }
+    public interface Ic :Ia,Ib
+    {
+        //接口Ic从a和b中继承
+    }
+    ```
+    这样，接口 `Ic` 中包含了从 `Ia` 和 `Ib` 中继承而来的 `mymethodl` 和 `mymethod2` 方法。
 
 
 
@@ -59,13 +89,71 @@
 
 
 ### 6.4.3 接口的成员
+- 接口可以声明零个或多个成员。
+- 一个接口的成员不止包括自身声明的成员，还包括从父接口继承的成员。
+- 所有接口成员默认是公有的，在接口成员声明中包含任何修饰符都是错误的。
 
 #### 1. 接口方法成员
+- 声明接口的方法成员的语法格式如下:
+    ```cs
+    返回类型 方法名([参数表]);
+    ```
 
 #### 2. 接口属性成员
+- 声明接口的属性成员的语法格式如下:
+    ```cs
+    返回类型 属性名{ [get;] [set;] };
+    ```
+- 例如
+    - 声明一个接口 `Ia` 
+        - 接口属性 `x` 为只读的
+        -  `y` 为可读可写的
+        -  `z` 为只写的：
+    - 代码如下：
+    ```cs
+    public interface Ia
+    {
+        int x{ get; }
+        int y{ get; set; }
+        int z{ set; }
+    }
+    ```
 
 #### 3. 接口索引器成员
+- 声明接口的索引器成员的语法格式如下:
+    ```cs
+    数据类型 this[索引参数表] { [get;] [set;] };
+    ```
 
+- 例如
+    - 声明一个接口 `Ia`
+        - 其包含一个接口索引器成员
+    - 代码如下：
+    ```cs
+    public interface Ia
+    {
+        string this[int index]
+        { get;set;}
+    }
+    ```
+
+#### 4. 接口事件成员
+- 声明接口的事件成员的语法格式如下:
+    ```cs
+    event 代表名 事件名;
+    ```
+- 例如
+    - 声明一个接口Ia
+        - 其包含一个接口事件成员:
+    - 代码如下：
+    ```cs
+    // 先声明委托类型
+    public delegate void mydelegate();
+    public interface Ia
+    {
+            event mydelegate myevent;
+    }
+    ```
 
 
 
@@ -74,10 +162,91 @@
 
 
 ### 6.4.4 接口的实现
+- 接口的实现分为隐式实现和显式实现两种。
+    - 如果类或者结构要实现的是单个接口，可以使用隐式实现；
+    - 如果类或者结构继承了多个接口，那么接口中相同名称的成员就要显式实现。
+        - 显式实现是通过使用接口的完全限定名来实现接口成员的。
+- 语法格式如下：
+    ```cs
+    class 类名: 接口名列表
+    {
+        //类实体
+    }
+    ```
+- 注意：
+    - 当一个类实现一个接口时，这个类必须实现整个接口，而不能选择实现接口的某一部分:
+    - 一个接口可以由多个类实现，而在一个类中也可以实现一个或多个接口。
+    - 一个类可以继承一个基类，并同时实现一个或多个接口。
+
 #### 1. 隐式实现
+- 如果类实现了某个接口，它必然隐式地继承了该接口成员，只不过增加了该接口成员的具体实现。
+- 若要隐式实现接口成员，类中的对应成员必须是公共的、非静态的，并且与接口成员具有相同的名称和签名。
+    - 例如：
+        ```cs
+        interface Ia { float fun();}
+        public class ExampleClassA : Ia
+        {
+            public float fun()
+            {   // fun() 方法继承自接口 Ia 
+                // 隐式实现时需要用 public ，不能有 static
+                // 而且名称与签名均一致
+                Console.WriteLine("ClassA Connector Ia fun()");
+            }
+        }
+        ```
+- 一个接口可以被多个类继承，在这些类中实现该接口的成员，这样接口就起到提供统一界面的作用。
+    - 在上例中加入以下代码
+        ```cs
+        public class ExampleClassB : Ia
+        {
+            public float fun()
+            {   
+                Console.WriteLine("ClassB Connector Ia fun()");
+            }
+        }
+        ```
+    - 在 `Main` 代码块中加入以下代码并运行
+        ```cs
+        ExampleClassA a = new ExampleClassA();
+        a.fun();
+
+        ExampleClassB b = new ExampleClassB();
+        b.fun();
+        ```
+        则会有结果输出如下：
+        ```shell
+        ClassA Connector Ia fun()
+        ClassB Connector Ia fun()
+        ```
 
 #### 2. 显式实现
-
+- 当类实现接口时，如果给出了接口成员的完整名称（即带有接口名前缀），则称这样实现的成员为**显式接口成员**，其实现被称为**显式接口实现**。
+- 显式接口成员的实现**不能**使用**任何**修饰符。
+    - 例：改写上例如下
+    ```cs
+    interface Ia { float fun();}
+    public class ExampleClassA : Ia
+    {
+        float Ia.fun()
+        {   // 显式接口成员的实现,带有接口名前缀，不能使用public
+            Console.WriteLine("Ia.fun() in ClassA");
+        }
+    }
+    ```
+    - 在 `Main` 代码块中加入以下代码并运行：
+    ```cs
+    // 建立类ExampleClassA的实例a
+    ExampleClassA a = new ExampleClassA();
+    // 基于类ExampleClassA的实例a
+    // 建立对 接口Ia 在ExampleClassA中实现 的 实例c
+    Ia c = (Ia)a;
+    // 调用接口方法成员 fun()
+    c.fun();
+    ```
+    - 如果改为通过 `a.fun()` 调用接口成员,则产生“ExampleClassA并不包含fun的定义”的编译错误：
+        - 这是因为显式实现时导致隐藏接口成员。
+        - 所以如果没有充分理由，应避免显式实现接口成员。
+        - 如果成员只通过接口调用，则考虑显式实现接口成员。
 
 
 
