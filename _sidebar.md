@@ -4,6 +4,10 @@
 * 计算机技术相关
   * 如何建立自己的主页
     * [Docsify部署教程](/ProjectDocs/cs/docsify-startinit.md)
+  * 计算机知识学习指引
+    * [学数学的我都学了什么](/ProjectDocs/Prattle/LearnCS/Guide_For_Math_Stu.md)
+    * [给计算机系同学的一份参考](/ProjectDocs/Prattle/LearnCS/Ref_For_CS_Stu.md)
+    * [给纯自学同学的一份参考](/ProjectDocs/Prattle/LearnCS/Ref_For_Pure-Self-Study_Stu.md)
 
   * 前端语言学习
     * [参考](/ProjectDocs/cs/Front-end-Development/Introduction.md)

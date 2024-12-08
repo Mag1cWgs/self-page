@@ -1,0 +1,14 @@
+## 参考
+- 一份参考：
+    - [哈工大自学学习路线指引](https://jowus72zrc.feishu.cn/wiki/Khl9wKWO7iuKKpkTUEOcqRzvnVh)
+    - 计算机程序的构造和解释
+        - [【完结】【CS61A精翻双语·英文原声】伯克利大学《计算机程序的结构与解释》(2024)](https://www.bilibili.com/video/BV1sy411z7nA?)
+        - [计算机程序的结构与解释 南京大学](https://sicp.pascal-lab.net/2024/)
+            - [南京大学 计算机科学与技术系 计算机系统基础 课程实验 2023](https://nju-projectn.github.io/ics-pa-gitbook/ics2023/)
+        - [SICP文件](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html)
+    - 数据结构
+        - [【完结】【CS61B精翻双语·英文原声】伯克利大学《算法与数据结构》(2024)](https://www.bilibili.com/video/BV1hJ4m1M7ZA/?)
+    - 操作系统
+        - [南京大学 《操作系统》](https://jyywiki.cn/OS/2023/index.html)
+        - [【CS61C精翻双语·英文原声】伯克利大学《计算机体系结构》(2020)](https://www.bilibili.com/video/BV17b42177VG?s)
+    - [CS自学社区](https://www.learncs.site/docs/intro)
