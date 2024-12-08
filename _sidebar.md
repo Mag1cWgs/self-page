@@ -17,7 +17,7 @@
     * Python
     * 算法导论初步（Python）
       * [介绍](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Introduction.md)
-      * [排序](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Sort.md)
+      * [排序(使用list)](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Sort.md)
       * [查找](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Search.md)
       * [数组、链表](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Array_Linklist.md)
       * [栈、队列](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Stack_Queue.md)
