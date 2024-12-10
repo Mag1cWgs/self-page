@@ -1,4 +1,5 @@
-# 面向对象的程序设计
+## 本科课程内容
+- [考试信息](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/Exam.md)
 0. [命名规范](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/NameRules.md)
 1. C# 语言概述
 2. C# 程序设计基础
