@@ -145,11 +145,121 @@
 - python 实现如下：
     - 无返回值（考察）
         ```python
+        """
+        无返回值
+        使用函数:
+            排序归并：merge_no_return(目标list, 起始索引, 分割索引, 终点索引)
+            分割归并：merge_sort_no_return(目标list, 起始索引, 终点索引)
+        """
+        def merge_no_return(target_list: list, start: int, mid: int, end: int):
+            """
+            :param target_list: 归并对象
+            :param start: 归并起点
+            :param mid: 分割点
+            :param end: 归并终点
+            """
+            n1 = mid - start + 1  # 第一个子数组长度
+            L = [0] * n1    # 储存第一个子数组
+            for i in range(n1):
+                L[i] = target_list[start + i]
 
+            n2 = end - mid  # 第二个子数组长度
+            R = [0] * n2  # 储存第二个子数组
+            for j in range(n2):
+                R[j] = target_list[mid + 1 + j]
+
+            i, j = 0, 0  # 初始化子数组的索引
+            k = start  # 对原数组的操作索引
+            while i < n1 and j < n2:
+                # 归并临时数组到 target_list[start ... end]
+                if L[i] <= R[j]:    # L当前索引值更小时
+                    target_list[k] = L[i]   # 对原数组当前位置赋值
+                    i += 1  # 后移L的索引
+                else:   # R[j] 更小时
+                    target_list[k] = R[j]
+                    j += 1
+                k += 1  # 移动原数组的索引
+            #   拷贝 L[] 的保留元素
+            while i < n1:
+                target_list[k] = L[i]
+                i += 1
+                k += 1
+            #   拷贝 R[] 的保留元素
+            while j < n2:
+                target_list[k] = R[j]
+                j += 1
+                k += 1
+
+
+        def merge_sort_no_return(target_list: list, start: int, end: int):
+            """
+            :param target_list: 目标
+            :param start:
+            :param end:
+            :return:
+            """
+            if start < end:
+                m = int((start + (end - 1)) / 2)
+                # 分割
+                merge_sort_no_return(target_list, start, m)
+                merge_sort_no_return(target_list, m + 1, end)
+                # 归并
+                merge_no_return(target_list, start, m, end)
+
+
+        test_list = [12, 11, 13, 5, 6, 7]
+        print("给定的数组", test_list)
+        merge_sort_no_return(test_list, 0, len(test_list) - 1)
+        print("排序后的数组", test_list)
+        # 结果如下：
+        # # 给定的数组 [12, 11, 13, 5, 6, 7]
+        # # 排序后的数组 [5, 6, 7, 11, 12, 13]
         ```
     - 有返回值
         ```python
+        """
+        有返回值
+        使用函数:
+        排序归并：merge_ano(前段list, 后段list)
+        分割归并：merge_sort_ano(目标list)
+        """
+        def merge_ano(list_front: list[int], list_back: list[int]):
+            """
+            :param list_front: 归并的前半段
+            :param list_back:  归并的后半段
+            :return:           归并结果列表
+            """
+            result_list = []
+            while list_front and list_back:
+                if list_front[0] < list_back[0]:
+                    result_list.append(list_front.pop(0))
+                else:
+                    result_list.append(list_back.pop(0))
+            if list_front:
+                result_list += list_front
+            if list_back:
+                result_list += list_back
+            return result_list
 
+
+        def merge_sort_ano(target_list: list[int]):
+            """
+            :param target_list: 待排序的列表
+            :return:            返回排序后的新列表
+            """
+            if len(target_list) <= 1:
+                return target_list
+            mid = len(target_list) // 2
+            return merge_ano(merge_sort_ano(target_list[:mid]), merge_sort_ano(target_list[mid:]))
+
+
+        test_list = [17, 56, 71, 38, 61, 62, 48, 28, 57, 42]
+        print("原始数据：", test_list)
+        test_result = merge_sort_ano(test_list)
+        print("归并排序结果：", test_result)
+        # 输出结果
+        # 原始数据： [17, 56, 71, 38, 61, 62, 48, 28, 57, 42]
+        # 归并排序结果： [17, 28, 38, 42, 48, 56, 57, 61, 62, 71]
         ```
 
 
