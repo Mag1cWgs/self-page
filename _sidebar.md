@@ -21,7 +21,7 @@
       * [查找](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Search.md)
       * [链表](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Linkedlist.md)
       * [栈、队列](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Stack_Queue.md)
-      * [二叉树](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/BioTree.md)
+      * [二叉树](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/BinaryTree.md)
       * [图](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/graph.md)
     * Rust (待重构)
       * [Cargo包管理器](/ProjectDocs/cs/Back-end-Development/Rust-Learn/cargo.md)

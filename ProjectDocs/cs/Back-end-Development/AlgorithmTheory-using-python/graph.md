@@ -1,20 +1,28 @@
-# 图
+## 8 图
 
-## 认识图
+- 极小生成树的定义
+- 实现
+    - 用字典推导式储存邻接表
+    - 用 `List` 储存边列表（子元素为`tuple` 或 `List`）
+    - 用 `List` 储存邻接矩阵（二维矩阵形式）
+- `prim` 算法
+- `Kruskal` 算法
+
+## 8.1 认识图
 
 
-### 无向图与有向图
+### 8.1.1 无向图与有向图
 无向图 (Undirected) ，有向图 (Directed) 
 
-### 连通性
+### 8.1.2 连通性
 
 
-### 权值图
+### 8.1.3 权值图
 When we assign weights an a graph, we get a Weight Graph.
 对图赋有权值，会得到权值图 (Weight Graph)
 
 
-### 边值表(List Of Edges) 邻接矩阵(Adjacency Matrix) 
+### 8.1.4 边值表(List Of Edges) 邻接矩阵(Adjacency Matrix) 
 边值表 (List Of Edges) ，刻画图中各边值信息
 例如有边值表:  
 
@@ -45,7 +53,7 @@ node1 | node2 | weight
     <img src="/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/image/graph-1-1.png" width = 40%>
 </div>
 
-### 邻接表 (Adjacency list)
+### 8.1.5 邻接表 (Adjacency list)
 
 #### 无权图
 常用于无权图，其结构如下：
@@ -90,9 +98,9 @@ dic_weight{
 ```
 
 
-## 使用 python 实现
+## 8.2 使用 python 实现
 
-### 使用内建数据结构 list 实现
+### 8.2.1 使用内建数据结构 list 实现
 
 ```python
 class Graph:
@@ -118,7 +126,7 @@ class Graph:
             print(x)
 ```
 
-### 使用二维数组 list\[list\] 实现
+### 8.2.2 使用二维数组 list\[list\] 实现
 
 #### 
 ```python
@@ -143,7 +151,7 @@ class Graph_Matrix:
         print(self.M_Adj_MaTrix)
 ```
 
-### 使用内建数据结构 dictionary 实现
+### 8.2.3使用内建数据结构 dictionary 实现
 建立类 `Graph_Dict` ，初始化时使用 **Dictionary Comprehension (字典推导式)** 实现字典 `self.M_Adj_List` ，对应每一个键值 `key` 的 `value` 均为空集合 `set()` ；再建立方法 `Add_Edge(self, node_start, node_end, weight)` ，将元组 `(node_end, weight)` 添加进入 `key:node_start` 的值 `set()` 中。
 ```python
 class Graph_Dict:
