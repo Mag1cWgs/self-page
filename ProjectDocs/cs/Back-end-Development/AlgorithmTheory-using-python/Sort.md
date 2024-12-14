@@ -270,6 +270,67 @@
     - 对左右两侧执行同样过程
 - python 实现如下：
     ```python
+    """
+    快速排序
+    """
+
+    def partition_list(target_list: list, low: int, high: int) -> int:
+        """
+        对目标列表进行一次划分，返回一个索引值，
+        使其往前所有值均小于索引，往后所有值均大于索引
+        :param target_list: 待划分列表
+        :param low:         起始位置
+        :param high:        终止位置
+        :return:            划分完成后枢轴所在位置
+        """
+        pivot = target_list[low]  # 取第一项为本轮划分中值，记录在pivot内保证不会被覆写
+        while low < high:  # 不断执行两端替换操作直到 start=high 时确定枢轴位置
+            # 优先移动后端索引，直到出现小于枢轴的值为止
+            while low < high and target_list[high] >= pivot:
+                high -= 1
+            if low < high:  # start=high 或 target_list[high]小于枢轴值
+                target_list[low] = target_list[high]    # 将枢轴位置值覆写为索引到的第一个小值
+                low += 1    # 前端索引后移一位
+            # 开始移动前端索引，直到出现大于枢轴的值为止
+            while low < high and target_list[low] <= pivot:
+                low += 1
+            if low < high:  # low=high 或 target_list[low]大于枢轴值
+                target_list[high] = target_list[low]    # 将high指向的小于枢轴的值被覆写为刚才索引的大值
+                high -= 1   # 后端索引前移一位
+        # 确定中值位置为low=high时将其被覆写为枢轴值
+        target_list[low] = pivot
+        return low  # 对L的一次划分完成，返回枢轴位置
+
+
+    def quick_sort_partition(target_list: list, start: int, end: int) -> list:
+        """
+        对目标列表的部分进行快速排序
+        :param target_list: 待排序列表
+        :param start:   起始位置
+        :param end:     结束位置
+        :return: 返回部分快排完成的的列表(默认不返回)
+        """
+        if start < end:
+            pivot = partition_list(target_list, start, end)   # 确定枢轴位置
+            quick_sort_partition(target_list, start, pivot - 1)  # 递归划分枢轴前段列表
+            quick_sort_partition(target_list, pivot + 1, end)  # 递归划分枢轴后端列表
+        #  return target_list    # 返回部分快排完成的的列表(默认不返回)
+
+
+    def quick_sort_list(target_list: list) -> list:
+        """
+        :param target_list: 待排序的列表
+        :return: 返回整体快排完成的的列表(默认不返回)
+        """
+        quick_sort_partition(target_list, 0, len(target_list) - 1)
+        #  return target_list  # 返回快速排序完成的列表(默认不返回)
+
+
+    test_list = [17, 56, 71, 38, 61, 62, 48, 28, 57, 42]
+    quick_sort_list(test_list)
+    print(test_list)
+    # 输出结果：
+    # [17, 28, 38, 42, 48, 56, 57, 61, 62, 71]
 
     ```
 
