@@ -41,6 +41,7 @@
     - 将头元素与更新完成索引元素对调
         - 每次遍历都把后续内的最小值/最大值**交换到头部**
 - python 实现如下：
+
     ```python
     """
     选择排序：对给定 list 型变量调整为升序
@@ -71,6 +72,7 @@
     - 先对头两个元素确定次序
     - 将后续元素依次插入其中
 - python 实现如下：
+
     ```python
     """
     插入排序
@@ -102,6 +104,7 @@
     - 排序子链内部插入排序
     - 所有子链排序完成后细化划分指标
 - python 实现如下：
+
     ```python
     """
     希尔排序，对列表跳跃选取建立排序子链，对各排序子链实现插入排序后再度细分划分指标
@@ -143,124 +146,125 @@
         - 合并过程：两个有序组进行比较插入
     - 合并为整体键值组
 - python 实现如下：
-    - 无返回值（考察）
-        ```python
-        """
-        无返回值
-        使用函数:
-            排序归并：merge_no_return(目标list, 起始索引, 分割索引, 终点索引)
-            分割归并：merge_sort_no_return(目标list, 起始索引, 终点索引)
-        """
-        def merge_no_return(target_list: list, start: int, mid: int, end: int):
-            """
-            :param target_list: 归并对象
-            :param start: 归并起点
-            :param mid: 分割点
-            :param end: 归并终点
-            """
-            n1 = mid - start + 1  # 第一个子数组长度
-            L = [0] * n1    # 储存第一个子数组
-            for i in range(n1):
-                L[i] = target_list[start + i]
-
-            n2 = end - mid  # 第二个子数组长度
-            R = [0] * n2  # 储存第二个子数组
-            for j in range(n2):
-                R[j] = target_list[mid + 1 + j]
-
-            i, j = 0, 0  # 初始化子数组的索引
-            k = start  # 对原数组的操作索引
-            while i < n1 and j < n2:
-                # 归并临时数组到 target_list[start ... end]
-                if L[i] <= R[j]:    # L当前索引值更小时
-                    target_list[k] = L[i]   # 对原数组当前位置赋值
-                    i += 1  # 后移L的索引
-                else:   # R[j] 更小时
-                    target_list[k] = R[j]
-                    j += 1
-                k += 1  # 移动原数组的索引
-            #   拷贝 L[] 的保留元素
-            while i < n1:
-                target_list[k] = L[i]
-                i += 1
-                k += 1
-            #   拷贝 R[] 的保留元素
-            while j < n2:
-                target_list[k] = R[j]
-                j += 1
-                k += 1
 
 
-        def merge_sort_no_return(target_list: list, start: int, end: int):
-            """
-            :param target_list: 目标
-            :param start:
-            :param end:
-            :return:
-            """
-            if start < end:
-                m = int((start + (end - 1)) / 2)
-                # 分割
-                merge_sort_no_return(target_list, start, m)
-                merge_sort_no_return(target_list, m + 1, end)
-                # 归并
-                merge_no_return(target_list, start, m, end)
+```python
+"""
+无返回值
+使用函数:
+    排序归并：merge_no_return(目标list, 起始索引, 分割索引, 终点索引)
+    分割归并：merge_sort_no_return(目标list, 起始索引, 终点索引)
+"""
+def merge_no_return(target_list: list, start: int, mid: int, end: int):
+    """
+    :param target_list: 归并对象
+    :param start: 归并起点
+    :param mid: 分割点
+    :param end: 归并终点
+    """
+    n1 = mid - start + 1  # 第一个子数组长度
+    L = [0] * n1    # 储存第一个子数组
+    for i in range(n1):
+        L[i] = target_list[start + i]
+
+    n2 = end - mid  # 第二个子数组长度
+    R = [0] * n2  # 储存第二个子数组
+    for j in range(n2):
+        R[j] = target_list[mid + 1 + j]
+
+    i, j = 0, 0  # 初始化子数组的索引
+    k = start  # 对原数组的操作索引
+    while i < n1 and j < n2:
+        # 归并临时数组到 target_list[start ... end]
+        if L[i] <= R[j]:    # L当前索引值更小时
+            target_list[k] = L[i]   # 对原数组当前位置赋值
+            i += 1  # 后移L的索引
+        else:   # R[j] 更小时
+            target_list[k] = R[j]
+            j += 1
+        k += 1  # 移动原数组的索引
+    #   拷贝 L[] 的保留元素
+    while i < n1:
+        target_list[k] = L[i]
+        i += 1
+        k += 1
+    #   拷贝 R[] 的保留元素
+    while j < n2:
+        target_list[k] = R[j]
+        j += 1
+        k += 1
 
 
-        test_list = [12, 11, 13, 5, 6, 7]
-        print("给定的数组", test_list)
-        merge_sort_no_return(test_list, 0, len(test_list) - 1)
-        print("排序后的数组", test_list)
-        # 结果如下：
-        # # 给定的数组 [12, 11, 13, 5, 6, 7]
-        # # 排序后的数组 [5, 6, 7, 11, 12, 13]
-        ```
-    - 有返回值
-        ```python
-        """
-        有返回值
-        使用函数:
-        排序归并：merge_ano(前段list, 后段list)
-        分割归并：merge_sort_ano(目标list)
-        """
-        def merge_ano(list_front: list[int], list_back: list[int]):
-            """
-            :param list_front: 归并的前半段
-            :param list_back:  归并的后半段
-            :return:           归并结果列表
-            """
-            result_list = []
-            while list_front and list_back:
-                if list_front[0] < list_back[0]:
-                    result_list.append(list_front.pop(0))
-                else:
-                    result_list.append(list_back.pop(0))
-            if list_front:
-                result_list += list_front
-            if list_back:
-                result_list += list_back
-            return result_list
+def merge_sort_no_return(target_list: list, start: int, end: int):
+    """
+    :param target_list: 目标
+    :param start:
+    :param end:
+    :return:
+    """
+    if start < end:
+        m = int((start + (end - 1)) / 2)
+        # 分割
+        merge_sort_no_return(target_list, start, m)
+        merge_sort_no_return(target_list, m + 1, end)
+        # 归并
+        merge_no_return(target_list, start, m, end)
 
 
-        def merge_sort_ano(target_list: list[int]):
-            """
-            :param target_list: 待排序的列表
-            :return:            返回排序后的新列表
-            """
-            if len(target_list) <= 1:
-                return target_list
-            mid = len(target_list) // 2
-            return merge_ano(merge_sort_ano(target_list[:mid]), merge_sort_ano(target_list[mid:]))
+test_list = [12, 11, 13, 5, 6, 7]
+print("给定的数组", test_list)
+merge_sort_no_return(test_list, 0, len(test_list) - 1)
+print("排序后的数组", test_list)
+# 结果如下：
+# # 给定的数组 [12, 11, 13, 5, 6, 7]
+# # 排序后的数组 [5, 6, 7, 11, 12, 13]
+
+# ===============================================
+
+"""
+有返回值
+使用函数:
+排序归并：merge_ano(前段list, 后段list)
+分割归并：merge_sort_ano(目标list)
+"""
+def merge_ano(list_front: list[int], list_back: list[int]):
+    """
+    :param list_front: 归并的前半段
+    :param list_back:  归并的后半段
+    :return:           归并结果列表
+    """
+    result_list = []
+    while list_front and list_back:
+        if list_front[0] < list_back[0]:
+            result_list.append(list_front.pop(0))
+        else:
+            result_list.append(list_back.pop(0))
+    if list_front:
+        result_list += list_front
+    if list_back:
+        result_list += list_back
+    return result_list
 
 
-        test_list = [17, 56, 71, 38, 61, 62, 48, 28, 57, 42]
-        print("原始数据：", test_list)
-        test_result = merge_sort_ano(test_list)
-        print("归并排序结果：", test_result)
-        # 输出结果
-        # 原始数据： [17, 56, 71, 38, 61, 62, 48, 28, 57, 42]
-        # 归并排序结果： [17, 28, 38, 42, 48, 56, 57, 61, 62, 71]
-        ```
+def merge_sort_ano(target_list: list[int]):
+    """
+    :param target_list: 待排序的列表
+    :return:            返回排序后的新列表
+    """
+    if len(target_list) <= 1:
+        return target_list
+    mid = len(target_list) // 2
+    return merge_ano(merge_sort_ano(target_list[:mid]), merge_sort_ano(target_list[mid:]))
+
+
+test_list = [17, 56, 71, 38, 61, 62, 48, 28, 57, 42]
+print("原始数据：", test_list)
+test_result = merge_sort_ano(test_list)
+print("归并排序结果：", test_result)
+# 输出结果
+# 原始数据： [17, 56, 71, 38, 61, 62, 48, 28, 57, 42]
+# 归并排序结果： [17, 28, 38, 42, 48, 56, 57, 61, 62, 71]
+```
 
 
 ## 3.6 快速排序（考察）
@@ -269,71 +273,71 @@
     - 将小于中值、大于中值的值分配在中值两侧
     - 对左右两侧执行同样过程
 - python 实现如下：
-    ```python
+
+```python
+"""
+快速排序
+"""
+
+def partition_list(target_list: list, low: int, high: int) -> int:
     """
-    快速排序
+    对目标列表进行一次划分，返回一个索引值，
+    使其往前所有值均小于索引，往后所有值均大于索引
+    :param target_list: 待划分列表
+    :param low:         起始位置
+    :param high:        终止位置
+    :return:            划分完成后枢轴所在位置
     """
-
-    def partition_list(target_list: list, low: int, high: int) -> int:
-        """
-        对目标列表进行一次划分，返回一个索引值，
-        使其往前所有值均小于索引，往后所有值均大于索引
-        :param target_list: 待划分列表
-        :param low:         起始位置
-        :param high:        终止位置
-        :return:            划分完成后枢轴所在位置
-        """
-        pivot = target_list[low]  # 取第一项为本轮划分中值，记录在pivot内保证不会被覆写
-        while low < high:  # 不断执行两端替换操作直到 start=high 时确定枢轴位置
-            # 优先移动后端索引，直到出现小于枢轴的值为止
-            while low < high and target_list[high] >= pivot:
-                high -= 1
-            if low < high:  # start=high 或 target_list[high]小于枢轴值
-                target_list[low] = target_list[high]    # 将枢轴位置值覆写为索引到的第一个小值
-                low += 1    # 前端索引后移一位
-            # 开始移动前端索引，直到出现大于枢轴的值为止
-            while low < high and target_list[low] <= pivot:
-                low += 1
-            if low < high:  # low=high 或 target_list[low]大于枢轴值
-                target_list[high] = target_list[low]    # 将high指向的小于枢轴的值被覆写为刚才索引的大值
-                high -= 1   # 后端索引前移一位
-        # 确定中值位置为low=high时将其被覆写为枢轴值
-        target_list[low] = pivot
-        return low  # 对L的一次划分完成，返回枢轴位置
+    pivot = target_list[low]  # 取第一项为本轮划分中值，记录在pivot内保证不会被覆写
+    while low < high:  # 不断执行两端替换操作直到 start=high 时确定枢轴位置
+        # 优先移动后端索引，直到出现小于枢轴的值为止
+        while low < high and target_list[high] >= pivot:
+            high -= 1
+        if low < high:  # start=high 或 target_list[high]小于枢轴值
+            target_list[low] = target_list[high]    # 将枢轴位置值覆写为索引到的第一个小值
+            low += 1    # 前端索引后移一位
+        # 开始移动前端索引，直到出现大于枢轴的值为止
+        while low < high and target_list[low] <= pivot:
+            low += 1
+        if low < high:  # low=high 或 target_list[low]大于枢轴值
+            target_list[high] = target_list[low]    # 将high指向的小于枢轴的值被覆写为刚才索引的大值
+            high -= 1   # 后端索引前移一位
+    # 确定中值位置为low=high时将其被覆写为枢轴值
+    target_list[low] = pivot
+    return low  # 对L的一次划分完成，返回枢轴位置
 
 
-    def quick_sort_partition(target_list: list, start: int, end: int) -> list:
-        """
-        对目标列表的部分进行快速排序
-        :param target_list: 待排序列表
-        :param start:   起始位置
-        :param end:     结束位置
-        :return: 返回部分快排完成的的列表(默认不返回)
-        """
-        if start < end:
-            pivot = partition_list(target_list, start, end)   # 确定枢轴位置
-            quick_sort_partition(target_list, start, pivot - 1)  # 递归划分枢轴前段列表
-            quick_sort_partition(target_list, pivot + 1, end)  # 递归划分枢轴后端列表
-        #  return target_list    # 返回部分快排完成的的列表(默认不返回)
+def quick_sort_partition(target_list: list, start: int, end: int) -> list:
+    """
+    对目标列表的部分进行快速排序
+    :param target_list: 待排序列表
+    :param start:   起始位置
+    :param end:     结束位置
+    :return: 返回部分快排完成的的列表(默认不返回)
+    """
+    if start < end:
+        pivot = partition_list(target_list, start, end)   # 确定枢轴位置
+        quick_sort_partition(target_list, start, pivot - 1)  # 递归划分枢轴前段列表
+        quick_sort_partition(target_list, pivot + 1, end)  # 递归划分枢轴后端列表
+    #  return target_list    # 返回部分快排完成的的列表(默认不返回)
 
 
-    def quick_sort_list(target_list: list) -> list:
-        """
-        :param target_list: 待排序的列表
-        :return: 返回整体快排完成的的列表(默认不返回)
-        """
-        quick_sort_partition(target_list, 0, len(target_list) - 1)
-        #  return target_list  # 返回快速排序完成的列表(默认不返回)
+def quick_sort_list(target_list: list) -> list:
+    """
+    :param target_list: 待排序的列表
+    :return: 返回整体快排完成的的列表(默认不返回)
+    """
+    quick_sort_partition(target_list, 0, len(target_list) - 1)
+    #  return target_list  # 返回快速排序完成的列表(默认不返回)
 
 
-    test_list = [17, 56, 71, 38, 61, 62, 48, 28, 57, 42]
-    quick_sort_list(test_list)
-    print(test_list)
-    # 输出结果：
-    # [17, 28, 38, 42, 48, 56, 57, 61, 62, 71]
+test_list = [17, 56, 71, 38, 61, 62, 48, 28, 57, 42]
+quick_sort_list(test_list)
+print(test_list)
+# 输出结果：
+# [17, 28, 38, 42, 48, 56, 57, 61, 62, 71]
 
-    ```
-
+```
 
 ## 3.7 基数排序（分配模式）
 - 最高位优先 （Most Significant Digit First / MSD）
