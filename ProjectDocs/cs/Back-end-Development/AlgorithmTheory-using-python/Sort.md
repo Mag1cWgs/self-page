@@ -1,6 +1,9 @@
 ## 3 排序算法
 
 
+> [!note|label:各排序算法的时间复杂度、空间复杂度]  
+> <img src="/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/image/Sort-Big-Oh.png">
+
 ## 3.1 冒泡排序（交换排序）（考察）
 - 步骤：
     - 从首位开始
