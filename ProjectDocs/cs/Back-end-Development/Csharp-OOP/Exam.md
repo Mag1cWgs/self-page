@@ -52,8 +52,8 @@
             startIndex = -1;
             while(example.IndexOf('l',startIndex+1,example.Length-(startIndex+1)) >= 0)
             {
-                indexList.append(example.IndexOf('l',startIndex+1,example.Length-(startIndex+1));
-                startIndex = example.IndexOf('l',startIndex+1,example.Length-(startIndex+1);
+                indexList.append(example.IndexOf('l',startIndex+1,example.Length-(startIndex+1)));
+                startIndex = example.IndexOf('l',startIndex+1,example.Length-(startIndex+1));
             }
             ```
 - 例 `DateTime` 类
