@@ -76,6 +76,7 @@
 * 数学笔记
   * [离散数学](/ProjectDocs/Mathematic/Discrete-Mathematic-Exam-Review.md)
   * [复变函数](/ProjectDocs/Mathematic/Complex-Function-Exam-Review.md)
+  * [运筹学](/ProjectDocs/Mathematic/Operations-Research.md)
 
 * 其他知识相关
   * [微观经济学](/ProjectDocs/MicroEconomic/file.md)
