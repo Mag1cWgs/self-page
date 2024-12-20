@@ -1,0 +1,1035 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- saved from url=(0051)http://faculty.bicmr.pku.edu.cn/~wenzw/optbook.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/">
+
+<link rel="stylesheet" href="./最优化：建模、算法与理论_最优化计算方法_files/jemdoc.css" type="text/css">
+<title>最优化：建模、算法与理论/最优化计算方法</title>
+<style type="text/css">@font-face {
+  font-family: "xm-iconfont";
+  src: url('//at.alicdn.com/t/font_792691_ptvyboo0bno.eot?t=1574048839056');
+  /* IE9 */
+  src: url('//at.alicdn.com/t/font_792691_ptvyboo0bno.eot?t=1574048839056#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('data:application/x-font-woff2;charset=utf-8;base64,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') format('woff2'), url('//at.alicdn.com/t/font_792691_ptvyboo0bno.woff?t=1574048839056') format('woff'), url('//at.alicdn.com/t/font_792691_ptvyboo0bno.ttf?t=1574048839056') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */ url('//at.alicdn.com/t/font_792691_ptvyboo0bno.svg?t=1574048839056#iconfont') format('svg');
+  /* iOS 4.1- */
+}
+.xm-iconfont {
+  font-family: "xm-iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.xm-icon-quanxuan:before {
+  content: "\e62c";
+}
+.xm-icon-caidan:before {
+  content: "\e610";
+}
+.xm-icon-fanxuan:before {
+  content: "\e837";
+}
+.xm-icon-pifu:before {
+  content: "\e668";
+}
+.xm-icon-qingkong:before {
+  content: "\e63e";
+}
+.xm-icon-sousuo:before {
+  content: "\e600";
+}
+.xm-icon-danx:before {
+  content: "\e62b";
+}
+.xm-icon-duox:before {
+  content: "\e613";
+}
+.xm-icon-close:before {
+  content: "\e601";
+}
+.xm-icon-expand:before {
+  content: "\e641";
+}
+.xm-icon-banxuan:before {
+  content: "\e60d";
+}
+</style><style type="text/css">@-webkit-keyframes xm-upbit {
+  from {
+    -webkit-transform: translate3d(0, 30px, 0);
+    opacity: 0.3;
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes xm-upbit {
+  from {
+    transform: translate3d(0, 30px, 0);
+    opacity: 0.3;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes loader {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+xm-select {
+  background-color: #FFF;
+  position: relative;
+  border: 1px solid #E6E6E6;
+  border-radius: 2px;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+xm-select * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+xm-select:hover,
+xm-select:focus {
+  border-color: #C0C4CC;
+}
+xm-select > .xm-tips {
+  color: #999999;
+  padding: 0 10px;
+  position: absolute;
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+xm-select > .xm-icon {
+  display: inline-block;
+  overflow: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: 10px;
+  top: 50%;
+  margin-top: -3px;
+  cursor: pointer;
+  border: 6px dashed transparent;
+  border-top-color: #C2C2C2;
+  border-top-style: solid;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+xm-select > .xm-icon-expand {
+  margin-top: -9px;
+  transform: rotate(180deg);
+}
+xm-select > .xm-label.single-row {
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  left: 0px;
+  right: 30px;
+  overflow: auto hidden;
+}
+xm-select > .xm-label.single-row .scroll {
+  overflow-y: hidden;
+}
+xm-select > .xm-label.single-row .label-content {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+xm-select > .xm-label.auto-row .label-content {
+  flex-wrap: wrap;
+  padding-right: 30px !important;
+}
+xm-select > .xm-label.auto-row .xm-label-block > span {
+  white-space: unset;
+  height: 100%;
+}
+xm-select > .xm-label .scroll .label-content {
+  display: flex;
+  padding: 3px 10px;
+}
+xm-select > .xm-label .xm-label-block {
+  display: flex;
+  position: relative;
+  padding: 0px 5px;
+  margin: 2px 5px 2px 0;
+  border-radius: 3px;
+  align-items: baseline;
+  color: #FFF;
+}
+xm-select > .xm-label .xm-label-block > span {
+  display: flex;
+  color: #FFF;
+  white-space: nowrap;
+}
+xm-select > .xm-label .xm-label-block > i {
+  color: #FFF;
+  margin-left: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+}
+xm-select > .xm-label .xm-label-block.disabled {
+  background-color: #C2C2C2 !important;
+  cursor: no-drop !important;
+}
+xm-select > .xm-label .xm-label-block.disabled > i {
+  cursor: no-drop !important;
+}
+xm-select > .xm-body {
+  position: absolute;
+  left: 0;
+  top: 42px;
+  padding: 5px 0;
+  z-index: 999;
+  width: 100%;
+  min-width: fit-content;
+  border: 1px solid #E6E6E6;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  animation-name: xm-upbit;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+}
+xm-select > .xm-body .scroll-body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+xm-select > .xm-body .scroll-body::-webkit-scrollbar {
+  width: 8px;
+}
+xm-select > .xm-body .scroll-body::-webkit-scrollbar-track {
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  -ms-border-radius: 2em;
+  border-radius: 2em;
+  background-color: #FFF;
+}
+xm-select > .xm-body .scroll-body::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  -ms-border-radius: 2em;
+  border-radius: 2em;
+  background-color: #C2C2C2;
+}
+xm-select > .xm-body.up {
+  top: auto;
+  bottom: 42px;
+}
+xm-select > .xm-body.relative {
+  position: relative;
+  display: block !important;
+  top: 0;
+  box-shadow: none;
+  border: none;
+  animation-name: none;
+  animation-duration: 0;
+  min-width: 100%;
+}
+xm-select > .xm-body .xm-group {
+  cursor: default;
+}
+xm-select > .xm-body .xm-group-item {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 10px;
+  color: #999;
+  font-size: 12px;
+}
+xm-select > .xm-body .xm-option {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0 10px;
+  cursor: pointer;
+}
+xm-select > .xm-body .xm-option-icon {
+  color: transparent;
+  display: flex;
+  border: 1px solid #E6E6E6;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+}
+xm-select > .xm-body .xm-option-icon.xm-custom-icon {
+  color: unset;
+  border: unset;
+}
+xm-select > .xm-body .xm-option-icon-hidden {
+  margin-right: -10px;
+}
+xm-select > .xm-body .xm-option-icon.xm-icon-danx {
+  border-radius: 100%;
+}
+xm-select > .xm-body .xm-option-content {
+  display: flex;
+  position: relative;
+  padding-left: 15px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  ;
+  width: calc(100% - 20px);
+}
+xm-select > .xm-body .xm-option.hide-icon .xm-option-content {
+  padding-left: 0;
+}
+xm-select > .xm-body .xm-option.selected.hide-icon .xm-option-content {
+  color: #FFF !important;
+}
+xm-select > .xm-body .xm-option .loader {
+  width: 0.8em;
+  height: 0.8em;
+  margin-right: 6px;
+  color: #C2C2C2;
+}
+xm-select > .xm-body .xm-select-empty {
+  text-align: center;
+  color: #999;
+}
+xm-select > .xm-body .disabled {
+  cursor: no-drop;
+}
+xm-select > .xm-body .disabled:hover {
+  background-color: #FFF;
+}
+xm-select > .xm-body .disabled .xm-option-icon {
+  border-color: #C2C2C2 !important;
+}
+xm-select > .xm-body .disabled .xm-option-content {
+  color: #C2C2C2 !important;
+}
+xm-select > .xm-body .disabled.selected > .xm-option-icon {
+  color: #C2C2C2 !important;
+}
+xm-select > .xm-body .xm-search {
+  background-color: #FFF !important;
+  position: relative;
+  padding: 0 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+xm-select > .xm-body .xm-search > i {
+  position: absolute;
+  color: ;
+}
+xm-select > .xm-body .xm-search-input {
+  border: none;
+  border-bottom: 1px solid #E6E6E6;
+  padding-left: 27px;
+  cursor: text;
+}
+xm-select > .xm-body .xm-paging {
+  padding: 0 10px;
+  display: flex;
+  margin-top: 5px;
+}
+xm-select > .xm-body .xm-paging > span:first-child {
+  border-radius: 2px 0 0 2px;
+}
+xm-select > .xm-body .xm-paging > span:last-child {
+  border-radius: 0 2px 2px 0;
+}
+xm-select > .xm-body .xm-paging > span {
+  display: flex;
+  flex: auto;
+  justify-content: center;
+  vertical-align: middle;
+  margin: 0 -1px 0 0;
+  background-color: #fff;
+  color: #333;
+  font-size: 12px;
+  border: 1px solid #e2e2e2;
+  flex-wrap: nowrap;
+  width: 100%;
+  overflow: hidden;
+  min-width: 50px;
+}
+xm-select > .xm-body .xm-toolbar {
+  padding: 0 10px;
+  display: flex;
+  margin: -3px 0;
+  cursor: default;
+}
+xm-select > .xm-body .xm-toolbar .toolbar-tag {
+  cursor: pointer;
+  display: flex;
+  margin-right: 20px;
+  color: ;
+  align-items: baseline;
+}
+xm-select > .xm-body .xm-toolbar .toolbar-tag:hover {
+  opacity: 0.8;
+}
+xm-select > .xm-body .xm-toolbar .toolbar-tag:active {
+  opacity: 1;
+}
+xm-select > .xm-body .xm-toolbar .toolbar-tag > i {
+  margin-right: 2px;
+  font-size: 14px;
+}
+xm-select > .xm-body .xm-toolbar .toolbar-tag:last-child {
+  margin-right: 0;
+}
+xm-select > .xm-body .xm-body-custom {
+  line-height: initial;
+  cursor: default;
+}
+xm-select > .xm-body .xm-body-custom * {
+  box-sizing: initial;
+}
+xm-select > .xm-body .xm-tree {
+  position: relative;
+}
+xm-select > .xm-body .xm-tree-icon {
+  display: inline-block;
+  margin-right: 3px;
+  cursor: pointer;
+  border: 6px dashed transparent;
+  border-left-color: #C2C2C2;
+  border-left-style: solid;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  z-index: 2;
+  visibility: hidden;
+}
+xm-select > .xm-body .xm-tree-icon.expand {
+  margin-top: 3px;
+  margin-right: 5px;
+  margin-left: -2px;
+  transform: rotate(90deg);
+}
+xm-select > .xm-body .xm-tree-icon.xm-visible {
+  visibility: visible;
+}
+xm-select > .xm-body .xm-tree .left-line {
+  position: absolute;
+  left: 13px;
+  width: 0;
+  z-index: 1;
+  border-left: 1px dotted #c0c4cc !important;
+}
+xm-select > .xm-body .xm-tree .top-line {
+  position: absolute;
+  left: 13px;
+  height: 0;
+  z-index: 1;
+  border-top: 1px dotted #c0c4cc !important;
+}
+xm-select > .xm-body .xm-tree .xm-tree-icon + .top-line {
+  margin-left: 1px;
+}
+xm-select > .xm-body .scroll-body > .xm-tree > .xm-option > .top-line,
+xm-select > .xm-body .scroll-body > .xm-option > .top-line {
+  width: 0 !important;
+}
+xm-select > .xm-body .xm-cascader-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 5px 0;
+  border: 1px solid #E6E6E6;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  margin: -1px;
+}
+xm-select > .xm-body .xm-cascader-box::before {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-right-color: #E6E6E6;
+  top: 10px;
+  left: -12px;
+}
+xm-select > .xm-body .xm-cascader-box::after {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-right-color: #fff;
+  top: 10px;
+  left: -11px;
+}
+xm-select > .xm-body .xm-cascader-scroll {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+xm-select > .xm-body.cascader {
+  width: unset;
+  min-width: unset;
+}
+xm-select > .xm-body.cascader .xm-option-content {
+  padding-left: 8px;
+}
+xm-select > .xm-body.cascader .disabled .xm-right-arrow {
+  color: #C2C2C2 !important;
+}
+xm-select > .xm-body.cascader .hide-icon.disabled .xm-right-arrow {
+  color: #999 !important;
+}
+xm-select .xm-input {
+  cursor: pointer;
+  border-radius: 2px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #E6E6E6;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #FFF;
+  line-height: 1.3;
+  padding-left: 10px;
+  outline: 0;
+  user-select: text;
+  -ms-user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+}
+xm-select .dis {
+  display: none;
+}
+xm-select .loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+xm-select .loader {
+  border: 0.2em dotted currentcolor;
+  border-radius: 50%;
+  -webkit-animation: 1s loader linear infinite;
+  animation: 1s loader linear infinite;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  color: inherit;
+  vertical-align: middle;
+  pointer-events: none;
+}
+xm-select .xm-select-default {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: none;
+  visibility: hidden;
+}
+xm-select .xm-select-disabled {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  cursor: no-drop;
+  z-index: 2;
+  opacity: 0.3;
+  background-color: #FFF;
+}
+xm-select .item--divided {
+  border-top: 1px solid #ebeef5;
+  width: calc(100% - 20px);
+  cursor: initial;
+}
+xm-select .xm-right-arrow {
+  position: absolute;
+  color: ;
+  right: 5px;
+  top: -1px;
+  font-weight: 700;
+  transform: scale(0.6, 1);
+}
+xm-select .xm-right-arrow::after {
+  content: '>';
+}
+xm-select[size='large'] {
+  min-height: 40px;
+  line-height: 40px;
+}
+xm-select[size='large'] .xm-input {
+  height: 40px;
+}
+xm-select[size='large'] .xm-label .scroll .label-content {
+  line-height: 34px;
+}
+xm-select[size='large'] .xm-label .xm-label-block {
+  height: 30px;
+  line-height: 30px;
+}
+xm-select[size='large'] .xm-body .xm-option .xm-option-icon {
+  height: 20px;
+  width: 20px;
+  font-size: 20px;
+}
+xm-select[size='large'] .xm-paging > span {
+  height: 34px;
+  line-height: 34px;
+}
+xm-select[size='large'] .xm-tree .left-line {
+  height: 100%;
+  bottom: 20px;
+}
+xm-select[size='large'] .xm-tree .left-line-group {
+  height: calc(100% - 40px);
+}
+xm-select[size='large'] .xm-tree .xm-tree-icon.xm-hidden + .top-line {
+  top: 19px;
+}
+xm-select[size='large'] .item--divided {
+  margin: 10px;
+}
+xm-select {
+  min-height: 36px;
+  line-height: 36px;
+}
+xm-select .xm-input {
+  height: 36px;
+}
+xm-select .xm-label .scroll .label-content {
+  line-height: 30px;
+}
+xm-select .xm-label .xm-label-block {
+  height: 26px;
+  line-height: 26px;
+}
+xm-select .xm-body .xm-option .xm-option-icon {
+  height: 18px;
+  width: 18px;
+  font-size: 18px;
+}
+xm-select .xm-paging > span {
+  height: 30px;
+  line-height: 30px;
+}
+xm-select .xm-tree .left-line {
+  height: 100%;
+  bottom: 18px;
+}
+xm-select .xm-tree .left-line-group {
+  height: calc(100% - 36px);
+}
+xm-select .xm-tree .xm-tree-icon.xm-hidden + .top-line {
+  top: 17px;
+}
+xm-select .item--divided {
+  margin: 9px;
+}
+xm-select[size='small'] {
+  min-height: 32px;
+  line-height: 32px;
+}
+xm-select[size='small'] .xm-input {
+  height: 32px;
+}
+xm-select[size='small'] .xm-label .scroll .label-content {
+  line-height: 26px;
+}
+xm-select[size='small'] .xm-label .xm-label-block {
+  height: 22px;
+  line-height: 22px;
+}
+xm-select[size='small'] .xm-body .xm-option .xm-option-icon {
+  height: 16px;
+  width: 16px;
+  font-size: 16px;
+}
+xm-select[size='small'] .xm-paging > span {
+  height: 26px;
+  line-height: 26px;
+}
+xm-select[size='small'] .xm-tree .left-line {
+  height: 100%;
+  bottom: 16px;
+}
+xm-select[size='small'] .xm-tree .left-line-group {
+  height: calc(100% - 32px);
+}
+xm-select[size='small'] .xm-tree .xm-tree-icon.xm-hidden + .top-line {
+  top: 15px;
+}
+xm-select[size='small'] .item--divided {
+  margin: 8px;
+}
+xm-select[size='mini'] {
+  min-height: 28px;
+  line-height: 28px;
+}
+xm-select[size='mini'] .xm-input {
+  height: 28px;
+}
+xm-select[size='mini'] .xm-label .scroll .label-content {
+  line-height: 22px;
+}
+xm-select[size='mini'] .xm-label .xm-label-block {
+  height: 18px;
+  line-height: 18px;
+}
+xm-select[size='mini'] .xm-body .xm-option .xm-option-icon {
+  height: 14px;
+  width: 14px;
+  font-size: 14px;
+}
+xm-select[size='mini'] .xm-paging > span {
+  height: 22px;
+  line-height: 22px;
+}
+xm-select[size='mini'] .xm-tree .left-line {
+  height: 100%;
+  bottom: 14px;
+}
+xm-select[size='mini'] .xm-tree .left-line-group {
+  height: calc(100% - 28px);
+}
+xm-select[size='mini'] .xm-tree .xm-tree-icon.xm-hidden + .top-line {
+  top: 13px;
+}
+xm-select[size='mini'] .item--divided {
+  margin: 7px;
+}
+.layui-form-pane xm-select {
+  margin: -1px -1px -1px 0;
+}
+</style></head>
+<body>
+<table summary="Table for page layout." id="tlayout">
+<tbody><tr valign="top">
+<td id="layout-menu">
+<div class="menu-category">Zaiwen Wen</div>
+<div class="menu-item"><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/index.html">Home</a></div>
+<div class="menu-category">Optbook</div>
+<div class="menu-item"><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook.html" class="current">Home</a></div>
+<div class="menu-item"><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook.html#intro">Book&nbsp;Information</a></div>
+<div class="menu-item"><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook.html#pub">Buy/Download&nbsp;book</a></div>
+<div class="menu-item"><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/pages/index.html">Code</a></div>
+<div class="menu-item"><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook.html#lecture">Lecture</a></div>
+<div class="menu-item"><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook.html#solu">Solution&nbsp;Manual</a></div>
+<div class="menu-item"><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook.html#exer">Exercises/Projects</a></div>
+</td>
+<td id="layout-content">
+<div id="toptitle">
+<h1>最优化：建模、算法与理论/最优化计算方法</h1>
+</div>
+<h2>出版信息  </h2>
+<ul>
+<li><p>详细版：  刘浩洋, 户将, 李勇锋，文再文，最优化：建模、算法与理论, 高教出版社， ISBN：9787040550351 <br>
+H. Liu, J. Hu, Y. Li, <b>Z. Wen</b>, Optimization: Modeling, Algorithm and Theory (in Chinese)</p>
+</li>
+<li><p>简化版：刘浩洋, 户将, 李勇锋，文再文，最优化计算方法，高教出版社，ISBN: 978-7-04-055841-8 <br>
+H. Liu, J. Hu, Y. Li, <b>Z. Wen</b>, Computational Methods For Optimization (in Chinese)</p>
+</li>
+</ul>
+<table class="imgtable"><tbody><tr><td>
+<img src="./最优化：建模、算法与理论_最优化计算方法_files/optbookaw.jpg" alt="400px" width="500px">&nbsp;</td>
+<td align="left"></td></tr></tbody></table>
+<h2>本书简介 <a name="intro"></a></h2>
+<p>最优化计算方法是运筹学、计算数学、机器学习和数据科学与大数据技术等专业的一门核心课程。最优化问题通常需要对实际需求进行定性和定量分析，建立恰当的数学模型来描述该问题，设计合适的计算方法来寻找问题的最优解，探索研究模型和算法的理论性质，考察算法的计算性能等多方面。最优化广泛应用于科学与工程计算、数据科学、机器学习、人工智能、图像和信号处理、金融和经济、管理科学等众多领域。本书将介绍最优化的基本概念、典型案例、基本算法和理论。 通过本书的学习，掌握最优化的基本概念，最优性理论，典型的几类最优化问题（如凸优化，无约束优化，约束优化，复合优化等等）的建模或判别，相关优化问题的基本计算方法，并能熟练调用基于MATLAB或Python等语言的典型优化软件程序求解一些标准的优化问题，灵活运用所讲授的算法和理论求解一些非标准的优化问题。达到锻炼将实际问题建立合适最优化模型的能力，选择合适的现有软件包和算法的能力，遇到没有现成算法自己实现简单算法的能力。</p>
+<h2>内容简介</h2>
+<p>考虑到不同层次的需求，本教材分</p>
+<ul>
+<li><p>详细版: “最优化：建模、算法与理论”</p>
+</li>
+<li><p>简化版: “最优化计算方法”<br></p>
+</li>
+</ul>
+<p>它们的主要区别是简化版中不涉及一些复杂的概念、详细的例子和证明等等。在第一章简要介绍最优化基本概念之后，详细版从四个方面进行讲述。</p>
+<ul>
+<li><p><b>基础知识</b>：第二章介绍最优化建模和算法中经常需要使用的一些基础知识，包括范数、导数、凸集、凸函数、次梯度、共轭函数等。 此外为了内容的完整性也在附录部分简要概述了一些基础知识，其中线性代数包含矩阵、特征值、广义逆、SMW公式、Schur补等，数值代数包括范数、方程组求解、矩阵分解、数值代数软件包等，概率论包含随机变量、期望、方差、条件期望、概率不等式等重要概念和结论。</p>
+</li>
+<li><p><b>优化建模</b>：第三章阐述一些典型的优化建模方法，并以科学工程计算和机器学习中一些典型问题为例介绍如何建立优化模型。第四章给出了最优化问题的一些典型分类和判别技巧，如线性规划、半定规划、最小二乘问题、复合优化、矩阵优化、随机优化等等。一个实际问题根据其侧重点可以由不同的优化模型来描述，一种优化模型也可以对应很多不同的实际应用。</p>
+</li>
+<li><p><b>最优性理论</b>：第五章介绍最优性理论，包括最优解的存在性和唯一性，无约束可微问题、无约束不可微问题、带约束优化问题的一阶或二阶最优性条件，对偶理论，带广义不等式（如半定规划问题）的对偶理论。</p>
+</li>
+<li><p><b>最优化算法</b>：第六章介绍无约束优化算法，包括线搜索方法、梯度类算法、次梯度算法、牛顿类算法、信赖域算法、非线性最小二乘法。第七章介绍约束优化算法，包括罚函数法、增广拉格朗日函数法及其在典型凸优化问题的主问题和对偶问题上的具体应用，线性规划内点法。第八章介绍复合优化算法，包括近似点梯度法、Nesterov加速算法、近似点算法、分块坐标下降法、对偶算法、交替方向乘子法、随机优化算法。</p>
+</li>
+</ul>
+<p>本书主要概念基本配有详细的例子来解释。主要优化算法也都通过实际应用问题对算法细节进行详细阐述，特别是在稀疏优化和逻辑回归等等问题的典型场景下进行数值试验，给出最优性度量与迭代步数关系等数值结果，相关程序也可以在本网页下载。</p>
+<h2>本书特点</h2>
+<ul>
+<li><p><b>从优化建模和模型分类等不同侧面阐述优化问题</b>。考虑到优化问题大多来源于实际问题，本书的详细版以一定篇幅介绍优化建模中的技术，包括压缩感知、低秩矩阵恢复、回归分析、逻辑回归、支持向量机、相位恢复、字典学习、图像处理、深度学习、强化学习等等，帮助读者理解优化问题中每一部分的具体含义。此外，本书也详细讨论了若干种典型优化问题，包括线性规划、最小二乘问题、复合优化问题、半定规划、矩阵优化问题、随机优化问题等等。着重介绍每种优化问题的特点，并列举出大量的实例。</p>
+</li>
+<li><p><b>系统全面地讲述了适用于大规模计算的一阶优化算法</b>。本书除了介绍一些经典的无约束和约束优化问题的算法外，强化了增广拉格朗日函数法在凸问题中应用，特别着重讲述了带非光滑结构的复合优化问题的最优性条件和近年来发展起来的一阶优化算法及相应理论，包括近似点梯度法、Nesterov加速算法、近似点算法、分块坐标下降法、对偶算法、交替方向乘子法、随机优化算法等等。因此，本书问题和算法广泛覆盖了常用的光滑和非光滑优化，凸优化和非凸优化，线性和非线性优化，确定性优化和随机优化。</p>
+</li>
+<li><p><b>通过详细的应用实例和高质量代码实现强化对问题和算法的理解</b>。本书中应用实例贯穿于各个章节中，在优化建模、优化问题举例、最优性条件、优化算法章节加入了大量实际例子来帮助读者理解相关内容。特别地，本书通过前面提到的一些重要实际应用问题对主要优化算法细节进行详细阐述，在稀疏优化和逻辑回归等问题的典型场景下进行数值试验，给出最优性度量与迭代步数关系等数值结果。</p>
+</li>
+</ul>
+<h2>教材下载/购买信息 <a name="pub"></a></h2>
+<ul>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/opt1.pdf">下载“最优化：建模、算法与理论”第一版作者版本</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/opt2.pdf">下载“最优化：建模、算法与理论”第二版草稿，主要增加了流形约束优化算法和半光滑牛顿算法等新内容</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/opt1-short.pdf">下载“最优化计算方法”第一版作者版本</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/errata.pdf">“最优化：建模、算法与理论”第一版勘误表</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/errata-short.pdf">“最优化计算方法”第一版勘误表</a></p>
+</li>
+<li><p>“最优化：建模、算法与理论” 第一版出版社版本购买链接如下。出版社版本和作者版本在排版上有较大的区别。</p>
+<ul>
+<li><p><a href="http://www.hepmall.com/index.php/product-34415.html">高教书城（已经可以购买）：www.hepmall.com/index.php/product-34415.html</a></p>
+</li>
+<li><p><a href="https://weidian.com/item.html?itemID=4276223598">微店的地址（已经可以手机端购买）：weidian.com/item.html?itemID=4276223598</a></p>
+</li>
+<li><p><a href="https://item.jd.com/13064530.html">京东自营链接（已经可以购买）：item.jd.com/13064530.html</a></p>
+</li>
+<li><p><a href="http://product.dangdang.com/29185022.html">当当自营链接（已经可以购买）：product.dangdang.com/29185022.html</a></p>
+</li></ul>
+</li>
+<li><p>“最优化计算方法” 第一版出版社版本购买链接如下。出版社版本和作者版本在排版上有较大的区别。</p>
+<ul>
+<li><p><a href="http://www.hepmall.com/index.php/product-35610.html">高教书城（已经可以购买）：www.hepmall.com/index.php/product-35610.html</a></p>
+</li>
+<li><p><a href="https://shop899960007.v.weidian.com/item.html?itemID=4388758095">微店的地址（已经可以手机端购买）：weidian.com/item.html?itemID=4388758095</a></p>
+</li>
+<li><p><a href="https://item.jd.com/13318228.html">京东自营链接（已经可以购买）：item.jd.com/13318228.html</a></p>
+</li>
+<li><p><a href="http://product.dangdang.com/29261079.html">当当自营链接（已经可以购买）：product.dangdang.com/29261079.html</a></p>
+</li></ul>
+</li>
+<li><p><a href="https://www.wenjuan.com/s/UZBZJvK0lr/">读者调查问卷：感谢您对本书的兴趣！如果本书对您有帮助，请您帮忙反馈一些用户信息供作者参考。</a></p>
+</li>
+<li><p>限于作者的知识水平，书中难免有不妥和错误之处，恳请读者不吝批评和指正。 <br>
+<a href="https://docs.qq.com/form/page/DWWhDR2JySVFjQlNm">勘误收集: 如果您发现任何不妥和错误之处，麻烦您通过此链接反馈。</a> <br>
+2021年6月底左右出版社将给提供反馈的老师和同学挂号信方式邮寄 “最优化计算方法”样书。</p>
+</li>
+</ul>
+<h2>优化程序 <a name="code"></a></h2>
+<p><a href="http://bicmr.pku.edu.cn/~wenzw/optbook/pages/index.html">(点击此链接访问详细代码和注释)</a></p>
+<ul>
+<li><p>梯度类算法</p>
+</li>
+<li><p>次梯度算法</p>
+</li>
+<li><p>牛顿类算法</p>
+</li>
+<li><p>信赖域算法</p>
+</li>
+<li><p>非线性最小二乘法</p>
+</li>
+<li><p>增广拉格朗日函数法</p>
+</li>
+<li><p>近似点梯度法</p>
+</li>
+<li><p>Nesterov加速算法</p>
+</li>
+<li><p>近似点算法</p>
+</li>
+<li><p>分块坐标下降法</p>
+</li>
+<li><p>对偶算法</p>
+</li>
+<li><p>交替方向乘子法</p>
+</li>
+<li><p>随机优化算法 </p>
+</li>
+</ul>
+<h2>电子教案 <a name="lecture"></a></h2>
+<ul>
+<li><p>电子教案目前版本还很初略，持续更新中。<br></p>
+<ul>
+<li><p>电子教案的latex源文件目前只开放给使用本教材的任课老师，麻烦提供相关课程信息。我们会定期查看该问卷信息发送答案。<br> </p>
+</li>
+<li><p><a href="https://docs.qq.com/form/page/DWWhZb1JTaGdoYW9F">课程任课教师请填写该链接提供课程信息</a><br>  </p>
+</li>
+<li><p>您填写完该问卷之后请用您单位email发邮件给文再文提醒发送答案，邮件地址请见下面信息反馈。如果不是使用单位官方邮件发送，请务必说明身份信息。无法判断身份的邮件将不予回复。</p>
+</li></ul>
+</li>
+<li><p>简介，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/01-opt-dzw.pdf">讲义下载，本节内容由邓展望协助准备</a></p>
+</li>
+<li><p>凸集，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/02-convex-set.pdf">讲义下载，本节内容由丁思哲协助准备</a></p>
+</li>
+<li><p>凸函数，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/03_functions_newhyx.pdf">讲义下载，本节内容由华奕轩协助准备</a></p>
+</li>
+<li><p>数值代数基础，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/04-num_lin_alg-newl.pdf">讲义下载，本节内容由张轩熙协助准备</a></p>
+</li>
+<li><p>优化建模，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/05-lect1-model.pdf">讲义下载，本节内容由华奕轩协助准备</a></p>
+</li>
+<li><p>典型优化问题，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/06-opt-dzw.pdf">讲义下载，本节内容由邓展望协助准备</a><br>
+<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/06-opt-dzw-pku.pdf">北大课程版本，本节内容由邓展望协助准备</a> <br></p>
+</li>
+<li><p>凸优化最优性理论，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/07-lect-theory1.pdf">讲义下载，本节内容由谢中林协助准备</a></p>
+</li>
+<li><p>非凸优化最优性理论，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/07-lect-theory2.pdf">讲义下载，本节内容由谢中林协助准备</a></p>
+</li>
+<li><p>梯度下降算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/08-lect-gradient.pdf">讲义下载，本节内容由谢中林协助准备</a></p>
+</li>
+<li><p>次梯度，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/09-lect-sg.pdf">讲义下载，本节内容由朱桢源协助准备</a></p>
+</li>
+<li><p>次梯度算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/10-lect-sgm.pdf">讲义下载，本节内容由朱桢源协助准备</a><br>
+<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/09-lect-sg-meth.pdf">次梯度和次梯度算法，讲义下载，本节内容由朱桢源协助准备</a></p>
+</li>
+<li><p>牛顿类算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/11-lect-newton.pdf">讲义下载，本节内容由陈乐恒，丁思哲协助准备</a></p>
+</li>
+<li><p>信赖域算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/13_trustregion_newdzw.pdf">讲义下载，本节内容由邓展望协助准备</a><br>
+<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/lect-newton-TR.pdf">牛顿法和信赖域法，讲义下载，本节内容由陈乐恒，丁思哲，邓展望协助准备</a></p>
+</li>
+<li><p>拟牛顿算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/12-lect-QN.pdf">讲义下载，本节内容由丁思哲协助准备</a></p>
+</li>
+<li><p>非线性最小二乘问题，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/14-lsp-new-zxx.pdf">讲义下载，本节内容由张轩熙协助准备</a></p>
+</li>
+<li><p>罚函数法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/15-lect-penalty.pdf">讲义下载，本节内容由陈乐恒，邓展望协助准备</a></p>
+</li>
+<li><p>增广拉格朗日函数法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/16-lect-alm.pdf">讲义下载，本节内容由陈乐恒，丁思哲协助准备</a><br>
+<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/16-lect-alm-pku.pdf">简略版本讲义下载</a></p>
+</li>
+<li><p>线性规划内点法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/17-lp_ipm-new-zxx-xzl.pdf">讲义下载，本节内容由谢中林，张轩熙协助准备</a></p>
+</li>
+<li><p>近似点算子，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/18-lect-prox_map.pdf">讲义下载，本节内容由陈乐恒，朱桢源协助准备</a></p>
+</li>
+<li><p>近似点梯度算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/19-lect-proxg.pdf">讲义下载，本节内容由陈乐恒，朱桢源协助准备</a></p>
+</li>
+<li><p>Nesterov 加速算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/20-lect-nesterov-ch.pdf">讲义下载，本节内容由李煦恒协助准备</a></p>
+</li>
+<li><p>近似点算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/21-lect-prox_point.pdf">本节内容由陈乐恒，邓展望协助准备</a></p>
+</li>
+<li><p>分块坐标下降法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/22-lect-BCD.pdf">讲义下载，本节内容由朱桢源协助准备</a><br>
+<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/22-lect-BCD-pku.pdf">简略版本讲义下载</a></p>
+</li>
+<li><p>对偶算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/23-lect-DualAlgo.pdf">讲义下载，本节内容由朱桢源协助准备</a></p>
+</li>
+<li><p>交替方向乘子法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/24-lect-admm-chhyx.pdf">讲义下载，本节内容由华奕轩协助准备</a></p>
+</li>
+<li><p>随机优化算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/25-lect-sto-ch.pdf">讲义下载，本节内容由李煦恒协助准备</a></p>
+</li>
+<li><p>半光滑牛顿算法，<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/slides-ssm-dzw.pdf">讲义下载，本节内容由李勇锋，邓展望协助准备</a><br>
+<a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/lect/slides-ssm-dzw-pku.pdf">简略版本讲义下载</a></p>
+</li>
+</ul>
+<h2>习题答案 <a name="solu"></a></h2>
+<ul>
+<li><p>《最优化：建模、算法与理论》和《最优化计算方法》目前已经准备好答案草稿。 </p>
+</li>
+<li><p>为了避免学生直接抄袭答案，完整版教材答案目前只开放给使用本教材的任课老师，麻烦提供相关课程信息。我们会定期查看该问卷信息发送答案。<br> </p>
+<ul>
+<li><p><a href="https://docs.qq.com/form/page/DWWhZb1JTaGdoYW9F">课程任课教师请填写该链接提供课程信息</a><br>  </p>
+</li>
+<li><p>您填写完该问卷之后请用您单位官方email发邮件给文再文提醒发送答案，邮件地址请见下面信息反馈。</p>
+</li>
+<li><p><b>最近出现学生冒充任课老师领答案现象，也有同一个学校同一门课多人认领答案。有些任课老师的信息也无法通过网络上公开信息确认。因此请使用学校官方email地址，并且邮件内容最好能确认您的信息，比如有您姓名的院系人员介绍网页链接等等。</b></p>
+</li></ul>
+</li>
+<li><p>针对同学们的需求，提供以下参考答案简化版本。</p>
+<ul>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/Short-Answer-full-TwoSide.pdf">下载“最优化：建模、算法与理论”答案</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/optbook/Short-Answer-short-TwoSide.pdf">下载“最优化计算方法”答案</a></p>
+</li>
+</ul>
+
+</li>
+</ul>
+<h2>考试练习题 <a name="exer"></a></h2>
+<ul>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/mid-2017.pdf">2017年《凸优化》期中考试题目(三节课)</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/mid-2018.pdf">2018年《凸优化》期中考试题目(三节课)</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/mid-2019.pdf">2019年《凸优化》期中考试题目(两节课)</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/mid-2020.pdf">2020年《凸优化》期中考试题目(两节课)</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/mid-2022.pdf">2022年《最优化方法》期中考试题目(两节课)</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/optexer.pdf">2022年《最优化方法》期末练习题</a></p>
+</li>
+</ul>
+<h2>课程项目 <a name="exer"></a></h2>
+<ul>
+<li><p>以下课程项目一些具体要求等信息请参考相应年份的课程网页</p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/homework5.pdf">2014-2019年《凸优化》程序大作业题: LASSO</a>,   <a href="http://faculty.bicmr.pku.edu.cn/~wenzw/courses/Test_l1_regularized_problems.m">测试接口程序</a>, <a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/homework5-req.pdf">作业提交指南</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/homework5g.pdf">2020-2022年《凸优化》程序大作业题: group LASSO</a>, <a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/homework5-req.pdf">作业提交指南</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/courses/project-opt-2014-fall.pdf">2014年《凸优化》期末课程项目: Projection to Doubly Stochastic Matrices</a> </p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/project-opt-2016-fall.pdf">2016年《凸优化》期末课程项目: Semismooth Newton Algorithms for LP</a> </p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/project-opt-2017-fall-LP.pdf">2017-2018年《凸优化》期末课程项目: Semismooth Newton Algorithms for LP, Optimal Transport</a> </p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/project-opt-2019-fall-LP2.pdf">2019年《凸优化》期末课程项目:  Optimal Transport, Algorithms and analysis for shallow neural network</a> </p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/project-opt-2020-fall-neu.pdf">2020-2021年《凸优化》期末课程项目:  Algorithms and analysis for shallow neural network</a> </p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/bigdata/project1.pdf">2014-2019年《大数据分析中算法》程序大作业题: L1 minimization, Sparse Inverse Covariance Estimation</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/bigdata/project1w.pdf">2020-2022年《大数据分析中算法》程序大作业题: L1 minimization, Low-rank Recovery</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/bigdata/fast-LP.pdf">2020-2021年《大数据分析中算法》期末课程项目: Exploiting fast algorithms for solving networking resource allocation problems</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/bigdata/trainsch.pdf">2022年《大数据分析中算法》期末课程项目: 国铁集团列车排班</a></p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/opt2015/proj-proxg.pdf">2021-2022年《大数据分析中算法》期末课程项目: Software implementaion for the proximal gradient methods</a></p>
+</li>
+</ul>
+<h2>信息反馈</h2>
+<p>限于作者的知识水平，书中难免有不妥和错误之处，恳请读者不吝批评和指正。 </p>
+<ul>
+<li><p><a href="http://bicmr.pku.edu.cn/~wenzw/index.html">文再文</a>,  wenzw at pku dot edu dot cn </p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/%E5%88%98%E6%B5%A9%E6%B4%8B">刘浩洋</a>,  liuhaoyang at pku dot edu dot cn</p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/%E6%88%B7%E5%B0%86">户将</a>,  jianghu at pku dot edu dot cn</p>
+</li>
+<li><p><a href="http://faculty.bicmr.pku.edu.cn/~wenzw/%E6%9D%8E%E5%8B%87%E9%94%8B">李勇锋</a>, Yongfengli at pku dot edu dot cn</p>
+</li>
+</ul>
+<h2>课程信息  <a name="info"></a></h2>
+<ul>
+<li><p><a href="http://bicmr.pku.edu.cn/~wenzw/opt-2020-fall.html">凸优化 (2020年秋季)</a> 
+
+
+</p>
+</li>
+<li><p><a href="http://bicmr.pku.edu.cn/~wenzw/bigdata2020.html">大数据分析中的算法 (2020年春季)</a>
+
+
+</p>
+</li>
+</ul>
+<div id="footer">
+<div id="footer-text">
+</div>
+</div>
+</td>
+</tr>
+</tbody></table>
+
+
+</body></html>
