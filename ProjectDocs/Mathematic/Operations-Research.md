@@ -75,7 +75,131 @@
 ### 考察重点
 - P13 可行基
 - P31 线性规划对偶模型构建
+### 2.1 线性规划
 
+#### 1. 数学模型
+- 线性规划问题的标准形式可以表示为：
+
+    $$
+    \begin{align}
+        \text{max} Z = c_1x_1 + c_2x_2 + \cdots + c_nx_n 
+        \label{LP-1} \tag{LP-1}
+        \\
+    \text{s.t.}
+    \begin{cases}
+            a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n & \leq b_1 \notag \\
+            a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n & \leq b_2 \notag \\
+            & \vdots \notag \\
+            a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n & \leq b_m \notag \\
+            x_1 \leq 0, \dots x_n \leq 0
+    \end{cases}\label{LP-2} \tag{LP-2}
+    \end{align}
+    $$
+
+    其中：
+    - **LP-1** 称为**目标函数**
+        - $ c_i \; (i=1,\dots,n) $ 称为**价值系数**
+    - **LP-2** 称为**约束条件**
+        - 其中 $x_1 \leq 0, \dots x_n \leq 0$ 称为**变量的非负约束条件**
+        - $ a_{ij} \; (i=1,\dots,m;\;j=1,\dots,n) $ 称为 **技术系数 / 工艺系数**
+        - $ b_i \; (i=1,\dots,m) $ 称为 **限额系数 / 约束条件的右端项**
+- 总结特征
+    1. 比例性
+    2. 可加性
+    3. 连续性
+
+#### 2. 数学模型的几种简化
+- 运算符简化
+    $$
+    \text{max} Z = \sum_{j=1}^{n}c_jx_j     \\ 
+    \text{s.t.}
+        \begin{cases}
+        \begin{align}
+            \displaystyle \sum_{j=1}^{n}a_{ij}x_j \leq b_i \qquad & (i=1,2,\dots,m) \notag  \\
+                           x_j \geq 0                      \qquad & (j=1,2,\dots,n) \notag
+        \end{align}
+        \end{cases}
+    $$
+- 向量化  
+    若令 $\textbf{C} = (c_1,c_2,\dots,c_n)$ ， $\textbf{X}=(x_1,x_2,\dots,x_n)^T$ ， $\textbf{p}_j = (a_{1j},a_{2j},\dots,a_{mj})^T$ ， $ \textbf{b} = (b_1,b_2,\dots,b_m)^T$ ，则上述模型可以变为如下向量形式：
+
+    $$
+    \text{max} Z = \textbf{CX}    \\ 
+    \text{s.t.}
+        \begin{cases}
+            \sum{\textbf{p}_jx_j} \leq \textbf{b}\\
+            \textbf{X} \geq \textbf{0}
+        \end{cases}
+    $$
+
+- 矩阵化  
+    如果用矩阵表示技术系数，即
+
+    $$
+    \textbf{A} 
+    = (\textbf{p}_1,\textbf{p}_2,\dots,\textbf{p}_n )
+    =   \begin{pmatrix}
+            a_{11} & a_{12} & \cdots & a_{1n} \\
+            a_{21} & a_{22} & \cdots & a_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            a_{m1} & a_{m2} & \cdots & a_{mn}
+        \end{pmatrix}
+    $$
+
+    则有如下矩阵形式：
+
+    $$
+    \text{max} Z = \textbf{CX}    \\ 
+    \text{s.t.}
+        \begin{cases}
+            \textbf{AX} \leq \textbf{b}\\
+            \textbf{X} \geq \textbf{0}
+        \end{cases}
+    $$
+
+#### 3. 非标准线性规划模型的标准化过程
+1. 目标函数的转化
+2. 约束方程的转化
+3. 变量的变换
+
+
+#### 4. 解的概念
+0. 凸集与顶点
+1. 可行解
+2. 最优解
+3. 基
+4. 基本基
+5. 基本可行解
+6. 可行基
+
+#### 5. 图解法
+
+#### 6. 单纯形法
+1. 大M法
+
+2. 两阶段法
+
+#### 7. 面对问题
+1. 资源合理利用问题
+2. 生产组织与计划问题
+3. 合理下料问题
+4. 合理配料问题
+5. 作物布局问题
+
+### 2.2 对偶理论与对偶模型
+
+#### 1. 对偶规划问题
+
+#### 2. 线性规划的对偶理论
+1. 原问题与对偶问题关系
+
+2. 对偶定理（两问题解的关系）
+
+#### 3. 经济解释（影子价格）（略）
+
+#### 4. 对偶单纯形法
+
+### 2.3 灵敏度分析（略）
 
 
 ---
@@ -97,7 +221,7 @@
 ## 4. 目标规划
 ### 考察重点
 - P110 目标规划 优先级、偏差变量
-- P127 例题
+- P127 例题Lingo
 
 
 
@@ -107,7 +231,7 @@
 
 ## 5. 动态规划
 ### 考察重点
-- P156-P157 动态规划原理
+- P156-P157 动态规划原理（顺推）
 
 
 
@@ -175,7 +299,7 @@
 - 最短路问题
     - Dijkstra
 - 最大流问题
-    - 标号法
+    - 标号法(Ford-Fulkerson)
 
 
 
@@ -184,5 +308,3 @@
 
 
 ## 12. LINGO 软件使用基础
-
-
