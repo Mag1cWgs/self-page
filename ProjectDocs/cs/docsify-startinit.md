@@ -21,9 +21,15 @@
     - 4.4: 配置宝塔面板
     - 4.5: 优化访问效率（更改配置文件）
     - 4.6: 购买域名、设置DNS解析
-    - 4.7: 配置SSL证书、放行443端口、重启服务
-    - 4.8: 网站ICP备案、无备案情况下更改端口
-    - 4.9: 后续更改/重新部署
+    - 4.7: 配置 SSL 证书、放行 443 端口、重启服务
+    - 4.8: 网站 ICP 备案、无备案情况下更改端口
+    - 4.9: 后续更改/重新部署 SSL 证书
+- Step 5: 使用 Git 工具实现服务器端更新
+    - 5.0: 建立代码托管仓库
+    - 5.1: 建立服务器本地 SSH 秘钥
+    - 5.2: 设置代码托管仓库与服务器本地连接
+    - 5.3: 拉取 Git 代码
+    - 5.4: 修改网站配置
 - 后话与参考链接
     - 一点碎碎念
     - 参考链接
@@ -408,28 +414,28 @@ https://www.bt.cn/bbs/thread-105443-1-1.html
 > [!attention]
 > 更改面板端口号后，需要参考上上一节 **「4.3 安装宝塔面板、配置安全组」** 的小节 **「2. 配置安全组」** 中步骤，设置对新设置的端口的放行策略。
 
-### 4.6: 购买域名、设置DNS解析
+### 4.6: 购买域名、设置 DNS 解析
 
 #### 1. 购买域名
 购买域名有众多渠道，建议自行购买非中国大陆的域名，并设置其解析到刚才建立的服务器实例的IP地址上。  
 此处使用[阿里云万网](https://wanwang.aliyun.com/)进行购买。  
 ``详情点击[「阿里云文档」域名产品](https://help.aliyun.com/zh/dws/?spm=a2c4g.750001.0.0.45632842ZUtjAN)``
-#### 2. 设置DNS解析
+#### 2. 设置 DNS 解析
 同样也可以在域名服务商处设置域名解析，此处仍使用阿里云自带域名解析服务。
 打开阿里云「云解析DNS工作台」，选择左侧「公网DNS解析」——「权威域名解析」，在跳转窗口的「权威域名」界面点击```添加域名```，输入上一小节所购买域名，确认后会退回到「权威域名」界面。  
 此时「权威域名」界面会出现「上一小节购买域名」行，点击其右侧的```解析设置```，进入「解析设置」界面，默认有一行「主机记录」为 **「@」** 的解析设置，点击其右侧的```修改```，将其中的「记录值」设置为「4.2节/4.3节」中服务器实例的IP地址```服务器实例的公网IP```，修改完成后点击```确定```。
 
-### 4.7: 配置SSL证书、放行443端口、重启服务器  
+### 4.7: 配置 SSL 证书、放行 443 端口、重启服务器  
 
-#### 1. 申请SSL证书并下载
+#### 1. 申请 SSL 证书并下载
 这里仍然使用阿里云的「[数字证书管理服务](https://yundunnext.console.aliyun.com/?)」。
 点击「数字证书管理服务工作台」主页左侧的「证书管理」——「SSL证书管理」，选择```选择个人测试证书（原免费证书）```，点击```立即购买```，勾选服务协议后再次点击```立即购买```，进入申请页面后，参考[免费版个人测试证书快速上手](https://help.aliyun.com/zh/ssl-certificate/getting-started/get-started-with-free-certificates)这一文档填写资料，并提交审核。  
 证书签发后，回到「选择个人测试证书（原免费证书）」页面，点击刚签发证书右侧的```更多```，进入「证书详情」页面，点击进入```下载```页面，在提供列表中选择「其他」类型的证书，点击右侧```下载```，浏览器自动下载一个后缀为「.zip」的文件，其中将含有两个后缀分别为「.key」和「.pem」的文件，将这两个文件解压出来并妥善保存，它们是SSL证书本体。
-#### 2. 安装SSL证书到服务器
+#### 2. 安装 SSL 证书到服务器
 > 由于使用宝塔面板，应参考阿里云文档[在宝塔面板安装SSL证书](https://help.aliyun.com/zh/ssl-certificate/user-guide/install-a-certificate-on-bt-panel)进行操作。
 
 点击「宝塔面板主页」——「左侧导航栏」——「网站」，打开「PHP项目」管理页，单击之前部署的网页项目右侧的```未部署```。在本地使用文本编辑器打开证书文件（.pem）和私钥文件（.key），然后复制其内容并将其粘贴至相应位置，单击```保存并启用证书```。
-#### 3. 放行443端口、重启服务
+#### 3. 放行 443 端口、重启服务
 点击「宝塔面板主页」——「左侧导航栏」——「安全」在「系统防火墙」页面点击```添加端口规则```，添加端口```443```后点击```确定```。  
 重启nginx服务有两种方法：
 1. 回到「宝塔面板主页」——「左侧导航栏」——「网站」，在「PHP项目」管理页上侧「添加站点」的右侧有「nginx 版本号 ▶」，光标移动上去，选择```重启```。
@@ -445,16 +451,174 @@ nginx: configuration file /配置路径/nginx.conf test is successful
 > [3][在宝塔面板安装SSL证书](https://help.aliyun.com/zh/ssl-certificate/user-guide/install-a-certificate-on-bt-panel?spm=a2c4g.11186623.0.i1)  
 
 
-### 4.8: 网站ICP备案、无备案情况下更改端口  
-#### 1. 网站ICP备案
-#### 2. 网站无法备案ICP时更改端口
+### 4.8: 网站 ICP 备案、无备案情况下更改端口  
+#### 1. 网站 ICP 备案
+参考此处链接[知乎：网站备案流程](https://zhuanlan.zhihu.com/p/530233294)。
+#### 2. 网站无法备案 ICP 时更改端口
 1. 方法1：自行更改配置文件： 
 ```/www/server/panel/vhost/nginx```中开头```listen 443```改为```listen 目标端口```以实现```https://网站域名:目标端口/```。
 2. 方法2：使用面盘网站设置更改端口转发：  
 点击主页左上角```消息盒子（橙色背景白色数字）```，出现提示安装完成后，点击面板主页左侧```网站```，进入「PHP项目」配置页面，点击部署网页右侧的```设置```，在弹出窗口左侧找到```配置文件```，更改其```listen 443 ssl http2 ;```为```listen 目标端口号 ssl http2 ;```。
 
-### 4.9: 后续更改/重新部署  
-[部署证书至阿里云轻量应用服务器或ECS（云服务器部署）](https://help.aliyun.com/zh/ssl-certificate/user-guide/deploy-ssl-certificates-to-cloud-servers?spm=a2c4g.11186623.help-menu-28533.d_2_1_6_5.4e483574JLTEsM) 
+### 4.9: 后续更改/重新部署 SSL 证书  
+参考此处链接[部署证书至阿里云轻量应用服务器或ECS（云服务器部署）](https://help.aliyun.com/zh/ssl-certificate/user-guide/deploy-ssl-certificates-to-cloud-servers?spm=a2c4g.11186623.help-menu-28533.d_2_1_6_5.4e483574JLTEsM) 
+
+
+
+
+---
+
+
+
+## Step 5: 使用 Git 工具实现服务器端更新
+> 0. 建立代码托管仓库
+> 1. 建立服务器本地 SSH 秘钥
+> 2. 设置代码托管仓库与服务器本地连接
+> 3. 拉取 Git 代码
+> 4. 修改网站配置
+
+> [!note|label:参考链接]
+> [1][Gitee 帮助中心——生成/添加SSH公钥](https://gitee.com/help/articles/4181#article-header0)  
+> [2][RSA、DSA、ECDSA、EdDSA 和 Ed25519 的区别](https://www.cnblogs.com/librarookie/p/15389876.html)  
+
+
+### 5.0: 建立代码托管仓库
+大多数代码托管仓库提供了基于 SSH 协议的Git服务，在使用 SSH 协议访问仓库之前，需要先配置好账户/仓库的 SSH 公钥。  
+> 详细参考[GIT操作相关](/ProjectDocs/cs/Git-Using.md)，此处略。
+
+### 5.1: 建立服务器本地 SSH 秘钥
+#### 1. 生成 SSH 秘钥
+点击「宝塔面板主页」——「左侧导航栏」——「终端」，在终端页面中输入如下命令来生成 sshkey :
+```shell
+ssh-keygen -t ed25519 -C "xxxxx@xxxxx.com"  
+# 生成基于`ed25519`的公钥/私钥对
+# 根命令：
+# ssh-keygen -t rsa -C "your_email@example.com" -f ~/.ssh/gitee_id_rsa
+# 在 ~/.ssh/gitee_id_rsa 以rsa协议生成一个名称为your_email@example.com的ssh秘钥
+```
+> [!note|label:注解]
+> 注意：这里的 xxxxx@xxxxx.com 只是生成的 sshkey 的名称，并不约束或要求具体命名为某个邮箱。
+> 下用 `Docs@example.com` 作为代替。
+> 即使用 `ssh-keygen -t ed25519 -C "Docs@example.com"`
+而后会显示如下提示：
+```shell
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/root/.ssh/id_ed25519): 
+# 修改 ssh 秘钥生成位置，不输入则默认 /root/.ssh/id_ed25519 内生成
+```
+这里直接回车就行，会再提示：
+```shell
+/root/.ssh/id_ed25519 already exists.
+Overwrite (y/n)? 
+```
+再次回车（默认 `y` 执行覆写），也可以先不回车然后执行下一步骤，如果没有找到对应文件再回来重操作。
+
+#### 2. 获取 SSH 秘钥
+点击「宝塔面板主页」——「左侧导航栏」——「文件」，找到「根目录/root/.ssh」，其中会生成三个文件：
+```file
+    /.ssh
+    |
+    + - authorized_keys
+    + - id_ed25519
+    + - id_ed25519.pub
+```
+其中 `authorized_keys` 是公钥储存文件，`id_ed25519`是私钥，`id_ed25519.pub` 是公钥。
+> [!warning]
+> 妥善保护私钥！
+
+点开 `id_ed25519.pub` ，其中内容应如下格式
+```id_ed25519.pub
+ssh-ed25519 A****************/N********** 操作用户名(通常root)@面板账户名
+```
+其中星号位置是具体的秘钥内容，复制文件内**所有内容**，然后进入代码托管仓库的部署公钥管理页面，将该文件所有内容粘贴进去并保存，这样就在代码托管平台上存储了当前服务器授权的一组 SSH 秘钥。
+### 5.2: 设置代码托管仓库与服务器本地连接
+> 以 Gitee 托管为例。
+
+点击「宝塔面板主页」——「左侧导航栏」——「终端」，在窗口内输入：
+```shell
+ssh -T git@gitee.com
+```
+然后会提示如下内容：
+```
+The authenticity of host `gitee.com (120.55.226.24)` can't be established.
+ECDSA key fingerprint is SHA256:******.
+ECDSA key fingerprint is MD5:******.
+Are you sure you want to continue connecting(yes/no)?
+```
+> 其中`ECDSA key fingerprint`是该主机的公钥指纹，用于唯一标识该主机。
+
+此时输入 `yes` ，执行确认添加 Gitee 主机到服务器主机 SSH 可信列表。
+会再提示如下：
+```
+Warning: Permanently added `gitee.com (120.55.226.24)` (ECDSA) to the list of knows hosts.
+Hi XXX! You've successfully authenticated, but Gitee.com does not provide shell access.
+```
+说明添加成功。
+
+> [!note|label:对.ssh目录影响]
+> 在「根目录/root/.ssh」中会出现/更新文件 `known_hosts`
+
+### 5.3: 拉取 Git 代码
+点击「宝塔面板主页」——「左侧导航栏」——「终端」，在窗口内输入：
+```shell
+cd /www/wwwroot/服务器实例公网IP
+```
+而后会变成
+```shell
+操作用户名@面板账户名:/www/wwwroot/服务器实例公网IP# 
+```
+此时操作目录就移动到 `/www/wwwroot/服务器实例公网IP` 下了，然后在代码托管平台仓库中获取克隆/下载指令（此处以 Gitee 为例），在终端窗口处继续输入：
+```shell
+git clone git@gitee.com:克隆仓库用户名/克隆项目名.git
+# 比如：git clone git@gitee.com:mag1cwgs/note-book-using-docsify.git
+```
+会在 `/www/wwwroot/服务器实例公网IP` 下生成一个文件夹 `克隆项目名` ，其中就是刚刚从 Gitee 中下载的文件。
+
+> [!note|label:]
+> 如果弹出报错：
+> ```shell
+> fatal: destination path '项目名' already exists and is not an empty directory.
+> # fatal: destination path 'note-book-using-docsify' already exists and is not an empty directory.
+> ```
+> 该错误说明当前路径非空，可能已经存在 `/www/wwwroot/服务器实例公网IP/克隆项目名`
+
+然后执行如下指令：
+```shell
+cd /www/wwwroot/服务器实例公网IP/克隆项目名
+git config --global --add safe.directory /www/wwwroot/服务器实例公网IP/克隆项目名
+```
+此命令将当前目录添加到 Git 的安全目录列表中，从而避免所有权检查。
+然后查找当前仓库配置，输入指令：
+```shell
+git remote -v
+```
+会提示：
+```shell
+origin  git@gitee.com:克隆仓库用户名/克隆项目名.git (fetch)
+origin  git@gitee.com:克隆仓库用户名/克隆项目名.git (push)
+```
+说明此时可以正常读取到远程仓库数据，可以测试拉取，指令如下：
+```shell
+git pull origin master
+# 其中 origin 是刚才查询到的远程仓库名称，master是分支名称
+```
+如果出现如下内容则说明成功拉取：
+```shell
+From git@gitee.com:克隆仓库用户名/克隆项目名
+ * branch            master     -> FETCH_HEAD
+Already up to date.
+```
+
+### 5.4: 修改网站配置
+点击「宝塔面板主页」——「左侧导航栏」——「网站」，在「PHP项目」管理页下有在配置环节添加的服务器站点，点击左侧「设置」，在弹出窗口中点击左侧「配置文件」，在弹出的配置文件页中修改如下部分：
+```javaScript
+server{
+    # 前序文件...
+    root /www/wwwroot/服务器实例公网IP/克隆项目名; # 更改 root 行
+    # ...后序文件
+}
+```
+修改完成后点击下端「保存」，而后可以点击左侧「网站目录」，在「网站目录」子页面中可以发现「运行目录」变成 `/克隆项目名` ，此时成功完成将网站运行目录设置为刚才从 Git 上拉取到的项目目录。
 
 
 
@@ -498,6 +662,10 @@ nginx: configuration file /配置路径/nginx.conf test is successful
 #### 碎碎念 ver 3.0
 添加鸣谢：`苏越小`老师解答我关于项目部署中诸多问题，特此感谢（目移  
 ```略记与24.11.5晚9时``` ```移目鱼头留记```
+
+#### 碎碎念 ver 4.0
+没啥说的.jpg
+```略记24.12.21晚11时``` ```鼠了的鱼头留记```
 
 
 ### 参考链接
