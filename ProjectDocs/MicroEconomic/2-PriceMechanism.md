@@ -1,7 +1,7 @@
 # Chap 2: 价格机制 Price Mechanism
 > [!note]
 > **曲线上**移动的影响因素：价格  
-> 曲**线整体移动**：除价格外其他因素
+> **曲线整体移动**：除价格外其他因素
 >   <div  align="center">    
 >       <img src="/ProjectDocs/MicroEconomic/image/chap2/2.png" width = 60%>
 >   </div>
