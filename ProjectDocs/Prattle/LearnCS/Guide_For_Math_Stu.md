@@ -58,9 +58,9 @@
 
 ### 关于计算机专业课程
 - 个人在本科阶段修读的专业内课程有：
-    - **计算机**：大学计算机、 C 语言程序设计基础、 python 程序设计、数据结构与算法术
+    - **计算机**：大学计算机、 C 语言程序设计基础、 python 程序设计、数据结构与算法
     - **编程**：面向对象程序设计、算法导论
-- 自学的专业外课程有：计算机网络技
+- 自学的专业外课程有：计算机网络技术
 
 
 ## 除了学校修读的课程之外还要学什么
@@ -91,57 +91,5 @@
     - 数据结构
     - 操作系统
     - 设计模式
-
-- 编程语言
-    - 所有计算机编程入门的两个可选语言
-        - C 语言程序设计（经典、偏向底层、难度较高）
-        - python 程序设计（新型、面向对象、难度较低）
-    - 其他语言
-        - 后端（服务器端）
-            - Java
-            - C++
-            - C#
-            - GoLang
-            - Rust
-        - 数据库
-            - SQL 语句
-            - MySQL
-            - Oracle
-            - SQL Server
-            - Redis
-        - 前端
-            - HTML
-            - CSS
-            - JavaScript
-- 框架
-    - 介绍：
-        简而言之，提供一个基础的项目架构，不用一切重新造轮子。
-    - 单端框架
-        - 前端
-            - Angular 
-            - React.js
-            - Vue.js
-            - Svelte
-            - jQuery
-        - 后端
-            - Node.js
-            - Express (Node.js(JavaScript))
-            - Koa (Node.js(JavaScript))
-            - NextJS (Node.js(JavaScript))
-            - Django (python)
-            - Flask (python)
-            - Spring Boot (Java)
-            - Fiber (Golang)
-    - 桌面开发
-        - Qt (C++) 
-        - Swing/JavaFX (Java)
-        - Electron (HTML/CSS/JavaScript)
-        - WinForms (C# .NET Framework)
-        - WPF (.NET)
-        - ASP.NET Core (C#)
-
-- 工具
-    - 中间件
-        - [不会还有人不知道中间件是啥吧？](https://blog.csdn.net/qq_43688587/article/details/109045948)
 
 ## 结语

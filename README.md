@@ -8,39 +8,40 @@
 
 另外一提：因为没钱所以是阿里云的免费服务器，按量收费模式没法申请ICP备案，所以装了SSL之后只能在444端口访问，也就是```https://mag1cwgs.art:444/```或```120.26.0.200```，不加```444```端口会被拒绝访问。
 
-## 学习进度
+## 基本完成的部分
 - 编程语言：
-    - C
-    - C#
-    - python
-    - java
-- 编程工具
-    - git
-- 文档工具
-    - Markdown
-    - LaTeX
+    - C# 面向对象编程 `75%`
+    - 基于 Python 的基础数据结构与算法实现 `70%`
 
-## 学习清单
-- 目前待学习和完善的部分：
-    - Markdown 语法记录 ```（40%）```
-    - LaTex 语法记录 ```（60%）```
-    - C# 面向对象编程
-    - python
-    - 基于 python 的数据结构与算法实现
-    - java 基本使用
-    - 微观经济学
+- 工具
+    - Markdown 语法记录  ```（40%）```
+    - LaTex 语法记录     ```（60%）```
+    - LaTeX     `20%`
+    - Git 
+- 数学笔记的 LaTex 化
+    - 复变函数  `基本框架完成`
+    - 离散数学  `基本框架完成`
+    - 运筹学    `基本框架完成`
+    - 最优化计算方法 `基本框架完成`
+- 微观经济学 `当前进度30%，不再更新`
 
-- 远期待完成网页：
-    - Git 的使用（更改端口）
-    - 使用 draw.io 绘制图像
-    - 控制台、Powershell、WindowsPowershell 的异同
-    - 数学笔记的 LaTex 化
-    - html / css
-    - TypeScript / JavaScript
-    - java 相关框架
-    - go
-    - 数据库
-        - MySql
-        - Redis
-    - 设计模式
+## 当前计划
+- MySql         `30%`
+- java 开发基础 `10%`
+- 设计模式      `0%`
+- 计算机网络
+- 操作系统
+- 计算机组成原理
+
+## 远期计划学习/补充：
+- C             `0%`
+- Python        `0%`
+- 使用 draw.io 绘制图像 `0%`
+- Git 高级
+- 控制台、Powershell、WindowsPowershell 的异同
+- HTML / CSS
+- TypeScript / JavaScript
+- java 相关框架
+- Golang
+- Redis
 
