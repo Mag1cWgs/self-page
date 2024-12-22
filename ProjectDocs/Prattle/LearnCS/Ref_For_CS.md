@@ -12,3 +12,69 @@
         - [南京大学 《操作系统》](https://jyywiki.cn/OS/2023/index.html)
         - [【CS61C精翻双语·英文原声】伯克利大学《计算机体系结构》(2020)](https://www.bilibili.com/video/BV17b42177VG?s)
     - [CS自学社区](https://www.learncs.site/docs/intro)
+
+
+- 计算机通识
+    - 参考链接：
+        - [计算机科学与技术学习路线&编程基础四大件&应用实践编程（含C++学习路线）]https://blog.csdn.net/qq_41122796/article/details/104744772
+    - 计算机导论
+        - 推荐 CS50 ，可以直接点击[这里](https://www.bilibili.com/video/BV1HW4y1A7Yi/)跳转
+        - 也可以[【计算机科学速成课】[40集全/精校] - Crash Course Computer Science](https://www.bilibili.com/video/BV1EW411u7th/?)
+    - 计算机组成原理
+    - 软件开发导论
+    - 计算机网络
+    - 数据结构
+    - 操作系统
+    - 设计模式
+
+- 编程语言
+    - 所有计算机编程入门的两个可选语言
+        - C 语言程序设计（经典、偏向底层、难度较高）
+        - python 程序设计（新型、面向对象、难度较低）
+    - 其他语言
+        - 后端（服务器端）
+            - Java
+            - C++
+            - C#
+            - GoLang
+            - Rust
+        - 数据库
+            - SQL 语句
+            - MySQL
+            - Oracle
+            - SQL Server
+            - Redis
+        - 前端
+            - HTML
+            - CSS
+            - JavaScript
+- 框架
+    - 介绍：
+        简而言之，提供一个基础的项目架构，不用一切重新造轮子。
+    - 单端框架
+        - 前端
+            - Angular 
+            - React.js
+            - Vue.js
+            - Svelte
+            - jQuery
+        - 后端
+            - Node.js
+            - Express (Node.js(JavaScript))
+            - Koa (Node.js(JavaScript))
+            - NextJS (Node.js(JavaScript))
+            - Django (python)
+            - Flask (python)
+            - Spring Boot (Java)
+            - Fiber (Golang)
+    - 桌面开发
+        - Qt (C++) 
+        - Swing/JavaFX (Java)
+        - Electron (HTML/CSS/JavaScript)
+        - WinForms (C# .NET Framework)
+        - WPF (.NET)
+        - ASP.NET Core (C#)
+
+- 工具
+    - 中间件
+        - [不会还有人不知道中间件是啥吧？](https://blog.csdn.net/qq_43688587/article/details/109045948)
