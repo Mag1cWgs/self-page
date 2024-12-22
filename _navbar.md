@@ -8,7 +8,7 @@
 
 
 * 友情链接
-  * [Docsify](https://docsify.js.org/#/)
+  * [Docsify 官网](https://docsify.js.org/#/)
   * [博客园](https://www.cnblogs.com/)
-
-
+  * [Evan76的博客](https://homes.evanowo.top:4321/)
+  * [溯月咲的Gitee主页](https://gitee.com/SotsukiSaki)
