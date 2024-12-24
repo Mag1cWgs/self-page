@@ -851,8 +851,7 @@ $$
     & Gx \le e, \notag
     \end{align}
     $$ 
-    $$
-    - 其中 $c\in \mathbb{R}^{n}, A\in \mathbb{R}^{m\times n}, b\in \mathbb{R}^{m}, $
+    - 其中 $ c \in \mathbb{R}^{n}, A\in \mathbb{R}^{m\times n}, b\in \mathbb{R}^{m}, $
     - 而 $G\in \mathbb{R}^{p\times n}和e\in \mathbb{R}^{p}$ 是给定的矩阵和向量， 
     - $x\in \mathbb{R}^{n}$ 是决策变量.
 
@@ -947,7 +946,7 @@ $$
 
 #### 3.5.1 基本形式和应用背景
 
-- 一般形式：
+- 一般形式：  
     $$
     \begin{align}
     \min \quad & c^T x, \notag \\
@@ -955,7 +954,8 @@ $$
     & Gx = h, \notag 
     \end{align}\tag{3.5.1}
     $$
-    - 其中 $c \in \mathbb{R}^n$, $A_i \in S^m$ ($i=1, 2, \cdots, n$), $B \in S^m$
+    
+    - 其中 $ c \in \mathbb{R}^n $, $ A_i \in S^m (i=1, 2, \cdots, n)$, $ B \in S^m $
     - $G \in \mathbb{R}^{p \times n}$, $h \in \mathbb{R}^p$ 为已知的向量和矩阵
     - $x = (x_1, x_2, \cdots, x_n) \in \mathbb{R}^n$ 是自变量。
     这里，如果矩阵 $A_i$, $B$ 是对角的，那么问题(3.5.1)退化为线性规划问题。
