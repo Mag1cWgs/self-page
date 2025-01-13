@@ -14,6 +14,7 @@
   
   * 后端语言学习
     * Python
+
     * 算法导论初步（Python）
       * [介绍](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Introduction.md)
       * [排序(使用list)](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Sort.md)
@@ -22,11 +23,13 @@
       * [栈、队列](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Stack_Queue.md)
       * [二叉树](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/BinaryTree.md)
       * [图](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/graph.md)
-    * Rust (待重构)
+
+    * Rust (仅入门内容)
       * [Cargo包管理器](/ProjectDocs/cs/Back-end-Development/Rust-Learn/cargo.md)
       * [语法入门——GussingGame](/ProjectDocs/cs/Back-end-Development/Rust-Learn/GuessingGame.md)
       * [基础数据结构与语法入门](/ProjectDocs/cs/Back-end-Development/Rust-Learn/rust_basic.md)
-    * Java
+
+    * Java (仅入门内容)
       * [Java介绍与配置](/ProjectDocs/cs/Back-end-Development/Java-Learn/Introduction.md)
       * Java 基础
         * [1 快速入门——Hello](/ProjectDocs/cs/Back-end-Development/Java-Learn/Fast-Start/1HelloWorld.md)
@@ -35,25 +38,28 @@
         * [4 运算符](/ProjectDocs/cs/Back-end-Development/Java-Learn/Fast-Start/4Operator.md)
       * Java 面向对象/多线程/IO流
       * Java 网络编程/数据库编程
+
     * C# 面向对象程序设计
       * [内容目录](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/file.md)
       * [C#代码规范](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/NameRules.md)
-      * C# 语言概述
-      * C# 程序设计基础
-      * C# 控制语句
-      * C# 数组和集合
-      * 面向对象程序设计
+      * C# 语言概述  <!---->
+      * C# 程序设计基础  <!---->
+        - [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/2-5-Struct-Enum.md)
+      * C# 控制语句  <!---->
+      * C# 数组和集合  <!---->
+      * 面向对象程序设计  <!---->
         * [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-1-introduction.md)
+        * [静态成员](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-6-Static-Member.md)
         * [委托](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-12-delegate.md)
         * [事件](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-13-event.md)
-      * 继承和接口设计
+      * 继承和接口设计  <!---->
         * [继承](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-1-Inheritance.md)
         * [多态](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-2-Polymorphism.md)
         * [抽象类](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-3-Abstract.md)
         * [接口](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-4-Connector.md)
-      * 泛型和反射
-      * 枚举器和迭代器
-      * Windows 应用程序设计
+      * 泛型和反射  <!---->
+      * 枚举器和迭代器  <!---->
+      * Windows 应用程序设计  <!---->
         * [窗体设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-1-Windows-Form-Design.md)
         * [常用控件设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-2-Control-design.md)
 

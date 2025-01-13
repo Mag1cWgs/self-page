@@ -12,7 +12,7 @@
     3. 对象
     4. 命名空间
     5. 构造函数和析构函数
-    6. 静态成员
+    6. [静态成员 static member](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-6-Static-Member.md)
     7. 属性
     8. 方法
     9. 对象的复制
