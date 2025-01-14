@@ -63,6 +63,11 @@
         * [窗体设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-1-Windows-Form-Design.md)
         * [常用控件设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-2-Control-design.md)
 
+  * 数据库
+    * MySql 相关学习
+      * [MySql 概述](/ProjectDocs/cs/Sql/MySQL-front.md)
+      * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySQL-statements-and-data-types.md)
+      * [Sql 基础](ProjectDocs\cs\Sql\SQL-basic.md)
 
   * 设计模式
     * [设计模式介绍](/ProjectDocs/cs/DesignPattern/init.md)
@@ -73,10 +78,6 @@
     * [Git版本管理工具](/ProjectDocs/cs/Git-Using.md)
     * [Markdown语法学习](/ProjectDocs/cs/Markdown-Using.md)
     * [LaTex语法学习](/ProjectDocs/cs/LaTeX/LaTex-Learning.md)
-    * MySql 相关学习
-      * [MySql 概述](/ProjectDocs/cs/Sql/MySQL-front.md)
-      * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySQL-statements-and-data-types.md)
-      * [Sql 基础](ProjectDocs\cs\Sql\MySQL-SQL-basic.md)
 
 * 数学笔记
   * [离散数学](/ProjectDocs/Mathematic/Discrete-Mathematic-Exam-Review.md)
