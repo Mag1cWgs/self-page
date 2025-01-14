@@ -4,7 +4,7 @@
 1. C# 语言概述
 2. C# 程序设计基础
     - [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/2-5-Struct-Enum.md)
-3. C# 控制语句
+3. [C# 控制语句](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/3-Control-Sentence.md)
 4. C# 数组和集合
 5. 面向对象程序设计
     1. [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-1-introduction.md)
