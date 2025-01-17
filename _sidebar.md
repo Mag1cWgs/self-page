@@ -39,14 +39,12 @@
       * Java 面向对象/多线程/IO流
       * Java 网络编程/数据库编程
 
-    * C# 面向对象程序设计
+    * C#
       * [内容目录](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/file.md)
       * [C#代码规范](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/NameRules.md)
-      * C# 语言概述  <!---->
-      * C# 程序设计基础  <!---->
-        - [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/2-5-Struct-Enum.md)
-      * [C# 控制语句](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/3-Control-Sentence.md) <!---->
-      * C# 数组和集合  <!---->
+      * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/2-3-Variable-Constant.md)
+      * [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/2-5-Struct-Enum.md)
+      * [C# 控制语句](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/3-Control-Sentence.md) 
       * 面向对象程序设计  <!---->
         * [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-1-introduction.md)
         * [静态成员](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/5-6-Static-Member.md)
@@ -57,11 +55,10 @@
         * [多态](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-2-Polymorphism.md)
         * [抽象类](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-3-Abstract.md)
         * [接口](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/6-4-Connector.md)
-      * 泛型和反射  <!---->
-      * 枚举器和迭代器  <!---->
-      * Windows 应用程序设计  <!---->
-        * [窗体设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-1-Windows-Form-Design.md)
-        * [常用控件设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-2-Control-design.md)
+
+    * WinForm（Windows 应用程序设计）<!---->
+      * [窗体设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-1-Windows-Form-Design.md)
+      * [常用控件设计](/ProjectDocs/cs/Back-end-Development/Csharp-OOP/9-2-Control-design.md)
 
   * 数据库
     * MySql 相关学习
