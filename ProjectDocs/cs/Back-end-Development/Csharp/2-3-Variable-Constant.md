@@ -152,10 +152,6 @@
             - 从 .NET Framework (.NET框架) 对C++等的改进，将应用程序置于CLR监控下
             - 程序执行完毕后CLR将堆空间全部收回
 
-            > [!note|参看资料]
-            > [C#托管堆和垃圾回收（GC）](https://www.cnblogs.com/xiaoxiaotank/p/11193745.html)
-            > [.net托管与非托管以及GC(垃圾回收)](https://blog.csdn.net/liuyongjie1992/article/details/122308450)
-            > [C#的GC机制与优化](https://rhodi2436.github.io/posts/C-%E7%9A%84GC%E6%9C%BA%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/)
 
 - C#中定义一个引用类型变量
     - 语法格式如下:
@@ -209,3 +205,11 @@
 > `static` | 运行时，可以声明时赋值，也可以在构造函数，或使用时赋值 | 允许修改（类成员共有） | 类、字段、属性、方法、运算符、事件、构造函数<br> （不能用于索引器、析构函数或类以外的类型） | 主要作用于类的公共属性
 > `readonly` | 运行时，可以声明时赋值或在类中的构造函数中赋值 | 允许修改，但只能在构造函数中修改（构造后固定，各实例不同） | 字段 | 主要作用于实例化的对象的只读属性
 > `static readonly` | 运行时，是两个关键字的组合 | 允许修改，声明时赋值或者静态构造函数中赋值 | 字段 | 第一: `static readonly` 主要应用于**各类型引用性变量**，而 `const` 只能用于 `string` 类型的**引用性变量** <br> 第二: 类的只读公共属性
+
+
+
+## 参考链接
+- [C#托管堆和垃圾回收（GC）](https://www.cnblogs.com/xiaoxiaotank/p/11193745.html)
+- [.net托管与非托管以及GC(垃圾回收)](https://blog.csdn.net/liuyongjie1992/article/details/122308450)
+- [C#的GC机制与优化](https://rhodi2436.github.io/posts/C-%E7%9A%84GC%E6%9C%BA%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/)
+- [9 变量](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/language-specification/variables)
