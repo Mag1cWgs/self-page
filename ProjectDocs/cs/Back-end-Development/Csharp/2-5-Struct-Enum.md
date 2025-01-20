@@ -1,5 +1,3 @@
-# 结构类型和枚举类型
-
 ## 1 结构类型（struct）
 自定义一种值类型，其对应变量值保存在栈内存区域。
 
@@ -206,3 +204,13 @@ namespace c_sharp_learning
 }
 ```
 
+
+## 参考链接
+- 微软官方文档
+    - [C# 类型系统](https://learn.microsoft.com/zh-cn/dotnet/csharp/fundamentals/types/)
+    - [值类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/value-types)
+        - [枚举类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/enum)
+        - [结构类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/struct)
+            - [ref 结构类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/ref-struct)
+    - [引用类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/reference-types)
+    - [9 变量](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/language-specification/variables)

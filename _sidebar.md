@@ -42,9 +42,10 @@
     * C#
       * [内容目录](/ProjectDocs/cs/Back-end-Development/Csharp/file.md)
       * [C#代码规范](/ProjectDocs/cs/Back-end-Development/Csharp/NameRules.md)
-      * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/2-3-Variable-Constant.md)
-      * [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp/2-5-Struct-Enum.md)
-      * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/2-4-Type-Convert.md)
+      * [类型系统](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System.md)
+        * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/2-3-Variable-Constant.md)
+        * [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp/2-5-Struct-Enum.md)
+        * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/2-4-Type-Convert.md)
       * [C# 控制语句](/ProjectDocs/cs/Back-end-Development/Csharp/3-Control-Sentence.md) 
       * 面向对象程序设计  <!---->
         * [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/Csharp/5-1-introduction.md)

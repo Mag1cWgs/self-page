@@ -61,6 +61,7 @@
     - 堆空间: 引用类型数据（对象）
 
 > [!tip]
+> - 值类型派生自`System.ValueType`（派生自`System.Object`）
 > - 值类型包括**且仅**包括: 
 >     - sbyte、byte、short、ushort、int、uint、long、ulong
 >     - float、double、decimal
@@ -209,7 +210,14 @@
 
 
 ## 参考链接
+- 微软官方文档
+    - [C# 类型系统](https://learn.microsoft.com/zh-cn/dotnet/csharp/fundamentals/types/)
+    - [值类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/value-types)
+        - [枚举类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/enum)
+        - [结构类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/struct)
+            - [ref 结构类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/ref-struct)
+    - [引用类型（C# 参考）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/reference-types)
+    - [9 变量](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/language-specification/variables)
 - [C#托管堆和垃圾回收（GC）](https://www.cnblogs.com/xiaoxiaotank/p/11193745.html)
 - [.net托管与非托管以及GC(垃圾回收)](https://blog.csdn.net/liuyongjie1992/article/details/122308450)
 - [C#的GC机制与优化](https://rhodi2436.github.io/posts/C-%E7%9A%84GC%E6%9C%BA%E5%88%B6%E4%B8%8E%E4%BC%98%E5%8C%96/)
-- [9 变量](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/language-specification/variables)
