@@ -1,4 +1,6 @@
 ## 1. C#类型系统概述
+参考文档：[Microsoft C# 类型系统](https://learn.microsoft.com/zh-cn/dotnet/csharp/fundamentals/types/)
+
 ### 1.1 概述
 - C# 是一种强类型语言。
 - 每个变量和常量都有一个类型，每个求值的表达式也是如此。
@@ -210,11 +212,208 @@ System 命名空间
 - 通过使用类型参数，可以用同一个类中的泛型参数以保存任意类型的元素，且无需将每个元素转换为对象
 - 泛型集合类称为强类型集合
     - 因为编译器知道集合元素的具体类型，并能在编译时引发错误
-    - 例如当尝试向上面示例中的 stringList 对象添加整数时。 
+    - 例如当尝试向上面示例中的 `stringList` 对象
+    添加整数时。 
     ```cs
     List<string> stringList = new List<string>();
     stringList.Add(4);  //
     ```
+
+### 1.10 隐式类型、匿名类型和可以为 null 的值类型
+
+#### 1. 隐式类型（var/类型推断）
+- 自 C# 3.0 引入
+- 使用 `var` 关键字隐式键入一个局部变量（但不是类成员）。
+    - 可声明局部变量而无需提供显式类型。
+- 变量仍可在编译时获取类型，但类型是由编译器提供。
+    - `var` 关键字指示编译器通过初始化语句右侧的表达式推断变量的类型。
+    - 推断类型可以是 *内置类型* 、 *匿名类型* 、 *用户定义类型* 或 * .NET 类库中定义的类型*
+    - `var` 关键字并不意味着“变体”，并且并不指示变量是松散类型或是后期绑定。
+        - 它只表示由编译器确定并分配最适合的类型。
+- 常见用法
+    - 局部变量
+        ```cs
+        var i = 5;  //编译为int
+        var s = "Hello";  //编译为string
+        var a = new[] { 0, 1, 2 };  //编译为int[]
+
+        var expr =
+            from c in customers
+            where c.City == "London"
+            select c;  //编译为IEnumerable<Customer>或IQueryable<Customer>
+
+        var anon = new { Name = "Terry", Age = 34 };  //编译为匿名类
+
+        var list = new List<int>();  //编译为List<int>
+        ```
+    - 用于遍历
+        - `for` 初始化语句
+            ```cs
+            for (var x = 1; x < 10; x++)
+            ```
+        - `foreach` 初始化语句
+            ```cs
+            foreach (var item in list) {...}
+            ```
+        - `using` 域
+            ```cs
+            using (var file = new StreamReader("C:\\myfile.txt")) {...}
+            ```
+        - 用于 LinQ 中查询表达
+            - 在使用匿名类型初始化变量时，如果需要在以后访问对象的属性，则必须将变量声明为 `var`
+            - 从源代码角度来看，匿名类型没有类名
+                - 因此，如果使用 `var` 初始化了查询变量，则访问返回对象序列中的属性的唯一方法是在 `foreach` 语句中将 `var` 用作迭代变量的类型。
+            - 参考下文匿名类型中示例类 `Product` 中查询出来的匿名类对象 `productQuery` 只能用 `var` 进行遍历访问
+            - 参考[如何在查询表达式中使用隐式类型的局部变量和数组（C# 编程指南）](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/how-to-use-implicitly-typed-local-variables-and-arrays-in-a-query-expression)
+
+> [!note|label:常见适用var类型]
+> - 局部变量在声明时直接初始化
+>     - 不能初始化为 `null` / 方法组 / 匿名函数
+> - 不能用于类字段，会出现悖论
+>     - 编译器编译时需要知道类字段的类型，需要分析赋值表达式
+>     - 赋值表达式需要知道目标类型
+> - 不能在初始化表达式中使用，单用初始化语句时必须确定类型
+>     - 不能同一语句初始化多个隐式类型化变量
+> - 作为范围变量的类型时，会自动解析为查询范围所对应类型
+>     - 不视作隐式类型化局部变量
+> - 用于查询表达
+>     - 不便确定查询结果中字段对应类型时，自动推断
+> - 当 变量的特定类型在键盘上键入时很繁琐/是显而易见/是不会提高代码的可读性 时
+
+- 参考官方文档
+    - [常见 C# 代码约定 —— 隐式类型本地变量](https://learn.microsoft.com/zh-cn/dotnet/csharp/fundamentals/coding-style/coding-conventions#implicitly-typed-local-variables)
+    - [隐式类型局部变量](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/implicitly-typed-local-variables)。
+    - [隐式类型的数组](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/arrays#implicitly-typed-arrays)
+
+
+#### 2. 匿名类型
+- 不方便为不打算存储或传递外部方法边界的简单相关值集合创建命名类型。
+    - 匿名类型提供了一种方便的方法，可用来将一组只读属性封装到单个对象中，而无需首先显式定义一个类型。
+    - 类型名由编译器生成，并且不能在源代码级使用。
+    - 每个属性的类型由编译器推断。
+
+- 可结合使用 `new` 运算符和对象初始值设定项创建匿名类型。
+    - 有关对象初始值设定项的详细信息，请参阅[对象和集合初始值设定项](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers)。
+
+- 匿名类型通常用在查询表达式的 select 子句中，以便返回源序列中每个对象的属性子集。
+    - 有关查询的详细信息，请参阅C# 中的 LINQ。
+
+- 匿名类型包含一个或多个公共只读属性。
+    - 包含其他种类的类成员（如方法或事件）均无效
+    - 用来初始化属性的表达式**不能**为 `null`、匿名函数或指针类型。
+
+- 最常见的方案是用其他类型的属性初始化匿名类型。 
+    - 例：有示例类 `Product` 
+        ```cs
+        class Product
+        {
+            public string? Color {get;set;}     // 所需
+            public  decimal Price {get;set;}    //所需
+            public string? Name {get;set;}      
+            public string? Category {get;set;}
+            public string? Size {get;set;}
+        }
+        ```
+    - 取出其中所需部分创建匿名类
+        ```cs
+        // 在products使用范围变量prod遍历，取出所有的Color和Price属性
+        // 组成新的一组匿名类型的对象，实际上是 IEnumerable<编译器生成的匿名类型>
+        // 最后将这个对象记为 productQuery
+        var productQuery =
+            from prod in products
+            select new { prod.Color, prod.Price }; //匿名类型声明以 new 关键字开始
+
+        foreach (var v in productQuery)
+        {
+            Console.WriteLine("Color={0}, Price={1}", v.Color, v.Price);
+        }
+        ```
+    - 如果你没有在匿名类型中指定成员名称，编译器会为匿名类型成员指定与用于初始化这些成员的属性相同的名称。
+        - 需要为使用表达式初始化的属性提供名称，如下面的示例所示。
+        - 在上面示例中，匿名类型的属性名称都为 `Price` 和 `Color` 。
+        > [!tip]
+        > 可以使用 .NET 样式规则 [IDE0037](https://learn.microsoft.com/zh-cn/dotnet/fundamentals/code-analysis/style-rules/ide0037) 强制执行是首选推断成员名称还是显式成员名称。
+    
+    - 也可以按照另一类型对象来定义字段
+        - 通过使用保存当前对象的变量来完成
+            ```cs
+            // 实例化Product类对象为product
+            var product = new Product();
+            // 创建一个有note字段的匿名类对象bonus
+            var bonus = new { note = "You won!" };
+            // 创建一个包含product实例和address字段的匿名类对象shipment
+            var shipment = new { address = "Nowhere St.", product };
+            // 创建一个包含product实例、bonus实例和addresss字段的匿名类对象shipmentWithBonus
+            var shipmentWithBonus = new { address = "Somewhere St.", product, bonus };
+            ```
+    - 匿名类型支持采用 with 表达式形式的非破坏性修改。
+        - 这使你能够创建匿名类型的新实例，其中一个或多个属性具有新值：
+            ```cs
+            var apple = new { Item = "apples", Price = 1.35 };
+            Console.WriteLine(apple);
+            var onSale = apple with { Price = 0.79 };   // 使用with修改Price属性值
+            Console.WriteLine(onSale);
+            ```
+
+- 匿名类型是 `class` 类型，它们直接派生自 `object`，并且无法强制转换为除 `object` 外的任何类型。
+    - 类型名称无法在变量声明中给出，因为只有编译器能访问匿名类型的基础名称。
+    - 虽然你的应用程序不能访问它，编译器还是提供了每一个匿名类型的名称。
+    - 从公共语言运行(CLR)时的角度来看，匿名类型与任何其他引用类型没有什么不同。
+- 如果程序集中的两个或多个匿名对象初始值指定了属性序列，这些属性采用相同顺序且具有相同的名称和类型，则编译器将对象视为相同类型的实例。
+    - 它们共享同一编译器生成的类型信息，视为同一匿名类
+- 无法将 字段/属性/时间/方法 的返回类型声明为具有匿名类型
+    - 同样不能将 方法/属性/构造函数/索引器 的形参声明为具有匿名类型
+    - 要将匿名类型或包含匿名类型的集合作为参数传递给某一方法
+        - 可将参数作为类型 `object` 进行声明。
+        - 但是，对匿名类型使用 `object` 违背了强类型的目的。
+    - 如果必须存储查询结果或者必须将查询结果传递到方法边界**外部**
+        - 请考虑使用普通的命名结构或类而不是匿名类型。
+        - 匿名类型对于即刻使用的情形起到简化作用，但对于需外部调用情形下建议使用更可读明确的结构
+- 匿名类上的 `Equals()` 和 `GetHashCode()` 方法是基于各自方法属性上同名函数定义
+    - 只有同一程序集中同一匿名类型的两个实例的所有属性均相等时实例才相等
+    - 同一程序集要求是因为匿名类型的辅助功能级别(访问修饰符)是 `internal`
+        - 不同程序集的两个匿名类实例不会相等
+- 匿名类会重写 `ToString()` 方法
+    - 即用大括号包括所有属性名和其对应各自的 `ToString()` 输出
+    - 例如:
+        ```cs
+        var v = new { Title = "Hello", Age = 24 };
+        // "{ Title = Hello, Age = 24 }"
+        Console.WriteLine(v.ToString());
+        ```
+
+- 有关详细信息，请参阅[匿名类型](https://learn.microsoft.com/zh-cn/dotnet/csharp/fundamentals/types/anonymous-types)。
+
+#### 3. 可为 null 的值类型
+- 普通值类型不能具有 `null` 值。
+- 不过，可以在类型后面追加 `?`，创建可为空的值类型。
+- 例如，`int?` 是还可以包含值 `null` 的 `int` 类型。
+- 可以为 `null` 的值类型是泛型结构类型 `System.Nullable<T>` 的实例。
+- 在将数据传入和传出数据库（数值可能为 `null`）时，可为空的值类型特别有用。
+- 有关详细信息，请参阅[可以为 null 的值类型](https://learn.microsoft.com/zh-cn/dotnet/api/system.nullable-1?view=net-9.0)。
+
+### 1.11 编译时类型和运行时类型
+变量可以具有不同的编译时和运行时类型。
+编译时类型是源代码中变量的声明或推断类型。
+运行时类型是该变量所引用的实例的类型。
+
+这两种类型通常是相同的，如以下示例中所示：
+
+string message = "This is a string of characters";
+
+在其他情况下，编译时类型是不同的，如以下两个示例所示：
+
+object anotherMessage = "This is another string of characters";
+IEnumerable<char> someCharacters = "abcdefghijklmnopqrstuvwxyz";
+在上述两个示例中，运行时类型为 string。
+编译时类型在第一行中为 object，在第二行中为 IEnumerable<char>。
+
+如果变量的这两种类型不同，请务必了解编译时类型和运行时类型的应用情况。
+编译时类型确定编译器执行的所有操作。
+这些编译器操作包括方法调用解析、重载决策以及可用的隐式和显式强制转换。
+运行时类型确定在运行时解析的所有操作。
+这些运行时操作包括调度虚拟方法调用、计算 is 和 switch 表达式以及其他类型的测试 API。
+为了更好地了解代码如何与类型进行交互，请识别哪个操作应用于哪种类型。
 
 
 ## 命名空间
