@@ -3,7 +3,8 @@
 0. [命名规范](/ProjectDocs/cs/Back-end-Development/Csharp/NameRules.md)
 1. C# 语言概述
 2. C# 程序设计基础
-    - [类型系统](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System.md)
+    - 类型系统
+        - [类型系统的官方文档与整理](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System.md)
         - [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/2-3-Variable-Constant.md)
         - [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp/2-5-Struct-Enum.md)
         - [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/2-4-Type-Convert.md)

@@ -42,7 +42,8 @@
     * C#
       * [内容目录](/ProjectDocs/cs/Back-end-Development/Csharp/file.md)
       * [C#代码规范](/ProjectDocs/cs/Back-end-Development/Csharp/NameRules.md)
-      * [类型系统](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System.md)
+      * 类型系统
+        * [类型系统的官方文档与整理](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System.md)
         * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/2-3-Variable-Constant.md)
         * [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp/2-5-Struct-Enum.md)
         * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/2-4-Type-Convert.md)
