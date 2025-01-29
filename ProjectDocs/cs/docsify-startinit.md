@@ -350,7 +350,11 @@ Listening at http://localhost:3000
 本次使用 **「Alibaba Cloud」**，也即 **「阿里云」** 作为即将部署的网页服务器。在浏览器搜索```阿里云```，在[官网](https://cn.aliyun.com/)右上角注册账户，完成个人信息验证提交。  
 #### 2. 购买服务器
 1. 如果对服务器有**性能要求**，建议**按需购买**，具体操作流程为：  
-成功登录后在顶部栏选择「产品」——「计算」—— ```轻量应用服务器```并点击进入，在弹出的网页中选择```立即购买```，在弹出的购买详情内选择 ```服务器实例（默认）``` —— ```中国 - 华东1（杭州）``` —— ```镜像 - 应用镜像 - 宝塔Linxu面板``` —— 选择合适```套餐配置``` - 设置所需```额外数据盘``` - 设置```购买时长、数量``` 而后等待服务器分配。  
+成功登录后在顶部栏选择「产品」——「计算」—— ```轻量应用服务器```并点击进入，在弹出的网页中选择```立即购买```，在弹出的购买详情内选择 ```服务器实例（默认）``` —— ```中国 - 华东1（杭州）``` —— ```镜像 - 应用镜像 - 宝塔Linxu面板``` —— 选择合适```套餐配置``` - 设置所需```额外数据盘``` - 设置```购买时长、数量``` 而后等待服务器分配。
+
+> [!note]
+> 轻量服务器活动价格一般在 68 ~ 78 RMB/Year，而免费试用的云服务器ECS结束后续费为 99 RMB/Year。
+
 2. 如果对服务器**无性能要求**或**预算有限**，可以使用阿里云的 **「云服务器ECS免费试用」** ，具体操作如下：  
 成功登录后在顶部栏选择「权益中心」——「免费试用」，在下方第一行就会有```云服务器ECS免费试用（个人版）```和```云服务器ECS免费试用（企业版）```，这里我们选择```云服务器ECS免费试用（个人版）```。参考上一情况下进行购买配置，注意购买的是「『Ubuntu』+『宝塔面板 BT-Panel』」的版本，勾选协议后付款0元。
 > 注意：试用ECS不支持备案；个人认证且产品新用户可试用；个人、企业试用不同享。 
@@ -401,7 +405,7 @@ https://www.bt.cn/bbs/thread-105443-1-1.html
 使用浏览器打开上一节获取的外网面板地址，即```https://服务器实例的公网ip:端口号/八位标记符```，会弹出一个登录窗口，其账号密码均为上一节安装面板时系统生成的```默认八位面板账号```和```默认八位面板密码```，并绑定自己的宝塔账号（若没有宝塔账户请自行注册）。而后进入宝塔面板主页。  
 第一次访问时会弹出「推荐安装套件窗口」，选择 **「LNMP(推荐)」** ，点击```一键安装```，等待五分钟左右即可在服务器上成功安装 Docsify 所需的 Web 环境。  
 点击主页左上角```消息盒子（橙色背景白色数字）```，出现提示安装完成后，点击面板主页左侧```网站```，进入「PHP项目」配置页面，点击```添加站点```，在弹出的「添加站点」——「传统项目」中，添加```服务器实例的公网ip```到「*域名」内，而后点击```确定```，这样我们就成功的在前两节建立的服务器实例上成功的设置了最基础的宝塔面板，并且提供了最基础的Index页面。
-#### 2. 上传docsify文件
+#### 2. 上传docsify文件（可以跳过当前步骤，直接使用 GIT 部署）
 点击「宝塔面板主页」——「左侧导航栏」——「文件」，进入目录```/www/wwwroot/服务器实例公网IP```，选择```上传/下载```，将本地的 docsify 文件拖入其中，并点击```确认```，上传任务完成后，我们就可以通过浏览器打开```服务器实例公网IP```来浏览上传的文件了。
 
 ### 4.5: 优化访问效率（更改配置文件） 
@@ -419,7 +423,7 @@ https://www.bt.cn/bbs/thread-105443-1-1.html
 #### 1. 购买域名
 购买域名有众多渠道，建议自行购买非中国大陆的域名，并设置其解析到刚才建立的服务器实例的IP地址上。  
 此处使用[阿里云万网](https://wanwang.aliyun.com/)进行购买。  
-``详情点击[「阿里云文档」域名产品](https://help.aliyun.com/zh/dws/?spm=a2c4g.750001.0.0.45632842ZUtjAN)``
+``详情点击``[「阿里云文档」域名产品](https://help.aliyun.com/zh/dws/?spm=a2c4g.750001.0.0.45632842ZUtjAN)
 #### 2. 设置 DNS 解析
 同样也可以在域名服务商处设置域名解析，此处仍使用阿里云自带域名解析服务。
 打开阿里云「云解析DNS工作台」，选择左侧「公网DNS解析」——「权威域名解析」，在跳转窗口的「权威域名」界面点击```添加域名```，输入上一小节所购买域名，确认后会退回到「权威域名」界面。  
@@ -454,14 +458,31 @@ nginx: configuration file /配置路径/nginx.conf test is successful
 ### 4.8: 网站 ICP 备案、无备案情况下更改端口  
 #### 1. 网站 ICP 备案
 参考此处链接[知乎：网站备案流程](https://zhuanlan.zhihu.com/p/530233294)。
+> 在完成对网站的 ICP 备案后三十天内，应完成公安联网备案申请
+
+> [!tip|label:参考链接]
+> - ICP 备案相关
+>   - [CERNET用户ICP备案管理服务](https://icp.nic.edu.cn/)
+>   - [阿里云：通用网站进行ICP备案](https://www.alibabacloud.com/help/zh/icp-filing/basic-icp-service/product-overview/icp-filing-requirements-for-a-regular-website?spm=a2c63.p38356.help-menu-35468.d_0_1_0.39755ad9NTaxhp)
+>   - [阿里云：境外企业进行ICP备案](https://www.alibabacloud.com/help/zh/icp-filing/basic-icp-service/product-overview/icp-filing-application-for-enterprises-outside-the-chinese-mainland)
+>   - [阿里云：不同场景下的ICP备案说明FAQ](https://www.alibabacloud.com/help/zh/icp-filing/basic-icp-service/product-overview/faq-about-icp-filing-applications-in-different-scenarios)
+> - 公安备案相关
+>   - [阿里云：公安联网备案快速入门](https://help.aliyun.com/zh/icp-filing/basic-icp-service/quick-start-for-public-security-network-filing-for-personal-websites?spm=a2c4g.11186623.help-menu-35468.d_3_1_0.448013c7TyQJAU&scm=20140722.H_2841030._.OR_help-T_cn~zh-V_1)
+
 #### 2. 网站无法备案 ICP 时更改端口
+根据 《互联网信息服务管理办法》以及 《非经营性互联网信息服务备案管理办法》，国家对非经营性互联网信息服务实行备案制度，对经营性互联网信息服务实行许可制度。未取得许可或者未履行ICP备案手续的，不得从事互联网信息服务。根据上述政策规定，解析至中国内地服务器的网站、App等服务，必须完成ICP备案才可对外提供服务。建立于中国大陆的服务器在提供网络服务时必须有工信部备案，但是如果服务器性质受限或其他特殊理由无法备案时，可以考虑使用临时端口。
 1. 方法1：自行更改配置文件： 
 ```/www/server/panel/vhost/nginx```中开头```listen 443```改为```listen 目标端口```以实现```https://网站域名:目标端口/```。
 2. 方法2：使用面盘网站设置更改端口转发：  
-点击主页左上角```消息盒子（橙色背景白色数字）```，出现提示安装完成后，点击面板主页左侧```网站```，进入「PHP项目」配置页面，点击部署网页右侧的```设置```，在弹出窗口左侧找到```配置文件```，更改其```listen 443 ssl http2 ;```为```listen 目标端口号 ssl http2 ;```。
+点击主页左上角`消息盒子（橙色背景白色数字）`，出现提示安装完成后，点击面板主页左侧`网站`，进入「PHP项目」配置页面，点击部署网页右侧的`设置`，在弹出窗口左侧找到`配置文件`，更改其```listen 443 ssl http2 ;```为```listen 目标端口号 ssl http2 ;```。
+> 如果不想更改 ssl 所监听端口，可以将原行中的 `http2` 去除，在其后再另填一行 `listen 目标端口号 http2;`
 
 ### 4.9: 后续更改/重新部署 SSL 证书  
-参考此处链接[部署证书至阿里云轻量应用服务器或ECS（云服务器部署）](https://help.aliyun.com/zh/ssl-certificate/user-guide/deploy-ssl-certificates-to-cloud-servers?spm=a2c4g.11186623.help-menu-28533.d_2_1_6_5.4e483574JLTEsM) 
+- 申请的SSL证书需要定期重新申请
+    - 而后重新部署
+- 可以将使用的插件进行本地化静态部署
+    - 绝大多数 docsify 的插件都是静态化的，可以通过cdn所指向的.js和.css下载到本地，而后集成在项目中。浏览网页时实际会从网页服务器端拉取相关资源，降低加载延迟
+- 此处略
 
 
 
@@ -497,9 +518,11 @@ ssh-keygen -t ed25519 -C "xxxxx@xxxxx.com"
 # 在 ~/.ssh/gitee_id_rsa 以rsa协议生成一个名称为your_email@example.com的ssh秘钥
 ```
 > [!note|label:注解]
-> 注意：这里的 xxxxx@xxxxx.com 只是生成的 sshkey 的名称，并不约束或要求具体命名为某个邮箱。
-> 下用 `Docs@example.com` 作为代替。
-> 即使用 `ssh-keygen -t ed25519 -C "Docs@example.com"`
+> 注意：这里的 xxxxx@xxxxx.com 只是生成的 sshkey 的名称，并不约束或要求具体命名为某个邮箱。  
+> 下用 `Docs@example.com` 作为代替。  
+> 即使用 `ssh-keygen -t ed25519 -C "Docs@example.com"`。  
+> 使用 xxxxx@xxxxx.com 仅是方便共享管理时方便标注生成者。
+
 而后会显示如下提示：
 ```shell
 Generating public/private ed25519 key pair.
@@ -531,6 +554,11 @@ Overwrite (y/n)?
 ssh-ed25519 A****************/N********** 操作用户名(通常root)@面板账户名
 ```
 其中星号位置是具体的秘钥内容，复制文件内**所有内容**，然后进入代码托管仓库的部署公钥管理页面，将该文件所有内容粘贴进去并保存，这样就在代码托管平台上存储了当前服务器授权的一组 SSH 秘钥。
+
+> [!note]
+> 公钥内容里的 `操作用户名@面板账户名` 与第一步生成密钥名时所输入的 xxxxx@xxxxx.com 通常不同。
+> 设置为部署公钥时注意核对。
+
 ### 5.2: 设置代码托管仓库与服务器本地连接
 > 以 Gitee 托管为例。
 
@@ -547,6 +575,9 @@ Are you sure you want to continue connecting(yes/no)?
 ```
 > 其中`ECDSA key fingerprint`是该主机的公钥指纹，用于唯一标识该主机。
 
+> [!tip]
+> 如果控制台报错 `git@gitee.com: Permission denied (publickey).`，则应检查公钥设置是否正确。
+
 此时输入 `yes` ，执行确认添加 Gitee 主机到服务器主机 SSH 可信列表。
 会再提示如下：
 ```
@@ -555,17 +586,24 @@ Hi XXX! You've successfully authenticated, but Gitee.com does not provide shell 
 ```
 说明添加成功。
 
-> [!note|label:对.ssh目录影响]
+> [!note|label:对ssh目录影响]
 > 在「根目录/root/.ssh」中会出现/更新文件 `known_hosts`
 
 ### 5.3: 拉取 Git 代码
+
+> [!note|label:服务器端需先安装Git]
+> 输入 `yum install git` 然后输入 `y` 确认安装。
+
+> [!note|label:宝塔面板终端连接失败]
+> 使用宝塔面板时，有时会存在终端连接问题，可以尝试点击「宝塔面板主页」——「左侧导航栏」——「安全」——「SSH管理」，将其中「基础设置」中的`SSH密钥登录`先打开再关闭。
+
 点击「宝塔面板主页」——「左侧导航栏」——「终端」，在窗口内输入：
 ```shell
 cd /www/wwwroot/服务器实例公网IP
 ```
 而后会变成
 ```shell
-操作用户名@面板账户名:/www/wwwroot/服务器实例公网IP# 
+[操作用户名@面板账户名:/www/wwwroot/服务器实例公网IP]# 
 ```
 此时操作目录就移动到 `/www/wwwroot/服务器实例公网IP` 下了，然后在代码托管平台仓库中获取克隆/下载指令（此处以 Gitee 为例），在终端窗口处继续输入：
 ```shell
@@ -610,6 +648,7 @@ Already up to date.
 ```
 
 ### 5.4: 修改网站配置
+#### 1. 项目路径修改
 点击「宝塔面板主页」——「左侧导航栏」——「网站」，在「PHP项目」管理页下有在配置环节添加的服务器站点，点击左侧「设置」，在弹出窗口中点击左侧「配置文件」，在弹出的配置文件页中修改如下部分：
 ```javaScript
 server{
@@ -619,6 +658,28 @@ server{
 }
 ```
 修改完成后点击下端「保存」，而后可以点击左侧「网站目录」，在「网站目录」子页面中可以发现「运行目录」变成 `/克隆项目名` ，此时成功完成将网站运行目录设置为刚才从 Git 上拉取到的项目目录。
+#### 2. 防止访问 README.md 失败
+是 nginx 的配置文件中禁止了对 `README.md` 文件的访问所致，只需要如下修改配置：
+点击「宝塔面板主页」——「左侧导航栏」——「网站」，在「PHP项目」管理页下有在配置环节添加的服务器站点，点击左侧「设置」，在弹出窗口中点击左侧「配置文件」，在弹出的配置文件页中修改如下部分：
+```javaScript
+server{
+    # 前序文件...
+
+    #禁止访问的文件或目录
+    location ~ ^/(\.user.ini|\.htaccess|\.git|\.env|\.svn|\.project|LICENSE)
+    # 原语句 <= location ~ ^/(\.user.ini|\.htaccess|\.git|\.env|\.svn|\.project|LICENSE|README.md)
+    {   # 删除对于README.md的禁止访问
+        return 404;
+    }
+
+    # ...后序文件
+}
+```
+
+> [!attention]
+> 实际应该修改的项目文件中的 `README.md` 和 `index.html` 中 `homepage: 'README.md',` 配置，只需保证两者一致即可。
+> - [腾讯云开发者: 部署docsify项目时出现无法访问README.md](https://cloud.tencent.com/developer/article/1855878)
+> - [博客园: Docsify-部署后显示404目无法访问READMEmd](https://www.cnblogs.com/wangyang0210/p/16523171.html)
 
 
 
