@@ -40,7 +40,7 @@
       * Java 网络编程/数据库编程
 
     * C#
-      * [内容目录](/ProjectDocs/cs/Back-end-Development/Csharp/file.md)
+      * [面向对象课程内容目录](/ProjectDocs/cs/Back-end-Development/Csharp/file.md)
       * [C#代码规范](/ProjectDocs/cs/Back-end-Development/Csharp/NameRules.md)
       * 类型系统
         * [类型系统的官方文档与整理](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System.md)

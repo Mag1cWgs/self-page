@@ -385,40 +385,265 @@ System 命名空间
 - 有关详细信息，请参阅[匿名类型](https://learn.microsoft.com/zh-cn/dotnet/csharp/fundamentals/types/anonymous-types)。
 
 #### 3. 可为 null 的值类型
-- 普通值类型不能具有 `null` 值。
-- 不过，可以在类型后面追加 `?`，创建可为空的值类型。
-- 例如，`int?` 是还可以包含值 `null` 的 `int` 类型。
-- 可以为 `null` 的值类型是泛型结构类型 `System.Nullable<T>` 的实例。
-- 在将数据传入和传出数据库（数值可能为 `null`）时，可为空的值类型特别有用。
-- 有关详细信息，请参阅[可以为 null 的值类型](https://learn.microsoft.com/zh-cn/dotnet/api/system.nullable-1?view=net-9.0)。
+- 继承关系为 `Object` -> `ValueType` -> `Nullable<T>`
+    - 任何可为空的值类型都是泛型 `System.Nullable<T>` 结构的实例
+
+1. **介绍**
+    - 普通值类型不能具有 `null` 值。
+        - 不加 `?` 不可赋值为 `null`
+    - 可以在类型后面追加 `?`，创建可为空的值类型。
+        - 例如，`int?` 是还可以包含值 `null` 的 `int` 类型。
+        - 可以为 `null` 的值类型是泛型结构类型 `System.Nullable<T>` 的实例，引用时可用以下两种形式: 
+            - `Nullable<T>`
+            - `T?`
+
+            > [!tip]
+            > 以下均用**T?**来替代**可为空的**，用**T**来替代**不可为null的**。
+
+    - 在将数据传入和传出数据库（数值可能为 `null`）时，可为空的值类型特别有用。
+        - 需要表示基础值类型的未定义值时，通常使用可为空的值类型。
+        - 例如，布尔值或 `bool` 变量只能为 `true` 或 `false`。
+            - 但是，在某些应用程序中，变量值可能未定义或缺失。
+            - 例如，某个数据库字段可能包含 `true` 或 `false`，或者它可能不包含任何值，即 `NULL`。
+            - 在这种情况下，可以使用 `bool?` 类型。
+
+2. **声明和赋值**
+    - T值类型可隐式转换为相应的T?值类型
+        - 可以像向其基础值类型赋值一样，向可为空值类型的变量赋值
+        - 还可分配 `null` 值。 
+    - 可为空值类型的默认值表示 `null`
+        - 它是 `Nullable<T>` 的 `.HasValue` 属性返回 `false` 的实例。
+
+3. **检查值**
+    - 可以将 `is` 运算符与类型模式结合使用，既检查 `null` 的可为空值类型的实例，又检索基础类型的值
+        - 例如用 `if` 做条件判断
+            ```cs
+            if (variable is TypeName tempVariable)
+            {  /* 如果变量variable是TypeName类(非null) 则赋值给tempVariable */  }
+            else  {  /* variable 值为 null 时 */  }
+            ```
+    - 可以使用以下只读属性 `Nullable<T>.HasValue` 来检查和获取T?类型变量的值：
+        - 如果 `HasValue` 为 `true`，则 `Nullable<T>.Value` 获取基础类型的值。
+        - 如果 `HasValue` 为 `false`，则 `Value` 属性将引发 `InvalidOperationException`
+        - 例如:
+            ```cs
+            if (variable.HasValue)
+            { /* 使用 variable.Value 来访问值 */ }
+            else { /* 如果访问 variable.Value 会抛出异常 */ }
+            ```
+    - 可将可为空的值类型的变量与 `null` 进行比较
+        - 即直接使用 `!=` 运算符判断
+
+4. **从 T? 类型转换为基础类型**
+    - 如果要将T?值类型的值分配给T值类型变量，则可能需要指定要分配的替代 `null` 的值
+        - 可以使用操作符 `??` 
+            ```cs
+            T variableResult = variable ?? value;
+            // 等价于以下语句
+            if (variable = null ) variableResult = value;
+            else variableResult = variable;
+            ```
+            - 参考[?? 和 ??= 运算符 - Null 合并操作符](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/operators/null-coalescing-operator)
+        - 或者使用 `Nullable<T>.GetValueOrDefault(T)`
+            - 如果要使用基础值类型的默认值代替 `null` 则应选用该方法
+    - 可以将可为空的值类型**显式**强制转换为不可为 `null` 的类型
+        - 不指定对 `null` 值的处理
+        - 对 `null` 强制转换同样会抛出异常 `InvalidOperationException`
+    - T值类型 `T` 可以直接**隐式**转换为相应的T?值类型 `T?`
+
+5. **提升的运算符**
+    - 预定义的一元运算符/二元运算符、T值类型支持的任何 *重载运算符* 也受相应的T?值类型支持
+        - 如果一个或全部两个操作数为 `null` ，则这些运算符（也称为**提升的运算符**）将生成 `null`
+        - 否则，运算符使用其操作数所包含的值来计算结果。 
+        - `bool?` 类型除外: 即使其中一个操作数为 `null`，运算符计算结果也可以不为NULL
+            - 参考[可以为 null 的布尔逻辑运算符](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/operators/boolean-logical-operators#nullable-boolean-logical-operators)
+    - 对于比较运算符 `<`/`>`/`<=`/`>=`
+        - 两侧只要有一个 `null` 就返回 `false`
+    - 相等运算符 `==`
+        - 两侧同为 `null` 则返回 `true`
+        - 单侧为 `null` 则返回 `false`
+    - 不等运算符 `!=`
+        - 两侧同为 `null` 则返回 `false`
+        - 单侧为 `null` 则返回 `true`
+    - 如果有自定义转换，可以在T?中使用相应转换
+        - 参考 [用户定义的显式和隐式转换运算符](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/operators/user-defined-conversion-operators)
+
+
+6. **装箱和取消装箱**
+    - 值 `T?` 装箱时依照以下规则
+        - `HasValue` 返回 `false` 时，生成空引用 `null`;
+            - 回顾：此时如果使用 `Value` 属性访问则会抛出 `InvalidOperationException`
+        - `HasValue` 返回 `true` 时，对应基础值 `T` 会装箱
+            - 不对 `Nullable<T>` 实例装箱，仅对基础值类型成员装箱
+    - 对已装箱的 `T` 取消装箱可以得到其相应的值类型 `T?`
+        - `T?value is T Tvalue`
+            - 比如 `aNullableBoxed is int valueOfA`
+
+7. **如何确定可为空的值类型**
+    > [!attention]
+    > 只适用于**可为空的值类型**，不适用于**可为空的引用类型**
+
+    - 通过构造 `System.Type` 实例来确定
+        - 比如构造一个判断函数 `bool IsNullable(Type type) => Nullable.GetUnderlyingType(type) != null;`
+            - 返回调用函数所返回的对象是否为 `null` 的布尔值
+        - 其通过 `Nullable` 类的方法 `Nullable.GetUnderlyingType(Type)`
+        - 方法签名如下 `public static Type? GetUnderlyingType (Type nullableType);`
+        - 该方法会返回输入的 `nullableType` 所对应的**基础类型**
+            - 如果传入 `Nullable<int>` 会返回 `int` 对应的 `Type` 对象
+        - 如果传入的不是可空类型的话就返回 `null`
+        - 如果传入 `null` 会抛出异常 `ArgumentNullException`
+    - 不应使用 `Object.GetType` 获取 `Type` 实例
+        - 对 `T?` 的实例调用 `Object.GetType` 时会将实例装箱到 `Object`
+        - 对 `T?` 的非 `null` 实例装箱等同于对 `T` 值装箱
+            - 参考第六点：会先调用 `HasValue` 而后判断装箱类型
+        - 因而无论原实例是何种类型，都会返回其基础类型 `T` 的 `Type` 实例
+    - 请勿使用 `is` 运算符以确定实例是否为可为空的值类型
+
+- 参考官方文档
+    - [可以为 null 的值类型](https://learn.microsoft.com/zh-cn/dotnet/api/system.nullable-1?view=net-9.0)。
+    - [可为 null 的引用类型（C# 引用）](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/nullable-reference-types)
+    - [Nullable 类](https://learn.microsoft.com/zh-cn/dotnet/api/system.nullable?view=net-9.0)
+    - [Nullable<T> 结构](https://learn.microsoft.com/zh-cn/dotnet/api/system.nullable-1?view=net-9.0)
+    - 有模式匹配的类型测试 —— [类型测试运算符和强制转换表达式 - is、as、typeof 和强制转换](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/operators/type-testing-and-cast#type-testing-with-pattern-matching)
+    - [InvalidOperationException](https://learn.microsoft.com/zh-cn/dotnet/api/system.invalidoperationexception?view=net-9.0)
 
 ### 1.11 编译时类型和运行时类型
-变量可以具有不同的编译时和运行时类型。
-编译时类型是源代码中变量的声明或推断类型。
-运行时类型是该变量所引用的实例的类型。
+- 变量可以具有不同的编译时和运行时类型。
+    - 编译时类型是源代码中变量的声明或推断类型。
+    - 运行时类型是该变量所引用的实例的类型。
 
-这两种类型通常是相同的，如以下示例中所示：
+- 这两种类型通常是相同的，如以下示例中所示：
+    ```cs
+    string message = "This is a string of characters";
+    ```
+- 在其他情况下，编译时类型是不同的，如以下两个示例所示：
+    ```cs
+    object anotherMessage = "This is another string of characters";
+    IEnumerable<char> someCharacters = "abcdefghijklmnopqrstuvwxyz";
+    ```
 
-string message = "This is a string of characters";
-
-在其他情况下，编译时类型是不同的，如以下两个示例所示：
-
-object anotherMessage = "This is another string of characters";
-IEnumerable<char> someCharacters = "abcdefghijklmnopqrstuvwxyz";
-在上述两个示例中，运行时类型为 string。
-编译时类型在第一行中为 object，在第二行中为 IEnumerable<char>。
-
-如果变量的这两种类型不同，请务必了解编译时类型和运行时类型的应用情况。
-编译时类型确定编译器执行的所有操作。
-这些编译器操作包括方法调用解析、重载决策以及可用的隐式和显式强制转换。
-运行时类型确定在运行时解析的所有操作。
-这些运行时操作包括调度虚拟方法调用、计算 is 和 switch 表达式以及其他类型的测试 API。
-为了更好地了解代码如何与类型进行交互，请识别哪个操作应用于哪种类型。
+    - 运行时类型为 `string`。
+    - 编译时类型
+        - 在第一行中为 `object`，
+        - 在第二行中为 `IEnumerable<char>`。
+- 如果变量的这两种类型不同，请务必了解编译时类型和运行时类型的应用情况。
+    - 编译时类型确定编译器执行的所有操作。
+        - 这些编译器操作包括方法调用解析、重载决策以及可用的隐式和显式强制转换。
+    - 运行时类型确定在运行时解析的所有操作。
+        - 这些运行时操作包括调度虚拟方法调用、计算 is 和 switch 表达式以及其他类型的测试 API。
+    - 为了更好地了解代码如何与类型进行交互，请识别哪个操作应用于哪种类型。
 
 
-## 命名空间
+## 2. 声明命名空间来整理类型
+- .NET 使用命名空间来组织它的许多类
+- 在调用成员时一般会有以下语句
+    - `命名空间.类名.成员`
+    - 如果预先使用 `using` 关键字声明引用命名空间时，可以直接使用 `类名.成员`
+    - 在 .NET 6 开始可以使用顶级语句相关内容，参考[C# 控制台应用模板可生成顶级语句](https://learn.microsoft.com/zh-cn/dotnet/core/tutorials/top-level-templates)和[隐式 using 指令](https://learn.microsoft.com/zh-cn/dotnet/core/project-sdk/overview#implicit-using-directives)
+- 使用合适的命名空间可以控制类和方法名称的范围
+    - 有效避免重名
+    - 使用 `namespace` 以声明命名空间
+    - 命名空间的名称必须是有效的 C# 标识符名称。
 
-## 类
+
+## 3. 类简介
+### 3.1 引用类型
+- 定义为 class 的类型是引用类型。
+- 在运行时，如果声明引用类型的变量，此变量就会一直包含值 `null`
+    - 直到使用 `new` 运算符显式创建类实例
+    - 或直到为此变量分配已在其他位置创建的兼容类型
+- 创建对象时，在该托管堆上为该特定对象分足够的内存，并且该变量仅保存对所述对象位置的引用。
+- 对象使用的内存由 CLR 的自动内存管理功能（称为垃圾回收）回收。
+
+### 3.2 声明类
+- 通常格式如下
+    ```cs
+    //[access modifier] - [class] - [identifier]
+    public class Customer
+    {
+    // Fields, properties, methods and events go here...
+    }
+    ```
+- 可选访问修饰符位于 `class` 关键字前面。
+- `class` 类型的默认访问权限为 `internal`。
+    - 此例中使用的是 `public`，因此任何人都可创建此类的实例。
+- 类的名称遵循 class 关键字。
+    - 类名称必须是有效的 C# 标识符名称。
+- 定义的其余部分是类的主体，其中定义了行为和数据。
+    - 类上的字段、属性、方法和事件统称为**类成员**。
+
+### 3.3 创建对象
+- 类和对象是不同的概念。
+    - 类定义对象类型，但不是对象本身。
+    - 对象是基于类的具体实体，有时称为类的实例。
+- 基于类的对象是通过引用来实现其引用的，因此类被称为**引用类型**。
+
+### 3.4 构造函数和初始化
+- 创建类型的实例时，需要确保其字段和属性已初始化为有用的值。
+- 可通过多种方式初始化值：
+    - 接受默认值
+        - 每个 .NET 类型都有一个默认值。
+        - 通常，对于数字类型，该值为 0，对于所有引用类型，该值为 null。
+        - 如果默认值在应用中是合理的，则可以依赖于该默认值。
+    - 字段初始化表达式
+        - 当 .NET 默认值不是正确的值时，可以使用字段初始化表达式设置初始值
+        - 即在构造函数里初始化字段的值
+        > [!note]
+        > 联想到 `Static`、`Const`、`readonly`间的区别  
+    - 构造函数参数
+        - 设置含参数的构造函数，将参数传入作为初始化值
+        - 从 C# 12 开始，可以将**主构造函数**定义为类声明的一部分
+            - C# 12 之前，通常是分开的
+                ```cs
+                public class ExampleClass
+                {
+                    private int _val;
+                    public ExampleClass(int val) => _val = val
+                }
+                ```
+            - C# 12 开始可以简化为
+                ```cs
+                public ExampleClass(int val)
+                // 直接向类名添加参数
+                {   //主构造函数的参数在类正文可用
+                    private int _val = val;
+                }
+                ```
+    - 对象初始值设定项
+        - 对某个属性使用 `required` 修饰符
+            - 要求允许调用方使用对象初始值设定项来设置该属性的初始值
+        - 添加 `required` 关键字要求调用方必须将这些属性设置为 `new` 表达式的一部分
+            - 使用 `new` 时必须传入所有标记 `required` 的属性的初始值
+
+### 3.5 类继承
+- 类完全支持继承，这是面向对象的编程的基本特点
+    - 创建类时，可以从其他任何未定义为 `sealed` 的类（密封类）继承。
+    - 其他类可以从你的类继承并替代类虚拟方法。
+    - 此外，你可以实现一个或多个接口。
+- 继承是通过使用派生来完成的
+    - 意味着类是通过使用其数据和行为所派生自的基类来声明的
+    - 基类通过在派生的类名称后面追加冒号和基类名称来指定
+        ```cs
+        public class ChildClass : BaseClass
+        {
+            // BaseClass 的 fields, properties, methods and event 已经继承
+            // ChildClass 的 fields, properties, methods and events 只需继续添加
+        }
+        ```
+        - 类声明包括基类时，它会继承基类除构造函数外的所有成员。
+        - 有关详细信息，请参阅[继承 - 派生用于创建更具体的行为的类型](https://learn.microsoft.com/zh-cn/dotnet/csharp/fundamentals/object-oriented/inheritance)。
+- C# 中的类只能直接从基类继承。
+    - 但是，因为基类本身可能继承自其他类，因此类可能间接继承多个基类。
+    - 此外，类可以支持实现一个或多个接口。
+        - 有关详细信息，请参阅接口。
+- 类可以声明为 `abstract`
+    - 抽象类包含抽象方法，抽象方法包含签名定义但不包含实现
+    - 抽象类不能实例化
+        - 只能通过可实现抽象方法的派生类来使用该类
+    - 与此相反，密封类不允许其他类继承
+    - 有关详细信息，请参阅抽象类、密封类和类成员[抽象类、密封类及类成员](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/abstract-and-sealed-classes-and-class-members)
+- 类定义可以在不同的源文件之间分割。
+    - 有关详细信息，请参阅[分部类和方法](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)
 
 ## 记录
 
