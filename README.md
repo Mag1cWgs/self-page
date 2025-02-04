@@ -4,7 +4,7 @@
 
 这是一个记录个人学习记录的页面。于 2024.11.1 使用 docsify 建立，期待以后会逐步完善。
 
-> 如果你也想建立同样的网站，可参考本站文章：[如何建立你的docsify文档站——从本地部署到域名访问](/ProjectDocs/cs/docsify-startinit.md)
+> 如果你也想建立同样的网站，可参考本站文章：[如何建立你的docsify文档站——从本地部署到域名访问](/ProjectDocs/cs/docsify/docsify-startinit.md)
 
 
 

@@ -12,7 +12,7 @@
     <meta name="description" content="Description">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     
-    <!-- 默认主题 vue-->
+    <!-- 默认主题 vue -->
     <link rel="stylesheet" href="/js/vue.css">
         <!--//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css-->
 
@@ -23,7 +23,7 @@
     <!-- 代码高亮配置 更改代码块外框 添加行号 -->
     <link rel="stylesheet" href="/js/code-highlight/prism.css">
     <style type = "text/css">
-        .markdown-section pre > code {padding: 5px;}
+        .markdown-section pre > code {padding: 4px;}
     </style>
     
 
@@ -66,7 +66,7 @@
             // 自定义侧边栏后默认不会再生成目录，设置生成目录的最大层级，建议配置为1或者2
             subMaxLevel: 3,
 
-            // set sidebar display level
+            // 设定侧边栏的加载层级，默认是2，即只加载当前目录下的子目录，设置为1则加载所有目录
             sidebarDisplayLevel: 1, 
 
             // 设置首页文件加载路径。
@@ -78,13 +78,13 @@
             // 文件路由，点击标题后跳转的链接地址
             nameLink: '/',
 
-            // 文本高亮
-            'flexible-alerts': {style: 'flat', },// 如果不改就默认callout，使用flat时无需加|style:flat
-            // 格式：
-            // > [!note或tip或warning或attention|style:callout]
-            // > 填写你要的内容
-
-
+            // 文本高亮块
+            'flexible-alerts': {
+                style: 'flat', // 如果不改就默认callout，使用flat时无需加|style:flat
+                // 格式：
+                // > [!note或tip或warning或attention|style:callout]
+                // > 填写你要的内容
+            },
 
             // 更新时间
             // 参考https://gitee.com/pfeak/docsify-updated
@@ -133,7 +133,11 @@
                     scrict: true,    // false或者ignore
                 },
                 
-            }
+            },
+
+            // 页脚插件
+            loadFooter: '_footer.md',// 默认值为 true , 可改为指定名称
+            
         }
     </script>
 
@@ -144,6 +148,7 @@
     
     <!-- 图片放大缩小支持 -->
     <script src="/js/zoom-image.min.js"></script>
+    
     <!-- 搜索功能支持 -->
         <!-- 本地化 fastly.jsdelivr.net/npm/docsify/lib/plugins/search.min.js -->
     <script src="js/search.min.js"></script>
@@ -156,14 +161,25 @@
     <script src="js/code-highlight/c.js"></script>
     <script src="js/code-highlight/cpp.js"></script>
     <script src="js/code-highlight/csharp.js"></script>
-    <script src="js/code-highlight/latex.js"></script>
+    <script src="js/code-highlight/css.js"></script>
+    <script src="js/code-highlight/fsharp.js"></script>
+    <script src="js/code-highlight/git.js"></script>
+    <script src="js/code-highlight/go.js"></script>
+    <script src="js/code-highlight/json.js"></script>
     <script src="js/code-highlight/java.js"></script>
+    <script src="js/code-highlight/javascript.js"></script>
+    <script src="js/code-highlight/latex.js"></script>
+    <script src="js/code-highlight/lua.js"></script>
     <script src="js/code-highlight/matlab.js"></script>
     <script src="js/code-highlight/nginx.js"></script>
     <script src="js/code-highlight/python.js"></script>
     <script src="js/code-highlight/rust.js"></script>
     <script src="js/code-highlight/shell.js"></script>
     <script src="js/code-highlight/sql.js"></script>
+    <script src="js/code-highlight/typescript.js"></script>
+    <script src="js/code-highlight/unrealscript.js"></script>
+    <script src="js/code-highlight/xml.js"></script>
+    <script src="js/code-highlight/yaml.js"></script>
 
     <!-- 代码块可复制 -->
     <script src="/js/docsify-copy-dode.js"></script>
@@ -180,14 +196,15 @@
     <!-- 分章节按钮 -->
     <script src="/js/docsify-pagination.min.js"></script>
 
-    <!-- 文本高亮 -->
+    <!-- 自定义高亮文本框 -->
     <script src="/js/docsify-plugin-flexible-alerts.min.js"></script>
 
     <!-- 回到顶部 -->
     <!-- https://github.com/Sumsung524/docsify-backTop/tree/master -->
     <script src="js/docsify-backTop.min.js"></script>
 
-
+    <!-- 页脚插件 -->
+    <script src="js/docsify-footer.min.js"></script>
 </body>
 
 </html>

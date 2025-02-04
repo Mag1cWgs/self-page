@@ -3,7 +3,8 @@
 
 * 计算机技术相关
   * 如何建立自己的主页
-    * [Docsify部署教程](/ProjectDocs/cs/docsify-startinit.md)
+    * [Docsify部署教程](/ProjectDocs/cs/Docsify/docsify-startinit.md)
+    * [当前站点所用到的插件](/ProjectDocs/cs/Docsify/plugin-docsify-used.md)
   * 计算机知识学习指引
     * [学数学学的都是啥](/ProjectDocs/Prattle/LearnCS/Guide_For_Math_Stu.md)
     * [一些自学可用参考](/ProjectDocs/Prattle/LearnCS/Ref_For_CS.md)
@@ -39,7 +40,7 @@
       * Java 面向对象/多线程/IO流
       * Java 网络编程/数据库编程
 
-    * C#
+    * C#             
       * [面向对象课程内容目录](/ProjectDocs/cs/Back-end-Development/Csharp/file.md)
       * [C#代码规范](/ProjectDocs/cs/Back-end-Development/Csharp/NameRules.md)
       * 类型系统  <!--放置在 Type-System -->
@@ -64,6 +65,7 @@
         * [反射Reflection](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Reflection.md)
       * 工具类库  <!--放置在 Tools -->
         * [个人搜集的一些工具类库](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Utility-Collection.md)
+        * [Newtonsoft.Json.Net](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Newtonsoft.md)
 
     * WinForm（Windows 应用程序设计）<!--放置在 WinForm -->
       * [窗体设计](/ProjectDocs/cs/Back-end-Development/Csharp/WinForm/9-1-Windows-Form-Design.md)
