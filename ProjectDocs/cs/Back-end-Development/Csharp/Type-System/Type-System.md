@@ -645,10 +645,186 @@ System 命名空间
 - 类定义可以在不同的源文件之间分割。
     - 有关详细信息，请参阅[分部类和方法](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)
 
-## 记录
 
-## 接口
+## 4. 记录
+- 从 C#9.0 开始引入语法糖**记录(record)**，记录是一个类或结构，它为使用数据模型提供特定的语法和行为。
+    - C#9.0 仅引入了 `record` 关键字作为一个引用类型记录
+    - C#10.0 引入了值类型记录（结构体记录），新增了 `record class` 和 `record struct`
+- `record` 修饰符指示编译器合成对主要角色存储数据的类型有用的成员。
+    - 这些成员包括支持值相等的 `ToString()` 和成员的重载。
+    - 具体参考[博客园: C#中的记录(record)](https://www.cnblogs.com/shanfeng1000/p/14973804.html)
+    - 编译器会在有参数构造函数基础上生成一个类
 
-## 泛型
+### 4.1 使用记录的场景
+- 需要定义**依赖值相等性**的数据类型
+- 需要定义**不可变对象**类型
 
-## 匿名类型
+#### 1. 值相等性
+- 对**记录**来说，值相等性是指:
+    - 如果记录类型的两个变量类型相匹配，且所有属性和字段值都相同，那么记录类型的两个变量是相等的。
+- 对于**其他引用类型**（例如类）
+    - 相等性默认指的是引用相等，
+    - 也可以设置为值相等性
+- 也就是说
+    - 确定两个记录 `record` 实例的相等性的方法(比如`.Equal()`)和运算符(比如`==`)使用值相等性。
+    - 如果类 `class` 的两个变量引用同一个对象，则这两个变量是相等的。
+
+    > [!note]
+    > - [C# 中 == 和 .Equals() 之间的区别](https://www.cnblogs.com/jmllc/p/16185765.html)
+    > - [相等性比较（C# 编程指南）](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/statements-expressions-operators/equality-comparisons#value-equality)
+
+    > [!note]
+    > 并非所有数据模型都适合使用值相等性。
+    > 例如，Entity Framework Core 依赖引用相等性，来确保它对概念上是一个实体的实体类型只使用一个实例。
+    > 因此，记录类型不适合用作 Entity Framework Core 中的实体类型。  
+    > [Entity Framework Core文档](https://learn.microsoft.com/zh-cn/ef/core/)
+
+#### 2. 不可变型
+- 不可变类型会阻止你在对象实例化后更改该对象的任何属性或字段值。
+- 如果你需要一个类型是线程安全的，或者需要哈希代码在哈希表中能保持不变，那么不可变性很有用。
+- 记录为创建和使用不可变类型提供了简洁的语法。
+
+> [!note]
+> 不可变性并不适用于所有数据方案。
+> 例如，Entity Framework Core 不支持通过不可变实体类型进行更新。
+
+### 4.2 记录与类和结构的区别
+- 声明和实例化类或结构时使用的语法与操作记录时的相同。
+    - 只是将关键字 `class` => `record`，或者 `struct` => `record struct`
+
+- 记录类支持相同的表示继承关系的语法。
+    - 记录与类的区别如下所示：
+        - 可在主构造函数中使用位置参数来创建和实例化具有不可变属性的类型。
+            - 参考[实例构造函数——主构造函数(C#12开始)](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/instance-constructors#primary-constructors)
+        - 在类中指示是否**引用**相等/不相等的方法和运算符（例如 `Object.Equals(Object)` 和 `==`），在记录中指示**值**相等性或不相等。
+            - 参考[记录——值相等性](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/record#value-equality)
+        - 可使用 `with` 表达式对不可变对象创建在所选属性中具有新值的副本。
+            - 参考[记录——非破坏性变化](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/record#nondestructive-mutation)
+        - 记录的 `ToString` 方法会创建一个格式字符串，它显示对象的类型名称及其所有公共属性的名称和值。
+            - 参考[记录——用于显示的内置格式设置](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/record#built-in-formatting-for-display)
+        - 记录可从另一个记录继承。
+            - 但记录不可从类继承，类也不可从记录继承。
+- 记录结构与结构的不同之处是: 
+    - 编译器合成了方法来确定相等性和 `ToString`。
+    - 编译器为位置记录结构合成 `Deconstruct` 方法。
+
+- 编译器为 `record class` 中的每个主构造函数参数合成一个公共仅初始化属性。
+- 在 `record struct` 中，编译器合成公共读写属性。
+- 编译器不会在不包含 `record` 修饰符的 `class` 和 `struct` 类型中创建主构造函数参数的属性。
+
+## 5. 接口 - 定义多种类型的行为
+- 接口包含非抽象 `class` 或 `struct` **必须实现**的一组相关功能的定义。
+- 接口可以定义 `static` 方法，此类方法**必须**具有实现。
+- 接口可为成员定义默认实现。
+- 接口**不能声明实例数据**，如字段、自动实现的属性或类似属性的事件。
+
+#### 使用场景: 
+- 使用接口可以在类中包括来自多个源的行为。
+    - 该功能在 C# 中十分重要，因为该语言不支持类的多重继承。
+    - 如果要模拟结构 `struct` 的继承，也必须使用接口，因为它们无法实际从另一个结构或类继承。
+
+#### 接口的定义
+- 使用 `interface` 关键字定义接口
+- 接口名称必须是有效的 C# 标识符名称
+- 按照约定，接口名称以大写字母 I 开头。
+- 例如
+    ```cs
+    interface IEquatable<T>
+    {
+        bool Equals(T obj);
+    }
+    ```
+    - 实现 `IEquatable<T>` 接口的任何类或结构都必须包含 `Equals(T obj)` 方法的定义。
+        - 可以依靠实现 `IEquatable<T>` 的类型 `T` 的类来包含 `Equals` 方法
+        - 类的实例可以通过该方法确定它是否等于相同类的另一个实例。
+    - `IEquatable<T> `的定义不为 `Equals` 提供实现。.
+        - 类或结构可以实现多个接口，但是类只能从单个类继承。
+
+#### 接口成员
+- 接口可以包含实例方法、属性、事件、索引器或这四种成员类型的任意组合。
+- 接口可以包含静态构造函数、字段、常量或运算符。
+- 从 C# 11 开始，**非字段**接口成员可以是 `static abstract`。
+- 接口不能包含实例字段、实例构造函数或终结器。
+
+#### 访问级别
+- 接口成员默认是公共的，可以显式指定可访问性修饰符
+    - 如 `public`、`protected`、`internal`、`private`、`protected internal` 或 `private protected`
+- `private` 成员必须有默认实现。
+
+#### 接口的实现
+- 若要实现接口成员，实现类的对应成员必须是公共、非静态，并且具有与接口成员相同的名称和签名。
+    > [!tip]
+    > - 当接口声明静态成员时，实现该接口的类型也可能声明具有相同签名的静态成员。
+    >   - 也就是存在类中原有静态成员名与该类对接口的静态实现同名
+    > - 它们是不同的，并且由声明成员的类型唯一标识。
+    >   - 如果多个接口之间重名的话声明时需要以 `接口名.实现名` 声明
+    > - 在类型中声明的静态成员不会覆盖接口中声明的静态成员。
+    >   - 可以通过强制转换到接口形式进行访问
+
+- 实现接口的类或结构必须为所有已声明的成员提供实现，而非接口提供的默认实现。
+    - 但是，如果基类实现接口，则从基类派生的任何类都会继承该实现
+        - 也就是可以不做新的实现
+    - 例: 
+        ```cs
+        public class Car : IEquatable<Car>
+        {
+            public string? Make { get; set; }
+            public string? Model { get; set; }
+            public string? Year { get; set; }
+
+            /// <summary>
+            /// IEquatable<T> 的实现
+            /// </summary>
+            /// <param name="car">输入的 Car? 型参数</param>
+            /// <returns>返回是否相等的bool值</returns>
+            public bool Equals(Car? car)
+            {
+                return (this.Make, this.Model, this.Year) ==
+                    (car?.Make, car?.Model, car?.Year);
+            }
+        }
+
+        interface IEquatable<T>
+        {
+            bool Equals(T obj);
+        }
+        ```
+
+#### 显示接口实现与接口属性
+- 类的属性和索引器可以为接口中定义的属性或索引器定义额外的访问器。
+    - 例如，接口可能会声明包含 `get` 取值函数的属性。
+    - 实现此接口的类可以声明包含 `get` 和 `get` 取值函数的同一属性。
+- 如果属性或索引器使用显式实现，则访问器必须匹配。
+    - 参考[显式接口实现](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation)和[接口属性](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/interface-properties)
+
+#### 接口多继承与多态
+- 接口可从一个或多个接口继承(`interface IChild: IParent1 , IParent2`)
+    - 派生接口从其基接口继承成员(`IParent1.Member`=>`IChild.Menber`)
+    - 实现派生接口的类必须实现派生接口中的所有成员，包括派生接口的基接口的所有成员(`class ExampleClass: IChild`必须实现`IChild,IParent1,IParent2`中的所有成员，参考上面接口实现中对重名方法处理)
+        - 该类(`ExampleClass`)可能会隐式转换为派生接口(`IChild exmInterface1 = (IChild)ExampleClass;`)或任何其基接口(`IParent1 exmInterface2 = (IParent1)ExampleClass;`)
+- 类可能通过它继承的基类或通过其他接口继承的接口来多次包含某个接口
+    - 类只能提供接口的实现一次，并且仅当类将接口作为类定义的一部分 (`class ClassName : ExampleClass, IParent3`) 进行声明时才能提供(`IParent3.Member`)
+    - 如果由于继承实现接口的基类(`ExampleClass`)而继承了接口(`IParent1,IParent2,IChild`)，则基类会提供接口的成员的实现(`ExampleClass.InterfaceMemberOfParent`=>`ClassName.InterfaceMemberOfParent`)
+
+- 基类还可以使用虚拟成员实现接口成员。
+    - 在这种情况下，派生类可以通过重写虚拟成员来更改接口行为。
+    - 派生类可以重新实现任何虚拟接口成员(`interface IFoo{virtual foo()}`可以在派生类可以重写)，而不是使用继承的实现
+    - 有关虚拟成员的详细信息，请参阅[多态性](https://learn.microsoft.com/zh-cn/dotnet/csharp/fundamentals/object-oriented/polymorphism)
+- 当接口声明方法的默认实现时，实现该接口的任何类都会继承该实现（你需要将类实例强制转换为接口类型，才能访问接口成员上的默认实现）。
+
+
+#### 接口的特点
+- 在 8.0 以前的 C# 版本中，接口类似于只有抽象成员的抽象基类。
+    - 实现接口的类或结构必须实现其所有成员。
+    - 有关抽象类的详细信息，请参阅[抽象类、密封类及类成员](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/abstract-and-sealed-classes-and-class-members)
+- 从 C# 8.0 开始，接口可以定义其部分或全部成员的默认实现。
+    - 实现接口的类或结构不一定要实现具有默认实现的成员。
+    - 有关详细信息，请参阅默认接口方法。
+- 接口无法直接进行实例化。
+    - 其成员由实现接口的任何类或结构来实现。
+- 一个类或结构可以实现多个接口。
+    - 一个类可以继承一个基类，还可实现一个或多个接口。
+
+## 6. 泛型
+
+## 7. 匿名类型
