@@ -284,7 +284,7 @@ System 命名空间
     - [隐式类型的数组](https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/arrays#implicitly-typed-arrays)
 
 
-#### 2. 匿名类型
+#### 2. 匿名类型 (C#3.0)
 - 不方便为不打算存储或传递外部方法边界的简单相关值集合创建命名类型。
     - 匿名类型提供了一种方便的方法，可用来将一组只读属性封装到单个对象中，而无需首先显式定义一个类型。
     - 类型名由编译器生成，并且不能在源代码级使用。
@@ -644,7 +644,7 @@ System 命名空间
     - 有关详细信息，请参阅[分部类和方法](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)
 
 
-## 4. 记录
+## 4. 记录 (C# 9.0 / 10.0)
 - 从 C#9.0 开始引入语法糖 **记录(record)** ，记录是一个类或结构，它为使用数据模型提供特定的语法和行为。
     - C#9.0 仅引入了 `record` 关键字作为一个引用类型记录
     - C#10.0 引入了值类型记录（结构体记录），新增了 `record class` 和 `record struct`
@@ -813,6 +813,7 @@ System 命名空间
 
 
 #### 接口的特点
+
 - 在 8.0 以前的 C# 版本中，接口类似于只有抽象成员的抽象基类。
     - 实现接口的类或结构必须实现其所有成员。
     - 有关抽象类的详细信息，请参阅[抽象类、密封类及类成员](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/classes-and-structs/abstract-and-sealed-classes-and-class-members)
@@ -824,6 +825,161 @@ System 命名空间
 - 一个类或结构可以实现多个接口。
     - 一个类可以继承一个基类，还可实现一个或多个接口。
 
-## 6. 泛型
+## 6. 泛型 (C#2.0)
+- 泛型向 .NET 引入了类型参数的概念。
+  - 一般指的就是作为占位符的 `<T>`
+- 泛型支持设计类和方法，你可在在代码中使用该类或方法时，再定义一个或多个类型参数的规范。
 
-## 7. 匿名类型
+- 泛型类和泛型方法兼具**可重用性**、**类型安全性**和**效率**，这是非泛型类和非泛型方法无法实现的。
+- 在**编译**过程中自动的将泛型类型参数替换为类型参数。 
+  > [!note]
+  > 在C#中，编译时的类型推断主要涉及以下几种情况：
+  > 1. **泛型方法中的类型推断**  
+  >   - **自动推断参数类型**：  
+  >     当调用泛型方法时，编译器会根据传入的实参自动推断出泛型参数的具体类型。
+  >     例如，有一个泛型方法`public void Print<T>(T item)`，
+  >       - 如果调用`Print("Hello")`，编译器会自动将`T`推断为`string`类型；
+  >       - 如果调用`Print(123)`，则将`T`推断为`int`类型。
+  >     这种推断方式使得在使用泛型方法时不需要显式地指定类型参数，提高了代码的简洁性和可读性。
+  >   - **多参数推断**：  
+  >     对于有多个参数的泛型方法，编译器会综合考虑所有参数的类型来推断泛型参数的类型。
+  >     例如，有一个方法`public TResult Add<T, TResult>(T a, T b)`，
+  >       - 如果调用`Add(5, 10)`，编译器会推断`T`为`int`类型
+  >       - 但如果还定义了`TResult`的转换逻辑，如返回两数之和的类型，那么编译器会根据具体的实现和参数来推断`TResult`的类型。
+  > 2. **隐式类型局部变量中的类型推断**  
+  >   - **var关键字的使用**：  
+  >     使用`var`关键字声明局部变量时，编译器会根据变量初始化表达式的值来推断变量的类型。
+  >       - 例如，`var num = 42;`，编译器会推断`num`的类型为`int`；`var str = "Hello";`，编译器会推断`str`的类型为`string`。
+  >       这种方式使得代码更加简洁，尤其是在变量类型比较长或比较复杂的情况下，减少了代码的冗余。
+  >   - **匿名类型的推断**：  
+  >     在创建匿名类型的对象时，编译器会根据对象的成员来推断其类型。
+  >       - 例如，`var person = new { Name = "John", Age = 30 };`，编译器会创建一个包含`Name`和`Age`两个属性的匿名类型，并推断`person`的类型为该匿名类型。
+  >       这在需要临时存储一些简单数据结构时非常有用。
+  > 3. **Lambda表达式中的类型推断(委托和表达式树)**  
+  >     在将Lambda表达式赋值给委托或表达式树时，编译器会根据委托或表达式树的定义来推断Lambda表达式的类型。
+  >       - 对于一个委托`Func<int, int, int> add = (a, b) => a + b;`，编译器会根据委托的定义`Func<int, int, int>`推断出Lambda表达式`(a, b) => a + b`的参数类型为`int`，返回类型为`int`。
+  >       - 对于表达式树，如`Expression<Func<int, bool>> predicate = x => x > 5;`，编译器也会根据表达式树的定义来推断Lambda表达式的类型。
+
+#### 泛型类示例
+```cs
+// 新建立一个泛型列表类GenericList
+public class GenericList<T>
+{   // 示例函数Add 接受泛型T参数item
+    public void Add(T item) { }
+}
+// 建立一个空示例类ExampleClasss
+public class ExampleClass { }
+// 建立程序入口类TestGenericList
+class TestGenericList
+{   // 程序入口
+    static void Main()
+    {
+        // 建立一个泛型T为int的实例
+        GenericList<int> list1 = new(); // 编译器会使用 int 替换 T
+        list1.Add(1); // 调用 GenericList<int>.Add(int)
+
+        // 建立一个泛型T为string的实例
+        GenericList<string> list2 = new(); //同理以 string 替换 T
+        list2.Add(""); // 调用 GenericList<string>.Add(string)
+
+        // 建立一个泛型T为ExampleClass的实例
+        GenericList<ExampleClass> list3 = new(); // 同理
+        list3.Add(new ExampleClass()); // 调用 GenericList<ExampleClass>.Add(ExampleClass)
+    }
+}
+```
+
+> [!tip]
+> - 泛型通常与集合以及作用于集合的方法一起使用。
+>   - `System.Collections.Generic` 命名空间包含几个基于泛型的集合类。
+>   - 不建议使用非泛型集合（如 `ArrayList`），并且仅出于兼容性目的而维护非泛型集合。
+> - 有关详细信息，请参阅 [.NET 中的泛型](https://learn.microsoft.com/zh-cn/dotnet/standard/generics/#defining-and-using-generics)。
+
+#### 泛型类的自定义建立示例
+```cs
+namespace ExampleNameSpace
+{
+    // 类型参数 T 应用尖括号<和>包含.
+    public class GenericList<T>
+    {
+        // 嵌套类同样是泛型类 接受一个 T 类型的值 T
+        private class Node(T t)
+        {
+            // 可以将 T 作为属性
+            public T Data { get; set; } = t;
+
+            public Node? Next { get; set; }
+        }
+
+        // 链表头元素
+        private Node? head;
+
+        // T 作为参数类型
+        public void AddHead(T t)
+        {
+            Node n = new(t);
+            n.Next = head;
+            head = n;
+        }
+
+        // T 作为函数返回类型
+        public IEnumerator<T> GetEnumerator()
+        {
+            Node? current = head;
+
+            while (current is not null)
+            {
+                yield return current.Data;
+                current = current.Next;
+            }
+        }
+    }
+
+    public class Program
+    {
+        public static void Main()
+        {
+            // 一个int作为泛型参数T的GenericList<int>
+            GenericList<int> list = new();
+
+            // 添加十个int型值
+            for (int x = 0; x < 10; x++)
+            {
+                list.AddHead(x);
+            }
+
+            // 输出
+            foreach (int i in list)
+            {
+                Console.WriteLine(i);
+            }
+            Console.WriteLine("Done");
+        }
+    }
+}
+
+```
+> [!tip]
+> - 泛型类型不限于类。
+> - 前面的示例使用了 `class` 类型，
+>   但你可以定义泛型 `interface` 和 `struct` 类型，包括 `record` 类型。
+
+#### 泛型的特点
+- 使用泛型类型可以最大限度地重用代码、保护类型安全性以及提高性能。
+- 泛型最常见的用途是创建集合类。
+- .NET 类库在 `System.Collections.Generic` 命名空间中包含几个新的泛型集合类。
+  - 应尽可能使用泛型集合来代替某些类，如 `System.Collections` 命名空间中的 `ArrayList`
+- 可以创建自己的泛型接口、泛型类、泛型方法、泛型事件和泛型委托。
+- 可以对泛型类进行约束以访问特定数据类型的方法。
+- 可以使用反射在运行时获取有关泛型数据类型中使用的类型的信息。
+
+## 7. 匿名类型 (C#3.0)
+  > 具体已经在第一节**1.10.2匿名类型**中介绍
+- 匿名类型提供了一种方便的方法，可用来将一组只读属性封装到单个对象中，而无需首先显式定义一个类型。
+- 类型名由编译器生成，并且不能在源代码级使用。
+  - 实际还是会有对类型的命名，在IL中会以 `<>f__AnonymousType` 开头
+  - 详细参考[C#教程:关于匿名类型的特性](https://www.cnblogs.com/skykang/archive/2011/03/03/1970194.html)
+    /[C#匿名类型（Anonymous Type）学习日记](https://www.cnblogs.com/kewolf/p/4714976.html)
+    /[匿名类型（C# 编程指南）](https://www.cnblogs.com/handsomer/p/4441008.html)
+    /[C# 中匿名类型的使用场景与限制](https://www.jianshu.com/p/d68abd9aa328)
+- 每个属性的类型由编译器推断。
