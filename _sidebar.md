@@ -43,12 +43,17 @@
     * C#             
       * [面向对象课程内容目录](/ProjectDocs/cs/Back-end-Development/Csharp/file.md)
       * [C#代码规范](/ProjectDocs/cs/Back-end-Development/Csharp/NameRules.md)
-      * 类型系统  <!--放置在 Type-System -->
-        * [类型系统的官方文档与整理](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/Type-System.md)
-        * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-3-Variable-Constant.md)
-        * [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-5-Struct-Enum.md)
-        * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-4-Type-Convert.md)
-      * [C# 控制语句](/ProjectDocs/cs/Back-end-Development/Csharp/3-Control-Sentence.md) 
+      * C#基础
+        * 类型系统  <!--放置在 Type-System -->
+          * [类型系统的官方文档与整理](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/Type-System.md)
+          * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-3-Variable-Constant.md)
+          * [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-5-Struct-Enum.md)
+          * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-4-Type-Convert.md)
+        * [控制语句](/ProjectDocs/cs/Back-end-Development/Csharp/3-Control-Sentence.md)
+        * 数组与集合  <!--放置在 Collection-Array-List -->
+          * [概述](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Collection-System.md)
+          * [数组](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Array.md)
+          * [集合](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/List.md)
       * 面向对象程序设计  <!--放置在 OOP -->
         * [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/Csharp/OOP/5-1-introduction.md)
         * [静态成员](/ProjectDocs/cs/Back-end-Development/Csharp/OOP/5-6-Static-Member.md)
@@ -77,6 +82,9 @@
       * [MySql 概述](/ProjectDocs/cs/Sql/MySQL-front.md)
       * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySQL-statements-and-data-types.md)
       * [Sql 基础](ProjectDocs\cs\Sql\SQL-basic.md)
+    * SqlServer
+    * SqlLite
+    * Redis
 
   * 设计模式
     * [设计模式介绍](/ProjectDocs/cs/DesignPattern/init.md)
