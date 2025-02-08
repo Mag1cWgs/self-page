@@ -54,6 +54,16 @@
             * [菜单设计](/ProjectDocs/cs/Back-end-Development/Csharp/WinForm/10-1-Menu-Design.md)
         * 图形设计
     * WPF
+        * [XAML 概述](/ProjectDocs/cs/Back-end-Development/Csharp/WPF/Xaml-Description.md)
+        * [XAML 语法](/ProjectDocs/cs/Back-end-Development/Csharp/WPF/Xaml-Grammar.md)
+        * x 命名空间
+        * 控件与布局
+        * Binding 绑定
+        * Property 属性
+        * Event 时间
+        * Command 命令
+        * 资源与模板
+        * 绘图与动画
 17. Web 应用程序设计
     * ASP.NET WebForms
     * ASP.NET MVC
