@@ -115,12 +115,13 @@
             },
 
             // 搜索配置
+            // 参考:https://juejin.cn/post/6908620673275396104
             search: {
-                maxAge: 86400000, // default
-                paths: ['/'],
+                maxAge: 86400000, // 存留时间
+                search: 'auto', // 自动搜索
                 placeholder: '搜索',
                 noData: '找不到结果',
-                depth: 4,
+                depth: 6,
                 // hideOtherSidebarContent: true,
             },
             

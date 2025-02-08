@@ -57,6 +57,7 @@
 
 - 搜索功能支持
     - [脚本地址(jsdelivr)](fastly.jsdelivr.net/npm/docsify/lib/plugins/search.min.js)
+    - [配置参考]https://juejin.cn/post/6908620673275396104
     ```html
     <body>
         <!-- 搜索功能支持 -->
@@ -83,6 +84,7 @@
 - 自定义代码高亮
     - 使用 PrismJs 实现自定义代码高亮
     - [CDN部署](https://cdn.jsdelivr.net/npm/prismjs@1/components/)
+    - 缺少对 XAML 支持，于是使用 C# 来实现代码高亮
     ```html
     <head>
         <!-- 代码高亮配置 更改代码块外框 添加行号 -->
@@ -173,3 +175,5 @@
 ## 参考内容：
 - [Docsify 官方站点](https://docsify.js.org/#/)
 - [博客园文章: Docsify | 轻量级无静态构建文档站点生成器](https://www.leavescn.com/Articles/Content/3397)
+- [插件列表](https://yzqtpl.github.io/docsify-vitepress/plugins.html)
+- [Awesome docsify](https://yzqtpl.github.io/docsify-vitepress/awesome.html#themes)
