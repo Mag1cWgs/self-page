@@ -51,6 +51,7 @@
           * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-3-Variable-Constant.md)
           * [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-5-Struct-Enum.md)
           * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-4-Type-Convert.md)
+          * [string 类的一些用法](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/string.md)
         * [控制语句](/ProjectDocs/cs/Back-end-Development/Csharp/3-Control-Sentence.md)
         * 数组与集合  <!--放置在 Collection-Array-List -->
           * [概述](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Collection-System.md)
