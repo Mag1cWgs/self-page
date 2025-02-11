@@ -5,9 +5,6 @@
   * 如何建立自己的主页
     * [Docsify部署教程](/ProjectDocs/cs/Docsify/docsify-startinit.md)
     * [当前站点所用到的插件](/ProjectDocs/cs/Docsify/plugin-docsify-used.md)
-  * 计算机知识学习指引
-    * [学数学学的都是啥](/ProjectDocs/Prattle/LearnCS/Guide_For_Math_Stu.md)
-    * [一些自学可用参考](/ProjectDocs/Prattle/LearnCS/Ref_For_CS.md)
 
   * 前端语言学习
     * [参考](/ProjectDocs/cs/Front-end-Development/Introduction.md)
@@ -24,6 +21,11 @@
       * [栈、队列](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Stack_Queue.md)
       * [二叉树](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/BinaryTree.md)
       * [图](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/graph.md)
+
+    * 算法题笔记（C#）
+      * [基础知识笔记相关](/ProjectDocs/cs/Back-end-Development/Algorithm-CSsharp/Algorithm-Basic.md)
+      * LeetCode 100
+        * [哈希法](/ProjectDocs/cs/Back-end-Development/Algorithm-CSsharp/Hash-Practice.md)
 
     * Rust (仅入门内容)
       * [Cargo包管理器](/ProjectDocs/cs/Back-end-Development/Rust-Learn/cargo.md)
@@ -109,10 +111,12 @@
     * [LaTex语法学习](/ProjectDocs/cs/LaTeX/LaTex-Learning.md)
 
 * 数学笔记
+  * [学数学学的都是啥](/ProjectDocs/Prattle/LearnCS/Guide_For_Math_Stu.md)
   * [离散数学](/ProjectDocs/Mathematic/Discrete-Mathematic-Exam-Review.md)
   * [复变函数](/ProjectDocs/Mathematic/Complex-Function-Exam-Review.md)
   * [运筹学](/ProjectDocs/Mathematic/Operations-Research.md)
   * [最优化理论与算法](/ProjectDocs/Mathematic/Optimization-Calculation-Method.md)
+  * [一些转码自学可用参考](/ProjectDocs/Prattle/LearnCS/Ref_For_CS.md)
 
 * 其他知识相关
   * [微观经济学](/ProjectDocs/MicroEconomic/file.md)
