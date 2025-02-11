@@ -255,11 +255,99 @@
 
 
 ### 6.4.5 接口映射
+- 类的成员 A 与其映射的接口成员 B 必须满足以下条件：
+    - 如果 A 和 B 都是成员方法
+        - 那么 A 和 B 的名称、返回类型、形参格式和形参类型必须一致
+    - 如果 A 和 B 都是成员属性
+        - 那么 A 和 B 的名称和类型必须一致
+    - 如果 A 和 B 都是事件
+        - 那么 A 和 B 的名称和类型必须一致
+    - 如果 A 和 B 都是索引器
+        - 那么 A 和 B 的名称、形参个数和形参类型必须一致
+- 接口成员与类成员映射关系如下：
+    1. 如果类 `Foo` 中存在显式接口成员 `IFoo.Mem`，则由 `Foo.Mem` 作为 `IFoo.Mem` 的实现
+    2. 如果找不到匹配显示接口成员，则寻找 `Foo` 中是否存在一个与 `IFoo.Mem` 匹配的非静态公有成员
+        - 如果有则作为接口 `IFoo.Mem` 的实现
+    3. 如果都不满足，则在 `Foo` 的基类中寻找 `IFoo.Mem` 的实现
+    4. 直到查找到 `Object` 但仍未找到，会报告[编译器错误 CS0535](https://learn.microsoft.com/zh-cn/dotnet/csharp/misc/cs0535)
+
+
+
+---
 
 
 
 ### 6.4.6 接口实现的继承
+- 类可以从基类中继承所有的接口实现
+    - 除非在派生是重新实现接口，否则无法改变基类继承下来的接口映射
+- 接口方法被映射为类中虚方法时，派生类可以通过覆盖虚方法来改变接口的实现
+    - 此时对子类 `B` 调用 `IFoo.fun`，会访问到 `B.fun` 而非 `A.fun`
+    ```cs
+    interface IFoo
+    {
+        int fun();
+    }
+    
+    class A: IFoo
+    {
+        virtual int fun(){return 1;}
+    }
+
+    class B: A
+    {
+        override int fun(){return 2;}
+    }
+    ```
+
+
+
+---
 
 
 
 ### 6.4.7 重新实现接口
+- 类可以实现基类所实现的接口
+    - 只需要在派生子类时加上需要重新实现的接口
+    ```cs
+    interface IFoo{ void fun(); }
+    class A: IFoo { void IFoo.fun(); }
+    class B: A, IFoo { void fun(); }
+    ```
+- 重新实现接口时，无论派生类建立接口映射如何，从基类集成的接口映射不会被影响
+    - 对于上例：对 `A` 中 `IFoo.fun() => A.IFoo.fun()`，但是对 `B` 有 `IFoo.fun() => B.fun()`
+- 继承而来的公有成员定义和继承而来的显式接口成员的定义都参与接口映射过程
+    - 类在实现一个接口的同时也隐式的实现了该接口的所有父接口
+    - 重新实现也同样会隐式的同样实现所有父接口
+    - 对于下例
+        - A: 均用显式实现 `A.IFoo.fun1`、`A.IFoo.fun2`、`A.IFoo.fun3`
+        - B: 隐式实现 `B.fun1`，显式实现 `B.IFoo.fun2`，继承了 `B.IFoo.fun3`
+    ```cs
+    IFoo iB = new B();
+    iB.fun1();  //4 隐式实现 B.fun1
+    iB.fun2();  //5 显示实现 IFoo.B.fun2
+    iB.fun3();  //3 继承隐式实现 IFoo.A.fun3
+
+    interface IFoo
+    {
+        int fun1();
+        int fun2();
+        int fun3();
+    }
+    
+    class A: IFoo
+    {
+        int IFoo.fun1(){ return 1; }
+        int IFoo.fun2(){ return 2; }
+        int IFoo.fun3(){ return 3; }
+    }
+
+    class B: A, IFoo
+    {
+        int fun1(){ return 4; }
+        int IFoo.fun2(){ return 5; }
+    }
+    ```
+
+## 拓展导读: 高版本 C# 中接口的变化
+- 参考视频
+    - [一期视频看透C#接口的全部特性及用法](https://www.bilibili.com/video/BV11w411j78c/?share_source=copy_web&vd_source=9ba1a80902ec14f4f1601626d29e43c7)
