@@ -10,9 +10,11 @@
     - [控制语句](/ProjectDocs/cs/Back-end-Development/Csharp/3-Control-Sentence.md)
     - 数组与集合
         - [概述](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Collection-System.md)
-        - [数组](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Array.md)
-        - [集合](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/List.md)
-    - [string 类的常见用法](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/string.md)
+        - [Array、ArrayList\<T>](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Array.md)
+        - [List\<T>](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/List.md)
+    - 常用类型和结构
+        - [常用类型和结构](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/widely-used-type.md)
+        - [string 类的常见用法](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/string.md)
 5. 面向对象程序设计
     1. [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/Csharp/OOP/5-1-introduction.md)
     2. 类
@@ -32,7 +34,7 @@
     2. [多态性](/ProjectDocs/cs/Back-end-Development/Csharp/Inheritance-Connector/6-2-Polymorphism.md)
     3. [抽象类](/ProjectDocs/cs/Back-end-Development/Csharp/Inheritance-Connector/6-3-Abstract.md)
     4. [接口](/ProjectDocs/cs/Back-end-Development/Csharp/Inheritance-Connector/6-4-Connector.md)
-    5. 接口在集合排序中的应用
+    5. [接口在集合排序中的应用](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/interface-collection-sort.md)
 7. 泛型、特性和反射
     * [泛型Genericity](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Genericity.md)
     * [特性Attribute](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Attribute.md)
