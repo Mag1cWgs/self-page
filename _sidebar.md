@@ -48,9 +48,9 @@
       * C#基础
         * 类型系统  <!--放置在 Type-System -->
           * [类型系统的官方文档与整理](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/Type-System.md)
+          * [常用数据类型与类型间转换](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-4-Type-Convert.md)
           * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-3-Variable-Constant.md)
           * [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-5-Struct-Enum.md)
-          * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-4-Type-Convert.md)
           * [string 类的一些用法](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/string.md)
         * [控制语句](/ProjectDocs/cs/Back-end-Development/Csharp/3-Control-Sentence.md)
         * 数组与集合  <!--放置在 Collection-Array-List -->

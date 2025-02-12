@@ -1,3 +1,51 @@
+## 0. 常用类型
+### 常用简单值类型
+- 常用类型中分为简单类型、结构类型和枚举类型
+    - 这里只介绍简单类型
+        - 简单类型对应 .Net Framework 系统类型的别名参见[回顾： .NET、C#、VB.NET、IL的类型对应表](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/string.md)
+    - 结构类型和枚举类型参见[结构类型 struct、枚举类型 enum](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-5-Struct-Enum.md)
+
+1. **整数类型**
+    - 根据在内存中所占**二进制位数不同**和**是否有符号位**，C# 中整数类型分8种
+    - 8 位: 带符号字节型 `sbyte`、无符号字节型 `byte`
+    - 16 位: 带符号 `short`、无符号 `ushort`
+    - 32 位: `int`、`uint`
+    - 64 位: `long`、`ulong`
+2. **实数类型**
+    - 根据取值范围和精度不同
+    - 固定精度浮点数 `decimal` 赋值时必须要再小数类型数据后面加上后缀 `m`/`M` 
+        - 不加会默认识别为标准浮点类型数据
+    - 单精度浮点数 `float`，有 7 位精度
+    - 双精度浮点数 `double`，有 15/16 位精度
+    - 固定精度浮点数 `decimal`，有 28/29 位精度
+3. **字符类型**
+    - 采用 **Unicode** 字符集表示
+    - 取值范围为 `\u0000`~`\uFFFF`（0 ~ 65535）
+    - 标识符为 `char`
+    - 赋值方式： `char valueName = 'charValue' `
+        - 其中 `charValue` 只能有一个有效字符数量
+        - 不能是单引号或者反斜杠
+        - 如果需要输入特殊字符需要使用转义符
+            - 比如用 `\'` 作为单引号，用 `\\` 作为反斜杠
+4. **布尔类型**
+    - 标识符为 `bool`
+    - 在 C# 中，不能像 C/C++ 直接转换为 int 类型
+        - 会有「无法将类型 bool 隐式转换为 int」的编译错误
+
+### 常用引用类型
+1. object 类
+    - 是 C# 中所有类型（值类型和引用类型）的基类
+    - C# 中所有类型都直接/间接的从 object 中继承而来
+        - 可对 object 类实例赋任何值
+    - `object` 关键字是在 .NET Framework 中 `System` 命名空间中定义的，是 `System.Object` 类的别名
+2. string 类
+    - 表示 Unicode 字符序列
+        - 可以对一个 `string` 类对象使用迭代器输出每一个 `char`
+        - 相关运用参考[49.字母异位词分组——进阶解法](/ProjectDocs/cs/Back-end-Development/Algorithm-CSsharp/Hash-Practice.md/#进阶解法)
+    - 同样是 `System.String` 类的别名
+    - `String` 类是密封类，不能派生！
+    - 详见 [string 类的一些用法](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/string.md)
+
 ## 1. 隐式转换
 - 系统默认的不需要加以声明就可以进行的转换
     - 隐式转换过程中编译器不需要进行详细检查就可以安全转换

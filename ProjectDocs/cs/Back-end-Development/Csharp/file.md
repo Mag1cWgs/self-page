@@ -4,14 +4,15 @@
 2. C# 程序设计基础
     - 类型系统
         - [类型系统的官方文档与整理](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/Type-System.md)
+        - [常用数据类型与类型间转换](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-4-Type-Convert.md)
         - [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-3-Variable-Constant.md)
         - [结构和枚举](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-5-Struct-Enum.md)
-        - [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-4-Type-Convert.md)
     - [控制语句](/ProjectDocs/cs/Back-end-Development/Csharp/3-Control-Sentence.md)
     - 数组与集合
         - [概述](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Collection-System.md)
         - [数组](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Array.md)
         - [集合](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/List.md)
+    - [string 类的常见用法](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/string.md)
 5. 面向对象程序设计
     1. [面向对象程序设计概述](/ProjectDocs/cs/Back-end-Development/Csharp/OOP/5-1-introduction.md)
     2. 类

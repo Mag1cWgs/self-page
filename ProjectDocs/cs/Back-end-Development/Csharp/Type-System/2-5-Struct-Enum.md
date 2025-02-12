@@ -80,54 +80,54 @@
 - 现阶段的计算机不仅只用于数值计算，还需要处理非数值的数据。例如：性别、月份、颜色、单位名、学历、职业等，都不是数值数据。 
 - 在程序设计时，如果用一个数值来代表某一状态，这种处理方法不直观，易读性差。
 
-> [!tips]
+> [!tip]
 > 如果能在程序中用自然语言中有相应含义的单词来代表某一状态，则程序就很容易阅读和理解。  
 > 也就是说，事先考虑到某一变量可能取的值，尽量用自然语言中含义清楚的单词来表示它的每一个值。  
 > 枚举类型就是为了实现这一应用而发明的。
 
 ### 2.5 Enum的部分静态方法
 
-- GetName——在指定枚举中检索具有指定值的常数的名称。 
-- GetNames——检索指定枚举中常数名称的数组。
-- GetValues——检索指定枚举中常数值的数组。
+- `GetName` —— 在指定枚举中检索具有指定值的常数的名称。 
+- `GetNames` —— 检索指定枚举中常数名称的数组。
+- `GetValues` —— 检索指定枚举中常数值的数组。
 
 #### 1. Enum.GetNames静态方法   
 - 参数
-    - enumType
-    - 类型： System.Type 
+    - `enumType`
+    - 类型： `System.Type` 
     - 枚举类型。
 - 返回值
-    - 类型： System.String []
+    - 类型： `System.String []`
 - 作用
-    - 取得enumType 的常数名称的字符串数组。
-```cs
-// 【例】输出ThreePrimaryColor中每个枚举常数。
-public enum ThreePrimaryColor { Red, Green, Blue };
+    - 取得 `enumType` 的常数名称的字符串数组。
+    ```cs
+    // 【例】输出ThreePrimaryColor中每个枚举常数。
+    public enum ThreePrimaryColor { Red, Green, Blue };
 
-static void Main(string[] args)
-{
-    int  i = 1;
-    foreach (string s in Enum.GetNames(typeof(ThreePrimaryColor)))
+    static void Main(string[] args)
     {
-        Console.WriteLine( "第{0}个常数名称为：{1}." , i, s);
-        i ++;
+        int  i = 1;
+        foreach (string s in Enum.GetNames(typeof(ThreePrimaryColor)))
+        {
+            Console.WriteLine( "第{0}个常数名称为：{1}." , i, s);
+            i ++;
+        }
+        Console.ReadKey();
     }
-    Console.ReadKey();
-}
-```
+    ```
+
 #### 2. Enum.GetValues静态方法
 - 作用
     检索指定枚举中常数值的数组。 
 - 参数
-    - enumType
-    - 类型： System.Type 
+    - `enumType`
+    - 类型： `System.Type `
     - 枚举类型。
 - 返回值
-    - 类型： System.Array 
-    - 一个数组，其中包含 enumType 中实例的值。 
-        数组的元素按枚举常数的二进制值排序。
-```cs
+    - 类型： `System.Array `
+    - 一个数组，其中包含 `enumType` 中实例的值。数组的元素按枚举常数的二进制值排序
 
+```cs
 // 【例】 输出Season中的每个枚举值、命名常量以及其对应的汉字。
 Season season;
 foreach (int i in Enum.GetValues(typeof(Season))) {
@@ -147,8 +147,12 @@ foreach (int i in Enum.GetValues(typeof(Season))) {
 > [!attention]
 > 1. 一般情况下，只能将该枚举类型中的命名常量或文本直接赋予枚举变量，否则编译时就会提示错误。
 > 2. 一个枚举的基础类型的任何一个值都可以被强制转换为该枚举类型，成为该枚举类型的一个独特的有效值。
-> 3. 应尽可能采用枚举类型来管理整数常量。这样，一方面可以提高代码的可读性；另一方面，如果以后整数常量发生了变化，只需要在枚举类型声明中，修改该命名常量的值，即可完成的相应修改，而不是在所有关联的代码中，首先查找出包含该字面值的地方，然后决定是否要修改。
-> 4. 虽然一个枚举类型内的命名常量不能相同，但不同命名常量可以取同一个值。因此，如果存在诸如“由值到枚举类型的强制转换”或“依据命名常量获得对应的汉字”这样的需求，应保持枚举成员中命名常量和枚举值之间的一一对应关系。
+> 3. 应尽可能采用枚举类型来管理整数常量。
+>    - 这样，一方面可以提高代码的可读性；
+>    - 另一方面，如果以后整数常量发生了变化，只需要在枚举类型声明中，修改该命名常量的值，即可完成的相应修改
+>         - 而不是在所有关联的代码中，首先查找出包含该字面值的地方，然后决定是否要修改。
+> 4. 虽然一个枚举类型内的命名常量不能相同，但不同命名常量可以取同一个值。
+>    - 因此，如果存在诸如“值=>枚举的强制转换”或“依据命名常量获得对应的汉字”这样的需求，应保持枚举成员中命名常量和枚举值之间的一一对应关系。
 
 
 ### 例1：实现性别的枚举
@@ -179,7 +183,7 @@ namespace c_sharp_learning
     }
     
     /// <summary>
-    /// // 默认int型指定，使用标识符internal表示程序集内部使用
+    /// 默认int型指定，使用标识符internal表示程序集内部使用
     /// </summary>
     internal enum Gender01 :int
     {   /// <summary>
