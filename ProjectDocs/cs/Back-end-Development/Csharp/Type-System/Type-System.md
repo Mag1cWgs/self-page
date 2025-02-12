@@ -42,8 +42,8 @@
         - 例如，在将值分配给新变量或作为方法自变量传递时，编译器会自动执行不会导致数据丢失的类型转换。
         - 如果类型转换可能会导致数据丢失，必须在源代码中进行显式转换。
     > [!note|label:参考笔记]
-    > * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/2-3-Variable-Constant.md)
-    > * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/2-4-Type-Convert.md)
+    > * [变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-3-Variable-Constant.md)
+    > * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-4-Type-Convert.md)
 
 ### 1.3 内置类型
 - C# 提供了一组标准的内置类型。
@@ -160,7 +160,7 @@ System 命名空间
         - 这将导致“装箱”操作，以将结构包装在托管堆上的引用类型对象内。
         - 当你将值类型传递给使用 `System.Object` 或任何接口类型作为输入参数的方法时，就会发生装箱操作。
         > [!note|label:参考笔记]
-        > * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/2-4-Type-Convert.md)
+        > * [类型的转换](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-4-Type-Convert.md)
 
 ### 1.7 引用类型
 - 使用`class`、`record`、`delegate`、数组或`interface`定义的类型称为**引用类型**
@@ -185,7 +185,7 @@ System 命名空间
 在 C# 中，文本值从编译器接收类型。
 - 可以通过在数字末尾追加一个字母来指定数字文本应采用的类型。
     - 例如，若要指定应按 `float` 来处理值 `4.56`，则在该数字后追加一个“f”或“F”，即 `4.56f`。
-    - 参考笔记[变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/2-3-Variable-Constant.md)中`3.1 直接常量`部分。
+    - 参考笔记[变量与常量](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/2-3-Variable-Constant.md)中`3.1 直接常量`部分。
 - 如果没有追加字母，那么编译器就会推断文本值的类型。 
 
 - 由于文本已类型化，且所有类型最终都是从 `System.Object` 派生，因此可以编写和编译如下所示的代码：

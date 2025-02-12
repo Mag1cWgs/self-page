@@ -56,6 +56,7 @@
           * [概述](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Collection-System.md)
           * [Array、ArrayList\<T>](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Array.md)
           * [List\<T>](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/List.md)
+          * [常用集合类型](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Common-Collection-Type.md)
         * 常用类型和结构
             * [常用类型和结构](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/widely-used-type.md)
             * [string 类的常见用法](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/string.md)
