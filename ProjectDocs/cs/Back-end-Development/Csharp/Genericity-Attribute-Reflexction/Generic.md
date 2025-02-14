@@ -268,15 +268,64 @@
 - 参考链接
     - [MSDN](https://learn.microsoft.com/zh-cn/dotnet/standard/generics/delegates-for-manipulating-arrays-and-lists)
 
+### 3.1 用于操作数组和列表的泛型委托
+
+- [Action<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.action-1) 泛型委托表示对指定类型的元素执行某些操作的方法。
+    - 只需先创建一种对元素执行所需操作的方法
+    - 而后创建 `Action<T>` 委托的实例来表示该方法
+    - 最后将该数组和委托传递给 [Array.ForEach](https://learn.microsoft.com/zh-cn/dotnet/api/system.array.foreach) 静态泛型方法。
+    - 数组的每个元素都可以调用该方法。
+
+- [List<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.list-1) 泛型类还提供了 [ForEach](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.list-1.foreach) 方法，该方法使用 [Action<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.action-1) 委托。
+    - 此方法不属泛型方法。
+
+> [!tip|label:备注]
+> - 这使泛型类型和方法变得有趣。
+> - [Array.ForEach](https://learn.microsoft.com/zh-cn/dotnet/api/system.array.foreach) 方法必须是静态（在 Visual Basic 中为 `Shared`）和泛型的，因为 [Array](https://learn.microsoft.com/zh-cn/dotnet/api/system.array) 不是泛型类型；
+> - 你可以对 Array.ForEach 指定一种类型以继续运行的唯一原因是该方法有自己的类型参数列表。
+> - 与之相反，非泛型 List<T>.ForEach 方法属于泛型类 List<T>，因此它仅使用其类的类型参数。
+> - 该类为强类型，因此此方法可以作为实例方法。
+
+- [Predicate<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.predicate-1) 泛型委托表示的是用于确定特定元素是否满足你定义的标准的方法。
+    - 可以将其用于 `Array` 的以下静态泛型方法来搜索一个或一组元素：
+        - `Exists`、`Find`、`FindAll`、`FindIndex`、`FindLast`、`FindLastIndex` 和`TrueForAll`。
+- `Predicate<T>` 也适用于 `List<T>` 泛型类相应的非泛型实例方法。
+
+- [Comparison<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.comparison-1) 泛型委托让你能为不具有本机排序顺序的数组或列表元素提供顺序排序或重写本机排序顺序。
+    - 创建执行比较的方法，创建一个 `Comparison<T>` 委托的实例，以表示你的方法
+    - 然后将该数组和委托传递给 `Array.Sort<T>(T[], Comparison<T>)` 静态泛型方法。
+    - `List<T>` 泛型类提供相应的实例方法重载：`List<T>.Sort(Comparison<T>)`。
+
+- [Converter<TInput,TOutput>](https://learn.microsoft.com/zh-cn/dotnet/api/system.converter-2) 泛型委托让你能定义两个类型之间的转换
+    - 将一个类型的数组转换到另一个类型的数组，或者将一个类型的列表转换到另一个类型的列表。
+    - 创建将现有列表元素转换为新类型的方法: 
+        - 创建一个委托实例来表示该方法，并使用 `Array.ConvertAll` 泛型静态方法
+            - 从原始数组生成新类型数组；
+        - 或使用 `List<T>.ConvertAll<TOutput>(Converter<T,TOutput>)` 泛型实例方法 
+            - 从原始列表生成新类型列表。
+
+### 3.2 链接委托
+- 使用这些委托的许多方法返回数组或列表，然后传递到另一种方法。
+- 例如，如果你想要选择某些数组元素，将这些元素转换为新类型，并将其保存在新的数组中，则可以将 `FindAll` 泛型方法返回的数组传递到 `ConvertAll` 泛型方法。 
+- 如果新的元素类型缺少自然排序顺序，你可以将 `ConvertAll` 泛型方法返回的数组传递到 `Sort<T>(T[], Comparison<T>)` 泛型方法。
+
 
 
 ---
 
 
 
-## 4 泛型数学
+## 4 泛型数学(.NET 7)
 - 参考链接
     - [MSDN](https://learn.microsoft.com/zh-cn/dotnet/standard/generics/math)
+
+- .NET 7 为基类库引入了新的数学相关泛型接口。
+- 提供这些接口意味着可以将泛型类型或方法的类型参数约束为“类似于数字”。 
+- 此外，C# 11 及更高版本允许定义 `static virtual` 接口成员。
+- 由于必须将运算符声明为 `static`，因此这一新的 C# 功能可用于在新接口中为类似于数字的类型声明运算符。
+
+- 库作者将从泛型数学接口中受益最多，因为他们可以通过删除“冗余”重载来简化其代码库。
+- 其他开发人员将间接受益，因为他们使用的 API 可能会开始支持更多类型。
 
 
 
@@ -288,6 +337,53 @@
 - 参考链接
     - [MSDN](https://learn.microsoft.com/zh-cn/dotnet/standard/generics/interfaces)
 
+- 泛型接口提供与非泛型接口对应的类型安全接口
+    - 用于实现排序比较、相等比较以及泛型集合类型所共享的功能。
+- .NET 7 为类似数字的类型引入了泛型接口
+    - 例如 `System.Numerics.INumber<TSelf>`。
+    - 通过这些接口可定义提供数学功能的泛型方法，其中泛型类型参数被约束为实现泛型数字接口的类型。
+    > [!tip|label:备注]
+    > 多个泛型接口的类型参数标记为协变或逆变，这为分配和使用实现这些接口的类型提供了更好的灵活性。 有关详细信息，请参阅[协变和逆变](https://learn.microsoft.com/zh-cn/dotnet/standard/generics/covariance-and-contravariance)。
+
+### 5.1 相等比较和排序比较
+#### System 命名空间中
+- [System.IComparable<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.icomparable-1) 和 [System.IEquatable<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.iequatable-1) 泛型接口与它们对应的非泛型接口一样
+    - 各自定义了用于排序比较和相等比较的方法。
+    - 类型通过实现这些接口来提供执行这些比较的能力。
+
+#### System.Collections.Generic 命名空间
+- [IComparer<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.icomparer-1) 和 [IEqualityComparer<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.iequalitycomparer-1) 泛型接口
+    - 为没有实现 [System.IComparable<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.icomparable-1) 或 [System.IEquatable<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.iequatable-1) 接口的类型提供了一种定义排序比较和相等比较的方式。
+    - 对于实现了这些接口的类型，它们还提供了一种方式来重新定义它们的关系。
+
+- 这些接口由许多泛型集合类的方法和构造函数使用。
+    - 可以将泛型 `IComparer<T>` 对象传递至 [SortedDictionary<TKey,TValue>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.sorteddictionary-2) 类的构造函数，以便为没有实现泛型 `System.IComparable<T>` 的类型指定排列顺序。
+    - 存在 [Array.Sort](https://learn.microsoft.com/zh-cn/dotnet/api/system.array.sort) 泛型静态方法与通过泛型 `IComparer<T>` 实现对数组和列表进行排序的 [List<T>.Sort](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.list-1.sort) 实例方法的重载。
+
+- [Comparer<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.comparer-1) 和 [EqualityComparer<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.equalitycomparer-1) 泛型类
+    - 为 `IComparer<T>` 和 `IEqualityComparer<T>` 泛型接口的实现提供基类
+    - 还通过其各自的 [Comparer<T>.Default](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.comparer-1.default) 和 [EqualityComparer<T>.Default](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.equalitycomparer-1.default) 属性提供默认排序比较和相等性比较。
+
+### 5.2 集合功能
+- [ICollection<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.icollection-1) 泛型接口是泛型集合类型的基本接口。
+    - 它提供添加、删除、复制和枚举元素的基本功能。
+    - `ICollection<T>` 继承自泛型 [IEnumerable<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.ienumerable-1) 和非泛型 [IEnumerable](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.ienumerable)。
+
+- [IList<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.ilist-1) 泛型接口使用索引检索的方法扩展 [ICollection<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.icollection-1) 泛型接口。
+
+- [IDictionary<TKey,TValue>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.idictionary-2) 泛型接口使用键控检索的方法扩展 `ICollection<T>` 泛型接口。
+    - .NET 基类库中的泛型字典类型还实现非泛型 [IDictionary](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.idictionary) 接口。
+
+- [IEnumerable<T>](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.generic.ienumerable-1) 泛型接口提供泛型枚举器结构。
+    - 泛型枚举器实现的 `IEnumerator<T>` 泛型接口继承自非泛型 [IEnumerator](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.ienumerator) 接口；
+    - [MoveNext](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.ienumerator.movenext) 和 [Reset](https://learn.microsoft.com/zh-cn/dotnet/api/system.collections.ienumerator.reset) 成员（不依赖于类型参数 `T`）仅出现在非泛型接口中。
+        - 这意味着非泛型接口的任何使用者还可以使用泛型接口。
+
+### 5.3 数学功能
+- .NET 7 在 [System.Numerics](https://learn.microsoft.com/zh-cn/dotnet/api/system.numerics) 命名空间中引入了泛型接口，用于描述类似数字的类型及其可用的功能。
+- .NET 基类库提供的 20 种数字类型（例如 `Int32` 和 `Double`）已更新以实现这些接口。
+- 这些接口中最突出的是 [INumber<TSelf>](https://learn.microsoft.com/zh-cn/dotnet/api/system.numerics.inumber-1)，它大致对应于一个“真实”数字。
+
 
 
 ---
@@ -297,4 +393,27 @@
 ## 6 协变和逆变
 - 参考链接
     - [MSDN](https://learn.microsoft.com/zh-cn/dotnet/standard/generics/covariance-and-contravariance)
+    - [MSDN: C# 编程指南: 逆变和协变](https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/concepts/covariance-contravariance/)
+    - [CSDN: 协变 (Covariant)、逆变 (Contravariant) 与不变 (Invariant)](https://blog.csdn.net/B1151937289/article/details/119523464)
+    - [ZhiHu: 推荐学习：C# 逆变的具体应用场景](https://zhuanlan.zhihu.com/p/463536930)
 
+- 协变和逆变都是术语
+    - **协变(Covariance)**指能够使用比原始指定的派生类型的派生程度更大（更具体的）的类型
+        - 保留分配兼容性
+        - 数组的协变使派生程度更大的类型的数组能够隐式转换为派生程度更小的类型的数组，但是此操作**不是类型安全的操作**
+    - **逆变(Contravariance)**指能够使用比原始指定的派生类型的派生程度更小（不太具体的）的类型
+        - 不保留兼容性
+    - 相应的还有一个**不变(Invariance)**
+- 泛型类型参数支持协变和逆变，可在分配和使用泛型类型方面提供更大的灵活性。
+- 对方法组的协变和逆变支持允许将方法签名与委托类型相匹配。
+    - 这样，不仅可以将具有匹配签名的方法分配给委托
+    - 还可以分配与委托类型指定的派生类型相比
+        - 返回派生程度更大的类型的方法（协变）
+        - 或接受具有派生程度更小的类型的参数的方法（逆变）。
+
+> 以下内容待填充
+- 具有协变类型参数的泛型接口
+-  具有逆变类型参数的泛型接口
+-  具有 Variant 类型参数的泛型委托
+-  定义变体泛型接口和委托
+-  类型列表
