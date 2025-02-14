@@ -12,6 +12,7 @@
         - [概述](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Collection-System.md)
         - [Array、ArrayList\<T>](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Array.md)
         - [List\<T>](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/List.md)
+        - [常用集合类型](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/Common-Collection-Type.md)
     - 常用类型和结构
         - [常用类型和结构](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/widely-used-type.md)
         - [string 类的常见用法](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/string.md)
@@ -36,7 +37,7 @@
     4. [接口](/ProjectDocs/cs/Back-end-Development/Csharp/Inheritance-Connector/6-4-Connector.md)
     5. [接口在集合排序中的应用](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/interface-collection-sort.md)
 7. 泛型、特性和反射
-    * [泛型Genericity](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Genericity.md)
+    * [泛型Genericity](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Generic.md)
     * [特性Attribute](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Attribute.md)
     * [反射Reflection](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Reflection.md)
 8. 枚举器和迭代器

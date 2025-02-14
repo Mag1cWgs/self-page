@@ -67,17 +67,17 @@
         }
         ```
 - 五种约束
-    - `struct` 类型约束:
+    - `struct` 类型约束: `where T: struct`
         - `T` 必须是值类型
-        - 可以指定除 `Nullable`(`Type?`) 之外的任何值类型
-    - `class` 类型约束:
-        - 必须是引用类型，包括 类、接口、委托、数组等
-    - `new()` 类型约束(比如匿名函数):
-        - 必须具有无参数的公共构造函数
-    - `BaseClassName` 类型参数
-        - 必须是指定的基类 `BaseClassName` 或者它的派生类
-    - `IInterfaceName` 类型参数
-        - 必须是指定的接口或者实现指定的接口
+        - `T` 可以指定除 `Nullable`(`Type?`) 之外的任何值类型
+    - `class` 类型约束: `where T: class`
+        - `T` 必须是引用类型，包括 类、接口、委托、数组等
+    - `new()` 类型约束: `where T: new()`
+        - `T` 必须具有无参数的公共构造函数
+    - `BaseClassName` 类型约束: `where T: BaseClassName`
+        - `T` 必须是指定的基类 `BaseClassName` 或者它的派生类
+    - `IInterfaceName` 类型约束: `where T: IInterfaceName`
+        - `T` 必须是指定的接口或者实现指定的接口
 
 ### 0.5 泛型的继承
 - 除了直接声明泛型，也可以在基类中包含泛型类的声明

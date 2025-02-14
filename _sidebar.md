@@ -72,7 +72,7 @@
         * [接口](/ProjectDocs/cs/Back-end-Development/Csharp/Inheritance-Connector/6-4-Connector.md)
         * [接口在集合排序中的应用](/ProjectDocs/cs/Back-end-Development/Csharp/Collection-Array/interface-collection-sort.md)
       * 泛型、特性与反射  <!--放置在 Genericity-Attribute-Reflection -->
-        * [泛型Genericity](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Genericity.md)
+        * [泛型Genericity](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Generic.md)
         * [特性Attribute](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Attribute.md)
         * [反射Reflection](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Reflection.md)
       * 工具类库  <!--放置在 Tools -->
