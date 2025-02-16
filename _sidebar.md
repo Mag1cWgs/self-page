@@ -5,12 +5,10 @@
   * 如何建立自己的主页
     * [Docsify部署教程](/ProjectDocs/cs/Docsify/docsify-startinit.md)
     * [当前站点所用到的插件](/ProjectDocs/cs/Docsify/plugin-docsify-used.md)
-
-  * 前端语言学习
+  * 编程语言与框架学习
     * [参考](/ProjectDocs/cs/Front-end-Development/Introduction.md)
     * [Node.Js](/ProjectDocs/cs/Front-end-Development/NodeJs-DownloadInit.md)
   
-  * 后端语言学习
     * Python
 
     * 算法导论初步（Python）
