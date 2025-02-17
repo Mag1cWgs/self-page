@@ -116,6 +116,11 @@
 ## 参考鸣谢相关
 感谢以下引用链接的内容创作者！
 
+- [博客园: 追逐时光者](https://www.cnblogs.com/Can-daydayup/p/18475813)
+    - 多平台发布，有框架精选，有招聘推荐
+- [博客园: 叫我安不理](https://home.cnblogs.com/u/lmy5215006)
+    - [叫我安不理 的 博客园博文](https://www.cnblogs.com/lmy5215006)
+    - [.Net Core 学习笔记(底层原理浅谈)](https://www.cnblogs.com/lmy5215006/p/18529501)
 - [博客园: StrugglingDave](https://home.cnblogs.com/u/wyh19941210)
     - [c#学习路线及目录导航](https://www.cnblogs.com/wyh19941210/p/8506526.html)
     - [StrugglingDave 的 博客园博文](https://www.cnblogs.com/wyh19941210)
@@ -126,5 +131,22 @@
     - [基础知识详解系列目录](https://www.cnblogs.com/hulizhong/p/11205119.html)
 - [小林野夫](https://home.cnblogs.com/u/cdaniu)
     - [小林野夫 的 博客园博文](https://www.cnblogs.com/cdaniu)
-
-
+- [一线码农](https://home.cnblogs.com/u/huangxincheng)
+    - 调试、纠错为主
+    - [一线码农 的 博客园博文](https://www.cnblogs.com/huangxincheng)
+    - [12篇学通C#网络编程——第一篇 基础之进程线程](https://www.cnblogs.com/huangxincheng/archive/2012/01/03/2310779.html)
+- [安木夕——技术人生（IT）](https://www.yuque.com/kanding/ktech)
+    - 很全的语雀文档
+- [Mustenaka](https://www.mustenaka.cn/index.php/author/mustenaka/)
+    - [C#学习路线图](https://www.mustenaka.cn/index.php/2022/02/16/learnofcsharp/)
+- [CSDN: 厦门德仔](https://david.blog.csdn.net/?type=blog)
+    - 全栈
+    - [.Net C#](https://blog.csdn.net/david_520042/category_755585.html)
+- [博客园: 农码一生](https://home.cnblogs.com/u/zhaopei)
+    - 全栈，有很多实战项目，工控物联相关
+    - [农码一生 的 博客园博文](https://www.cnblogs.com/zhaopei)
+    - [你也可以写个聊天程序 - C# Socket学习1](https://www.cnblogs.com/zhaopei/p/Socket1.html)
+- [博客园: 每天进步多一点](https://home.cnblogs.com/u/lgx5)
+    - [每天进步多一点 的 博客园博文](https://www.cnblogs.com/lgx5)
+    - [C#中处理JSON数据的方式](https://www.cnblogs.com/lgx5/p/18221632)
+    - [C# Newtonsoft.Json 高级用法](https://www.cnblogs.com/lgx5/p/18299936)
