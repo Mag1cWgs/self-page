@@ -27,3 +27,7 @@
         - 使用 NuGet 部署
 - [.NET_海/DBUtility]
     - [博客园源码](https://www.cnblogs.com/bin521/p/10515930.html)
+- [BenchMark 基准测试类]
+    - [GitHub: aspnet/Benchmarks](https://github.com/aspnet/benchmarks)
+    - [官网](https://benchmarkdotnet.org/)
+    - [【基准测试】BenchmarkDotNet介绍 ](https://www.cnblogs.com/WilsonPan/p/12904664.html)
