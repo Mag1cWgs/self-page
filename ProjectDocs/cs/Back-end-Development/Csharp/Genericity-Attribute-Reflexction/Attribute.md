@@ -646,3 +646,7 @@
 - [csdn: C#高级语法 Attribute特性详解和类型，方法，变量附加特性讲解](https://blog.csdn.net/qq_44695769/article/details/135384682)
 - [Microsoft: 定义和读取自定义特性](https://learn.microsoft.com/zh-cn/dotnet/csharp/advanced-topics/reflection-and-attributes/attribute-tutorial)
 - [博客园: C#属性(Attribute)用法实例解析](https://www.cnblogs.com/ldyblogs/p/attribute.html)
+- [C#中的Attribute和元数据](https://zhuanlan.zhihu.com/p/35177627)
+- [C#之反射、元数据详解](https://www.cnblogs.com/hulizhong/p/11364543.html)
+- [一次失败的尝试（上）：原来GetCustomAttributes方法每次都返回新的实例](https://www.cnblogs.com/JeffreyZhao/archive/2009/11/10/GetCustomAttribute-always-returns-new-instances.html)
+- [Attribute操作的性能优化方式](https://www.cnblogs.com/JeffreyZhao/archive/2009/11/18/attribute-performance-improvement.html)
