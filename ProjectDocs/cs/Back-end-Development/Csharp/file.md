@@ -1,4 +1,7 @@
+## 本科课程相关
 - [面向对象编程考试信息](/ProjectDocs/cs/Back-end-Development/Csharp/Exam.md)
+
+## 学习积累相关
 0. [命名规范](/ProjectDocs/cs/Back-end-Development/Csharp/NameRules.md)
 1. C# 语言概述
 2. C# 程序设计基础
@@ -42,8 +45,13 @@
     * [反射Reflection](/ProjectDocs/cs/Back-end-Development/Csharp/Genericity-Attribute-Reflexction/Reflection.md)
 8. 枚举器和迭代器
 9. 文件操作
+    * 文件操作
+    * 流操作
+10. 序列化与反序列化
+    * [Serialization 特性](/ProjectDocs/cs/Back-end-Development/Csharp/Serialization-And-Deserialization/SerializationAttribute.md)
 10. 错误调试和异常处理
 11. 多线程和异步程序设计
+    * [多线程与异步设计](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/Multi-Thread.md)
 12. 工具类库
     * [个人搜集的一些工具类库](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Utility-Collection.md)
 13. ADO.NET 数据库访问技术
@@ -104,3 +112,19 @@
             - ASP.NET Web Forms
                 - Ajax
             - ASP.NET Web Pages
+
+## 参考鸣谢相关
+感谢以下引用链接的内容创作者！
+
+- [博客园: StrugglingDave](https://home.cnblogs.com/u/wyh19941210)
+    - [c#学习路线及目录导航](https://www.cnblogs.com/wyh19941210/p/8506526.html)
+    - [StrugglingDave 的 博客园博文](https://www.cnblogs.com/wyh19941210)
+    - [.NET CORE 学习](https://www.cnblogs.com/wyh19941210/category/1506479.html)
+    - [.NET 学习](https://www.cnblogs.com/wyh19941210/category/823080.html)
+    - [设计模式学习](https://www.cnblogs.com/wyh19941210/category/770558.html)
+- [博客园: 小世界的野孩子](https://home.cnblogs.com/u/hulizhong)
+    - [基础知识详解系列目录](https://www.cnblogs.com/hulizhong/p/11205119.html)
+- [小林野夫](https://home.cnblogs.com/u/cdaniu)
+    - [小林野夫 的 博客园博文](https://www.cnblogs.com/cdaniu)
+
+
