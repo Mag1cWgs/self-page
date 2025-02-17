@@ -49,7 +49,8 @@
 
     * C#   <!--放置在 CSharp -->
       * [内容目录](/ProjectDocs/cs/Back-end-Development/Csharp/file.md)
-      * [C#代码规范](/ProjectDocs/cs/Back-end-Development/Csharp/NameRules.md)
+      * [代码规范](/ProjectDocs/cs/Back-end-Development/Csharp/NameRules.md)
+      * [文档注释](/ProjectDocs/cs/Back-end-Development/Csharp/Documentation-Comments.md)
       * C#基础
         * 类型系统  <!--放置在 CSharp/Type-System -->
           * [类型系统的官方文档与整理](/ProjectDocs/cs/Back-end-Development/Csharp/Type-System/Type-System.md)
@@ -109,7 +110,6 @@
       * 资源与模板
       * 绘图与动画
 
-
   * 数据库    <!--放置在 cs/Sql -->
     * 参考链接
     * MySql 相关学习
@@ -120,10 +120,8 @@
     * SqlLite
     * Redis
 
-
   * 设计模式  <!--放置在 cs/DesignPattern -->
     * [设计模式介绍](/ProjectDocs/cs/DesignPattern/init.md)
-
 
   * 工具
     * [命令行的艺术（转载、部分链接丢失）](/ProjectDocs/cs/CMD/Command-CMDart.md)
@@ -132,6 +130,10 @@
     * [Markdown语法学习](/ProjectDocs/cs/Markdown-Using.md)
     * [LaTex语法学习](/ProjectDocs/cs/LaTeX/LaTex-Learning.md)
 
+  * 实战项目
+    * 学生信息管理系统
+    * ERP 简易进销存系统
+    * Todo 待办事项桌面应用
 
 
 * 数学笔记
@@ -140,7 +142,7 @@
   * [复变函数](/ProjectDocs/Mathematic/Complex-Function-Exam-Review.md)
   * [运筹学](/ProjectDocs/Mathematic/Operations-Research.md)
   * [最优化理论与算法](/ProjectDocs/Mathematic/Optimization-Calculation-Method.md)
-  * [一些转码自学可用参考](/ProjectDocs/Prattle/LearnCS/Ref_For_CS.md)
+  * [转码自学中收集的一些资料](/ProjectDocs/Prattle/LearnCS/Ref_For_CS.md)
 
 
 

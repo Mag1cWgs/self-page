@@ -49,31 +49,27 @@
             - CSS
             - JavaScript
 - 框架
-    - 介绍：
-        简而言之，提供一个基础的项目架构，不用一切重新造轮子。
-    - 单端框架
-        - 前端
-            - Angular 
-            - React.js
-            - Vue.js
-            - Svelte
-            - jQuery
-        - 后端
-            - Node.js
-            - Express (Node.js(JavaScript))
-            - Koa (Node.js(JavaScript))
-            - NextJS (Node.js(JavaScript))
-            - Django (python)
-            - Flask (python)
-            - Spring Boot (Java)
-            - Fiber (Golang)
-    - 桌面开发
-        - Qt (C++) 
-        - Swing/JavaFX (Java)
-        - Electron (HTML/CSS/JavaScript)
-        - WinForms (C# .NET Framework)
-        - WPF (.NET)
-        - ASP.NET Core (C#)
+    - 前端
+        - Angular 
+        - React.js
+        - Vue.js
+        - Svelte
+        - jQuery
+    - 后端
+        - Node.js
+        - Express (Node.js(JavaScript))
+        - Koa (Node.js(JavaScript))
+        - NextJS (Node.js(JavaScript))
+        - Django (python)
+        - Flask (python)
+        - Spring Boot (Java)
+        - Fiber (Golang)
+    - Qt (C++) 
+    - Swing/JavaFX (Java)
+    - Electron (HTML/CSS/JavaScript)
+    - WinForms (C# .NET Framework)
+    - WPF (.NET)
+    - ASP.NET Core (C#)
 
 - 工具
     - 中间件
