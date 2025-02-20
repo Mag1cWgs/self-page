@@ -132,7 +132,7 @@
 
   * 实战项目
     * 学生信息管理系统
-    * ERP 简易进销存系统
+    * [ERP 简易进销存系统](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Program-Documentation.md)
     * Todo 待办事项桌面应用
 
 

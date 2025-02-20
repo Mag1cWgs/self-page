@@ -116,6 +116,7 @@
 
 ## 参考鸣谢相关
 感谢以下引用链接的内容创作者！
+
 ### 博客类为主
 - [博客园: 追逐时光者](https://www.cnblogs.com/Can-daydayup/p/18475813)
     - 多平台发布，有框架精选，有招聘推荐
@@ -168,6 +169,12 @@
 - [就叫我啊禾斗吧](https://space.bilibili.com/48808444/upload/video)
     - WPF
     - [合集·基于WPF深度学习Prism框架，快速开发WPF应用](https://space.bilibili.com/48808444/lists/1402801?type=season)
+- [无聊的年](https://space.bilibili.com/88301311/upload/video)
+    - MAUI / C# / F# / 函数式编程
+    - [视频合集列表](https://space.bilibili.com/88301311/lists)
+- [南邸鬼王](https://space.bilibili.com/1583113384/upload/video)
+    - WPF / C#
+    - [视频合集列表](https://space.bilibili.com/1583113384/lists)
 
 ### 项目实战相关
 - 进销存系统
