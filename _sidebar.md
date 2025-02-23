@@ -134,7 +134,8 @@
     * 学生信息管理系统
     * ERP 简易进销存系统
       * [项目文档](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Program-Documentation.md)
-      * [开发笔记-1](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Note-1.md)
+      * [开发笔记-项目设计](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Note-Project-Sql.md)
+      * [开发笔记-窗体设计](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Note-Form.md)
     * Todo 待办事项桌面应用
 
 
