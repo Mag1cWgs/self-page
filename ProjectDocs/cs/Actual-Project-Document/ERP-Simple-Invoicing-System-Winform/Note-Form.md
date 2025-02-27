@@ -1,5 +1,5 @@
 
-## 编程处理
+## 单窗体功能设计
 
 ### 窗体加载事件处理
 - 项目背景：
@@ -313,3 +313,70 @@
             B_Message_BLL.ShowConfirm("0001");  // 查询后提示保存成功
         }
     ```
+
+
+
+---
+
+
+
+## 多窗体间交互设计
+
+### 子代码窗体中主代码查询与选取
+
+#### 方案设计与选择
+- 当前子代码窗体样式
+    <div align="center">
+    <img src='/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/image/BaseInformationManageForm/Base.FrmMinor_窗体样式.png' width=60%>
+    </div>
+    - 其中主代码编号是对子表查询的必须项
+    - 查询前获取主代码编号有几种方案:
+        1. 用户自己输入完整主代码
+            - 会有人工失误
+        2. 使用下拉菜单辅助用户查询
+            - 数据过多时人工查找困难
+        3. 使用参照窗体，单独设置搜索并跨窗体传参
+            - 可以用户输入
+            - 也可以点击查询按钮弹出搜索主代码窗体
+                - 但是一旦查询就设置为只读，只能重新查询并自动填充
+        4. 使用参照窗体，单独设置搜索并跨窗体传参
+            - 不允许用户手动输入
+            - 设置为只能点击查询按钮弹出搜索主代码窗体
+
+- 最终选择第四方案：
+    1. 参照主代码窗体进行查找主代码参照窗体布局设计
+        - 仅设置查询按钮
+        - 查询结果只读，只允许单行选择
+        <div align="center">
+        <img src='/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/image/BaseInformationManageForm/Base.POP.FrmPopMajor_窗体样式.png' width=60%>
+        </div>
+    2. 在子代码窗体中点击查找主代码参照窗体时弹出该窗体
+        - 弹出时默认查询所有主代码
+        - 在其中输入查询按钮进行查询
+        - 并选择一行作为查询结果
+        <div align="center">
+        <img src='/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/image/BaseInformationManageForm/Base.FrmMinor.btnSearchMajor_cd_Click事件_现方案.png' width=60%>
+        </div>
+    3. 选择完成后将选择结果返回到子代码窗体
+        - 自动填充
+    
+    > [!tip|label:textMajor_cd设为只读的原因]
+    > - 子代码数据在数据库中是综合主键：主代码编号、子代码编号。
+    > - 在对子代码数据修改后进行保存时候，需要读取当前数据的主代码编号，读取值来自查询时输入值
+    >   - 当前在按钮点击事件中会修改 `textMajor_cd.Text` 并将 `FrmMinor.selectedMajor_cd` 先赋值后重置
+    >   - 读取的是主窗体中控件 `string major_cdForQuery` 的 `Text` 属性作为查询条件中主代码编号
+    > - 优化: 
+    >   - 可以直接在子代码窗体文件中设置一个专门存储和查询的字段
+    >   - 也就是建立一个 `string major_cdForQuery` 字段来存储查询所用字段
+    >   - 只需在按钮点击事件中，修改 `textMajor_cd.Text` 的同时也赋值给 `major_cdForQuery`
+    >   - 无需在另外设置  `string major_cdForQuery` 为只读
+    >   - 在查询前比较按钮点击时设置的 `major_cdForQuery` 是否与 `textMajor_cd.Text` 一致
+    >       - 如果一致则正常查询，不一致则弹窗提示用户再次选择取用查询结果还是后来修正的结果。
+    > - 如果用第四方案，可以直接在查询过程中判断是否要更改 `textMajor_cd.Text`，
+    >   - 无需设置 `FrmMinor.selectedMajor_cd` 字段来存储
+
+> [!note]
+> 窗体之间传参的几种常用方案：
+> - 使用静态变量，被调用窗体中有方法可以改变该变量，外部只需调用这个静态变量
+>   - 实际应当减少静态字段使用，因为会持续占用内存空间，不会随着实例回收。
+> - 使用委托进行跨线程操作
