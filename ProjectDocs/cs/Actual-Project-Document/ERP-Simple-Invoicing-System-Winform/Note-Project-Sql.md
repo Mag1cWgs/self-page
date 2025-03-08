@@ -109,7 +109,7 @@
 
 ## 数据库操作
 
-### 流程分析：查表操作
+### 流程分析：软件——数据库查表操作
 - 流程分析
     - 在 MODEL 层有查询对象的实体类
     - 在 DAL 层中做对数据库查询并转换为查询对象
@@ -266,7 +266,8 @@
                        [ 数 据 库 ]
         ```
 
-### 查询异常编号
+### 流程分析：软件——数据库查询异常编号
+
 #### 方案分析与选择
 - 对于异常编号的存储，通常有两种：
     - 本地存储（使用 xml/json 等）（单机查找）
@@ -432,3 +433,89 @@
         }
     }
     ```
+
+### 数据库设计：查询语句中内联表格的优化
+#### 面对场景：
+- 对某表进行查询时，需要联动其他表格查询辅助字段
+- 传统的 SQL 语句如下：
+    ```sql
+    -- 已简化大多数字段
+    SELECT
+        A.bp_cd,
+        A.bp_full_nm,
+        A.bp_nm,
+        A.bank_cd,
+        B.minor_nm AS bank_cd_nm, -- 设置 B.minor_nm 记为 bank_cd_nm
+        A.pay_type,
+        C.minor_nm AS pay_type_nm -- 设置 C.minor_nm 记为 pay_type_nm
+    FROM dbo.b_partner AS A -- 将当前表 dbo.b_partner 记为A
+
+    -- 链接表 dbo.b_minor，设置链接条件为
+    -- A.bank_cd = B.minor_cd 且 b.major_cd = '1002'
+    -- 将这个连接的结果集别名为 B
+    INNER JOIN dbo.b_minor AS B ON
+        A.bank_cd = B.minor_cd AND b.major_cd = '1002'
+
+    -- 链接表 dbo.b_minor，设置链接条件为
+    -- A.pay_type = C.minor_cd 且 C.major_cd = '1001'
+    -- 将这个连接的结果集别名为 C
+    INNER JOIN dbo.b_minor AS C ON
+        A.pay_type = C.minor_cd AND C.major_cd = '1001'
+    ```
+    - 最后获取结果如下：
+        - bp_cd: 合作伙伴代码
+        - bp_full_nm: 合作伙伴全名
+        - bp_nm: 合作伙伴简称
+        - bank_cd: 银行代码
+        - bank_cd_nm: 银行代码对应的名称（来自 `dbo.b_minor` 表，其中 `major_cd` 为 `'1002'`）
+        - pay_type: 支付类型代码
+        - pay_type_nm: 支付类型代码对应的名称（来自 `dbo.b_minor` 表，其中 `major_cd` 为 `'1001'`）
+
+- 随着外联表格的增多，`INNER JOIN` 语句也会相应的增多
+    - 选择建立标量函数进行方便的查询
+
+#### 具体实现
+- 数据库中建立标量值函数 `dbo.Get_Minor_nm` 如下：
+    ```sql
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+    -- =============================================
+    -- Author:		<Author,,Name>
+    -- Create date: <Create Date, ,>
+    -- Description:	<查询子代码>
+    -- =============================================
+    CREATE FUNCTION [Get_Minor_nm]
+    (
+        @major_cd NVARCHAR(6), 
+        @minor_cd NVARCHAR(6)
+    )-- 参数设置为 @major_cd @minor_cd
+    RETURNS NVARCHAR(50)    -- 返回查询结果
+    AS
+    BEGIN
+        DECLARE @minor_nm NVARCHAR(50); -- 声明字段 @minor_nm
+        SELECT @minor_nm = minor_nm -- 字段在满足以下条件时设置为 minor_nm
+            FROM dbo.b_minor    -- 从 dbo.b_minor 表中查询
+            WHERE major_cd = @major_cd AND minor_cd = @minor_cd
+            -- 表中字段 major_cd == 输入参数 @major_cd 
+            -- 且 表中字段 minor_cd == 输入参数 @minor_cd
+        -- 如果字段 @minor_nm 返回前为 '' 或 null 时，设置其为输入参数 @minor_cd
+        IF @minor_nm = '' OR @minor_nm IS NULL
+            SET @minor_nm = @minor_cd;
+        RETURN @minor_nm    -- 返回在 DECLARE 语句中声明的字段 @minor_nm
+    END
+    GO
+    ```
+- SQL 查询语句可以优化如下：
+    ```sql
+    SELECT bp_cd,
+        bp_full_nm,
+        bp_nm,
+        bank_cd,
+        dbo.Get_Minor_nm('1002',bank_cd) AS bank_cd_nm,
+        pay_type,
+        dbo.Get_Minor_nm('1001',pay_type) AS pay_type_nm
+    FROM dbo.b_partner
+    ```
+    - 有效减少代码量
