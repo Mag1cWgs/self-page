@@ -166,6 +166,10 @@ DELETE FROM 表名 [ WHERE 条件 ];
 >     LIMIT    分页参数
 >     ```
 
+> [!note|label:DQL执行顺序]
+> ```sql
+> FROM -> WHERE -> GROUP BY -> SELECT -> ORDER BY -> LIMIT
+> ```
 
 ### 3.1 基础查询
 
@@ -272,28 +276,155 @@ SELECT 字段列表 FROM 表名 WHERE 条件列表;
 ### 3.3 聚合查询（聚合函数）
 
 1. 常见聚合函数
-
+    函数  |  功能
+    ------|------
+    `count`  |  统计数量
+    `max`	 |  最大值
+    `min`	 |  最小值
+    `avg`	 |  平均值
+    `sum`	 |  求和
 
 2. 语法
+    - `SELECT 聚合函数(字段列表) FROM 表名;`
 
+3. 例子
+    - `SELECT count(id) from employee where workaddress = "广东省";`
 
 ### 3.4 分组查询
 
 1. 基础语法
-
+    - `SELECT 字段列表 FROM 表名 [ WHERE 条件 ] GROUP BY 分组字段名 [ HAVING 分组后的过滤条件 ];`
 
 > [!note|label:where和having的区别]
-> 123
+> - 执行时机不同：where是分组之前进行过滤，不满足where条件不参与分组；having是分组后对结果进行过滤。
+> - 判断条件不同：where不能对聚合函数进行判断，而having可以。
 
+2. 例子
+    ```sql
+    -- 根据性别分组，统计男性和女性数量（只显示分组数量，不显示哪个是男哪个是女）
+    select count(*) from employee group by gender;
+    -- 根据性别分组，统计男性和女性数量
+    select gender, count(*) from employee group by gender;
+    -- 根据性别分组，统计男性和女性的平均年龄
+    select gender, avg(age) from employee group by gender;
+    -- 年龄小于45，并根据工作地址分组
+    select workaddress, count(*) from employee where age < 45 group by workaddress;
+    -- 年龄小于45，并根据工作地址分组，获取员工数量大于等于3的工作地址
+    select workaddress, count(*) address_count from employee where age < 45 group by workaddress having address_count >= 3;
+    ```
+> [!note|label:注意事项]
+> - 执行顺序：where > 聚合函数 > having
+> - 分组之后，查询的字段一般为聚合函数和分组字段，查询其他字段无任何意义
 
 ### 3.5 排序查询
+1. 语法
+    `SELECT 字段列表 FROM 表名 ORDER BY 字段1 排序方式1, 字段2 排序方式2;`
+
+2. 排序方式：
+
+    - `ASC`: 升序（默认）
+    - `DESC`: 降序
+
+3. 例子
+    ```sql
+    -- 根据年龄升序排序
+    SELECT * FROM employee ORDER BY age ASC;
+    SELECT * FROM employee ORDER BY age;
+    -- 两字段排序，根据年龄升序排序，入职时间降序排序
+    SELECT * FROM employee ORDER BY age ASC, entrydate DESC;
+    ```
+> [!note|label:注意事项]
+> 如果是多字段排序，当第一个字段值相同时，才会根据第二个字段进行排序
 
 ### 3.6 分页查询
+1. 语法：
+    `SELECT 字段列表 FROM 表名 LIMIT 起始索引, 查询记录数;`
 
+2. 例子
+        ```sql
+    -- 查询第一页数据，展示10条
+    SELECT * FROM employee LIMIT 0, 10;
+    -- 查询第二页
+    SELECT * FROM employee LIMIT 10, 10;
+    ```
+
+> [!note|label:注意事项]
+> - 起始索引从0开始，起始索引 = （查询页码 - 1） * 每页显示记录数
+> - 分页查询是数据库的方言，不同数据库有不同实现:
+>     - MySQL是LIMIT
+> - 如果查询的是第一页数据，起始索引可以省略，直接简写 LIMIT 10
 
 
 ## 4. DCL 数据控制语言
 
 ### 4.1 管理用户
+1. 查询用户：
+    ```sql
+    USE mysql;
+    SELECT * FROM user;
+    ```
 
-### 4.2 权限控制
+2. 创建用户:
+    ```sql
+    CREATE USER '用户名'@'主机名' IDENTIFIED BY '密码';
+    ```
+
+3. 修改用户密码：
+    ```sql
+    ALTER USER '用户名'@'主机名' IDENTIFIED WITH mysql_native_password BY '新密码';
+    ```
+
+4. 删除用户：
+    ```sql
+    DROP USER '用户名'@'主机名';
+    ```
+
+5. 例子：
+    ```sql
+    -- 创建用户test，只能在当前主机localhost访问
+    create user 'test'@'localhost' identified by '123456';
+    -- 创建用户test，能在任意主机访问
+    create user 'test'@'%' identified by '123456';
+    create user 'test' identified by '123456';
+    -- 修改密码
+    alter user 'test'@'localhost' identified with mysql_native_password by '1234';
+    -- 删除用户
+    drop user 'test'@'localhost';
+    ```
+
+> [!note|label:注意事项]
+> 主机名可以使用 % 通配
+
+### 4.2 权限控制常用权限：
+1. 常用权限
+    权限  |  说明
+    ------|-----
+    `ALL, ALL PRIVILEGES`	 |  所有权限
+    `SELECT`  |  查询数据
+    `INSERT`  |  插入数据
+    `UPDATE`  |  修改数据
+    `DELETE`  |  删除数据
+    `ALTER`  |  修改表
+    `DROP`  |  删除数据库/表/视图
+    `CREATE`  |  创建数据库/表
+
+    - 更多权限请看权限一览表
+
+2. 查询权限：
+    ```sql
+    SHOW GRANTS FOR '用户名'@'主机名';
+    ```
+
+3. 授予权限：
+    ```sql
+    GRANT 权限列表 ON 数据库名.表名 TO '用户名'@'主机名';
+    ```
+
+4. 撤销权限：
+    ```sql
+    REVOKE 权限列表 ON 数据库名.表名 FROM '用户名'@'主机名';
+    ```
+
+> [!note|label:注意事项]
+> - 多个权限用逗号分隔
+> - 授权时，数据库名和表名可以用 * 进行通配，代表所有

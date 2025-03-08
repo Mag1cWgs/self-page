@@ -112,10 +112,10 @@
 
   * 数据库    <!--放置在 cs/Sql -->
     * 参考链接
+    * [SQL 语法基础](ProjectDocs\cs\Sql\SQL-basic.md)
     * MySql 相关学习
-      * [MySql 概述](/ProjectDocs/cs/Sql/MySQL-front.md)
-      * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySQL-statements-and-data-types.md)
-      * [Sql 基础](ProjectDocs\cs\Sql\SQL-basic.md)
+      * [MySql 概述](/ProjectDocs/cs/Sql/MySql/MySQL-front.md)
+      * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySql/MySQL-statements-and-data-types.md)
     * SqlServer
     * SqlLite
     * Redis
@@ -145,6 +145,7 @@
   * [复变函数](/ProjectDocs/Mathematic/Complex-Function-Exam-Review.md)
   * [运筹学](/ProjectDocs/Mathematic/Operations-Research.md)
   * [最优化理论与算法](/ProjectDocs/Mathematic/Optimization-Calculation-Method.md)
+  * [统计计算与软件](/ProjectDocs/Mathematic/Statistic-Computing-Software.md)
   * [转码自学中收集的一些资料](/ProjectDocs/Prattle/LearnCS/Ref_For_CS.md)
 
 
