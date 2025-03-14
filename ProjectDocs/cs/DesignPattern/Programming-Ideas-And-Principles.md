@@ -38,6 +38,16 @@
 ---
 
 ## 设计原则
+- 分类：
+    - 设计接口（往下更严格）：
+        - 里氏替换原则：子类可以替换父类
+        - 依赖倒置原则：依赖抽象
+        - 开放封闭原则：对程序的扩展开放，对程序的修改封闭
+        - 单一职责原则：一个类只做一件事
+    - 设计类：
+        - 接口隔离原则：接口依赖最小化
+        - 迪米特原则：对其他对象最少了解，尽量低耦合，保证只和直接朋友通信
+    - 合成复用原则
 
 ### 1 单一职责原则 / SRP / Single Responsibility Principle
 
@@ -100,7 +110,7 @@
     }
     ```
 
-### 2 开放封闭原则
+### 2 开放封闭原则 / OCP / Open Closed Principle
 
 #### 说明：
 - 是所有面向对象设计原则的核心
@@ -409,7 +419,7 @@
     }
     ```
 
-### 3 依赖倒置原则
+### 3 依赖倒置原则 / DIP / Dependence Inversion Principle
 
 #### 说明：
 - 「开放封闭原则」是面向对象设计的终极目标，而「依赖倒置原则」是实现「开放封闭原则」的基础。
@@ -664,17 +674,325 @@
     }
     ```
 
-### 4 里氏替换原则
+### 4 里氏替换原则 / LSP / Liskov Substitution Principle
 1. 如果 `S` 是 `T` 的子类型，则 `T` 类型的对象可以被替换为 `S` 类型的对象。
 2. 所有引用父类对象的地方，都可以使用其子类型代替。
 3. 子类可以替换父类。
 
-- 里氏替换原则：子类可以替换父类
-    - 依赖倒置原则：依赖抽象
-        - 开放封闭原则：对程序的扩展开放，对程序的修改封闭
  
-### 5 接口隔离原则
+### 5 接口隔离原则 / ISP / Interface Segragation Principle
 
-### 6 迪米特原则
+#### 说明：
+1. 客户端不应该依赖它不需要的接口。
+2. 一个类对另一个类的依赖应该建立在最小接口上。
+3. 接口尽量细分，不要在一个接口中放很多方法。
 
-### 7 合成复用原则
+- 按照接口隔离原则拆分接口时，首先必须满足单一职责原则
+
+> [!note|label:接口隔离原则和单一职责原则的关系]
+> - **单一职责原则**：
+>   - 一个类只做一件事，影响类变化的原因只有一个
+>   - 目标是**高内聚**
+>       - 模块内部元素应尽量高度相似
+> - 接口隔离原则
+>   - 目标是**低耦合**
+>       - 模块之间依赖程度应足够低
+
+### 6 迪米特原则 / Demeter Priciple / The Least Knowledge Principle
+
+#### 说明：
+> 指导设计类的原则，与前面五个原则关联较少。
+
+1. 要求一个对象应该对其他对象有最少了解
+2. 降低类间耦合
+3. 迪米特法则实际上就是一个类在创建方法和属性时要遵守的法则。
+
+- 只和直接朋友通信
+    1. 成员对象
+        - 局部变量类不是直接朋友！
+    2. 方法参数
+    3. 方法返回值
+    ```cs
+    class Foo
+    {	
+        // 类的成员对象是直接朋友：包括字段、属性、方法、事件
+        
+        // 字段是直接朋友
+        string fooFieldMember;
+        // 属性是直接朋友
+        string fooPropertyMember { get; set; }
+        // 方法 和 方法引入的参数 是直接朋友
+        string fooFunctionMember(Externally_Imported_Class varImportedMember)
+        { 
+            // 但作为局部变量的类不是直接朋友！
+            Created_In_Function_Class notMember;
+            
+            // 方法的返回值也是直接朋友
+            string ReturnValueMember = "方法返回值也是直接朋友";
+            return ReturnValueMember;
+        }
+        
+    }
+    class Externally_Imported_Class{}
+    class Created_In_Function_Class{}
+    ```
+
+#### 关机功能的模型例：
+- 原型:
+    ```cs
+    // Computer.cs
+    public class Computer
+    {
+        public void SaveCurrentTask()
+        {
+            Console.WriteLine("保存当前程序");
+        }
+        
+        public void CloseScreen()
+        {
+            Console.WriteLine("关闭屏幕");
+        }
+        
+        public void ShutDown()
+        {
+            Console.WriteLine("关闭电源");
+        }
+    }
+
+    // Person.cs
+    public class Person
+    {
+        /// <summary>
+        /// 不满足迪米特原则:
+        /// 	对 <c>Computer</c> 了解过多。
+        /// 如果关机需要三十步:
+        /// 	需要调用三十个方法，且有绝对顺序。
+        /// </summary>
+        public void CloseComputer(Computer computer)
+        {
+            computer.SaveCurrentTask();
+            computer.CloseScreen();
+            computer.ShutDown();
+        }
+    }
+    ```
+- 优化：
+    - 目标：调用一个函数即可
+    ```cs
+    // Computer.cs
+    public class Computer
+    {
+        // 均修改为 private
+        private void SaveCurrentTask()
+        {
+            Console.WriteLine("保存当前程序");
+        }
+        private void CloseScreen()
+        {
+            Console.WriteLine("关闭屏幕");
+        }
+        private void ShutDown()
+        {
+            Console.WriteLine("关闭电源");
+        }
+        
+        /// <summary>
+        /// 直接在被调用方中添加如下方法，
+        /// 如果调用顺序改变也不影响 <c>Person</c> 调用。
+        /// </summary>
+        public void CloseComputer()
+        {
+            this.SaveCurrentTask();
+            this.CloseScreen();
+            this.ShutDown();
+        }
+    }
+
+    // Person.cs
+    public class Person
+    {
+        /// <summary>
+        /// 满足迪米特原则:
+        /// 	只了解存在 <c>Computer.CloseComputer()</c> 方法
+        /// </summary>
+        public void CloseComputer(Computer computer)
+        {
+            computer.CloseComputer();
+        }
+    }
+    ```
+
+#### 打印总公司和分公司员工id例：
+- 原型：
+    1. 类：总公司员工类
+    2. 类：总公司员工管理类
+        1. 获取总公司所有员工
+        2. 打印总公司所有员工id
+        3. 打印分公司所有员工id
+    3. 类：分公司员工类
+    4. 类：分公司员工管理类
+        1. 获取分公司所有员工id
+    
+    ```cs
+    // Main() 调用
+    HeadOfficeManager headManager = new HeadOfficeManager();
+    headManager.Print();
+
+    // 员工类
+    class HeadOfficeEmployee
+    {
+        public string ID { get; set; }
+    }
+    class BranchOfficeEmployee
+    {
+        public string ID {get; set;}
+    }
+
+    // 总公司管理类
+    class HeadOfficeManager
+    {
+        /// <summary> 获取总公司所有员工 </summary>
+        public List<HeadOfficeEmployee> GetHeadOfficeEmployee()
+        {
+            List<HeadOfficeEmployee> list = new List<HeadOfficeEmployee>();
+            for (int i = 0; i < 10; i++)
+            {
+                HeadOfficeEmployee headOfficer = new HeadOfficeEmployee();
+                headOfficer.ID = i.ToString();
+                list.Add(headOfficer);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 打印总公司和分公司员工的ID，
+        /// 	但是不符合迪米特原则！
+        /// </summary>
+        public void Print(BranchOfficeManager brachOfficeManager)
+        {
+            List<HeadOfficeEmployee> listHead =
+                    GetHeadOfficeEmployee();
+            Console.WriteLine("总公司所有员工ID:");
+            foreach (var item in listHead)
+            {
+                Console.WriteLine("\t" + item.ID);
+            }
+
+            // listBranch 是通过局部变量 brachOfficeManager 创建而来的
+            // 不是直接朋友，但是进行了操作，不符合迪米特原则！
+            List<BranchOfficeEmployee> listBranch =
+                    brachOfficeManager.GetBranchOfficeEmployee();
+            Console.WriteLine("分公司所有员工ID:");
+            foreach (var item in listBranch)
+            {
+                Console.WriteLine("\t" + item.ID);
+            }
+        }
+    }
+    
+    // 分公司管理类
+    class BranchOfficeManager
+    {
+        public List<BranchOfficeEmployee> GetBranchOfficeEmployee()
+        {
+            List<BranchOfficeEmployee> list = new List<BranchOfficeEmployee>();
+            for (int i = 101; i < 106; i++)
+            {
+                BranchOfficeEmployee branchOfficer = new BranchOfficeEmployee();
+                branchOfficer.ID = i.ToString();
+                list.Add(branchOfficer);
+            }
+            return list;
+        }
+    }
+    ```
+- 修正后：
+    1. 类：总公司员工类
+    2. 类：总公司员工管理类
+        1. 获取总公司所有员工
+        2. 打印总公司所有员工id
+    3. 类：分公司员工类
+    4. 类：分公司员工管理类
+        1. 获取分公司所有员工id
+        2. 打印分公司所有员工id
+    
+    ```cs
+    // Main() 调用
+        HeadOfficeManager headManager = new HeadOfficeManager();
+        headManager.Print();
+        BranchOfficeManager branchManager = new BranchOfficeManager();
+        branchManager.Print();
+    // 员工类
+        class HeadOfficeEmployee
+        {
+            public string ID { get; set; }
+        }
+        class BranchOfficeEmployee
+        {
+            public string ID { get; set; }
+        }
+    // 总公司管理类
+        class HeadOfficeManager
+        {
+            /// <summary> 获取总公司所有员工 </summary>
+            public List<HeadOfficeEmployee> GetHeadOfficeEmployee()
+            {
+                List<HeadOfficeEmployee> list = new List<HeadOfficeEmployee>();
+                for (int i = 0; i < 10; i++)
+                {
+                    HeadOfficeEmployee headOfficer = new HeadOfficeEmployee();
+                    headOfficer.ID = i.ToString();
+                    list.Add(headOfficer);
+                }
+                return list;
+            }
+            /// <summary>
+            /// 打印总公司和分公司员工的ID
+            /// </summary>
+            public void Print()
+            {
+                List<HeadOfficeEmployee> listHead =
+                        GetHeadOfficeEmployee();
+                Console.WriteLine("总公司所有员工ID:");
+                foreach (var item in listHead)
+                {
+                    Console.WriteLine("\t" + item.ID);
+                }
+            }
+        }
+    // 分公司管理类
+        class BranchOfficeManager
+        {
+            public List<BranchOfficeEmployee> GetBranchOfficeEmployee()
+            {
+                List<BranchOfficeEmployee> list = new List<BranchOfficeEmployee>();
+                for (int i = 101; i < 106; i++)
+                {
+                    BranchOfficeEmployee branchOfficer = new BranchOfficeEmployee();
+                    branchOfficer.ID = i.ToString();
+                    list.Add(branchOfficer);
+                }
+                return list;
+            }
+            public void Print()
+            {
+                List<BranchOfficeEmployee> listBranch =this.GetBranchOfficeEmployee();
+                Console.WriteLine("分公司所有员工ID:");
+                foreach (var item in listBranch)
+                {
+                    Console.WriteLine("\t" + item.ID);
+                }
+            }
+        }
+    ```
+
+
+### 7 合成复用原则 / Composite Reuse Principle
+- 尽量使用对象组合实现复用，而非继承方式。
+    - 继承会带来额外性能开销，也会带来冗余代码
+- 继承会带来的问题：
+    1. 破坏系统的封装性，对父类改变，子类的实现也会改变
+    2. 子类如果不需要基类的某些方法，系统耦合度会变高
+    3. 继承是静态的，不能再程序运行时发生改变
+
+
