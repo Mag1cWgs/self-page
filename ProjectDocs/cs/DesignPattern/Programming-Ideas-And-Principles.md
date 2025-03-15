@@ -988,6 +988,8 @@
 
 
 ### 7 合成复用原则 / Composite Reuse Principle
+
+#### 说明：
 - 尽量使用对象组合实现复用，而非继承方式。
     - 继承会带来额外性能开销，也会带来冗余代码
 - 继承会带来的问题：
@@ -995,4 +997,108 @@
     2. 子类如果不需要基类的某些方法，系统耦合度会变高
     3. 继承是静态的，不能再程序运行时发生改变
 
+- 什么时候使用继承？什么时候使用组合？
+    - `has A` 组合（作为一部分进入）
+    - `is A` 继承（更具体的扩充）
 
+- 合成复用原则是将已有的对象纳入到新对象中，作为新对象的对象成员来实现的，新对象可以调用己有对象的功能，从而达到复用。
+
+#### 例：
+```cs
+// Main()
+Car car1 = new QYCar();
+car1.Run(new Green());
+
+Car car2 = new DCar();
+car2.Run(new Red());
+
+// 颜色接口
+public interface IColor
+{ 
+	string ShowColor();
+}
+// 继承接口的实体类
+public class Green : IColor
+{
+	public string ShowColor()
+	{
+		return "绿色";
+	}
+}
+public class Red : IColor
+{
+	public string ShowColor()
+	{
+		return "红色";
+	}
+}
+
+// 车抽象类
+public abstract class Car
+{
+	// 接口依赖
+	public abstract void Run(IColor color);
+}
+// 车实体类
+public class QYCar : Car
+{
+	public override void Run(IColor color)
+	{
+		Console.WriteLine("汽油车，颜色为:\t"+color.ShowColor());
+	}
+}
+// 车实体类
+public class DCar : Car
+{
+	public override void Run(IColor color)
+	{
+		Console.WriteLine("电车，颜色为:\t" + color.ShowColor());
+	}
+}
+```
+
+#### 类与类间关系
+1. **泛化**
+    - 实际就是继承
+    - 比如 `Animal` 特化出 `Tiger` （`Tiger` 泛化成 `Animal`）
+    - 在 UML 中使用 *实线空心箭头* 由 *子类* 指向 *父类*
+
+2. **实现**
+    - **类**和**接口**之间的关系
+    - 表示类实现了接口
+    - 在 UML 中使用 *虚线空心箭头* 由 *实现类* 指向 *接口*
+
+3. **组合**
+    - 是整体和部分的关系
+        - 部分没有独立的生命周期
+            - 个体/部分的生命周期与整体的生命周期一致
+        - 组合是把部分作为整体类的一个对象来看待
+    - 组合关系是强拥有关系。
+        - 一定拥有
+
+4. **聚合**
+    - 同样是整体和部分的关系
+        - 部分有独立的生命周期
+        - 把个体对象的引用（指针）作为整体类的属性
+    - 是弱拥有关系。
+        - 不必须拥有 / 允许 `null`
+
+5. **关联**
+6. **依赖**
+
+## 设计模式导入
+
+
+## 类图 / UML图
+- 每一个类图都有三部分组成
+    - 类名
+    - 属性
+    - 方法，方法名前使用符号来标注修饰符
+        - `+` 对应 `public`
+        - `-` 对应 `private`
+        - `#` 对应 `protected`
+- 类图 + 类间关系的组合称为 **UML设计图**
+
+- 参考链接:
+    - [九种常见UML图（分类+图解）](https://www.cnblogs.com/hzxll/p/16190230.html)
+    - [UML 入门指南 | 面向对象设计 | 类图 | 时序图 |（万字多图，非常干燥）](https://zhuanlan.zhihu.com/p/344400915)
