@@ -10,7 +10,11 @@
         - 修改原有业务逻辑
     - 意味着代码需要变化，进行扩展
 
+
+
 ---
+
+
 
 ## 设计思想核心
 - 什么是模块：
@@ -35,7 +39,11 @@
 - 低耦合的优点：
     - 提供了更好的可拓展性和可复用性
 
+
+
 ---
+
+
 
 ## 设计原则
 - 分类：
@@ -703,8 +711,8 @@
 #### 说明：
 > 指导设计类的原则，与前面五个原则关联较少。
 
-1. 要求一个对象应该对其他对象有最少了解
-2. 降低类间耦合
+1. 要求一个对象应该对其他对象有最少了解，
+2. 降低类间耦合；
 3. 迪米特法则实际上就是一个类在创建方法和属性时要遵守的法则。
 
 - 只和直接朋友通信
@@ -991,11 +999,11 @@
 
 #### 说明：
 - 尽量使用对象组合实现复用，而非继承方式。
-    - 继承会带来额外性能开销，也会带来冗余代码
+    - 继承会带来额外性能开销，也会带来冗余代码。
 - 继承会带来的问题：
-    1. 破坏系统的封装性，对父类改变，子类的实现也会改变
-    2. 子类如果不需要基类的某些方法，系统耦合度会变高
-    3. 继承是静态的，不能再程序运行时发生改变
+    1. 破坏系统的封装性，对父类改变，子类的实现也会改变；
+    2. 子类如果不需要基类的某些方法，系统耦合度会变高；
+    3. 继承是静态的，不能再程序运行时发生改变。
 
 - 什么时候使用继承？什么时候使用组合？
     - `has A` 组合（作为一部分进入）
@@ -1059,34 +1067,141 @@ public class DCar : Car
 
 #### 类与类间关系
 1. **泛化**
-    - 实际就是继承
-    - 比如 `Animal` 特化出 `Tiger` （`Tiger` 泛化成 `Animal`）
-    - 在 UML 中使用 *实线空心箭头* 由 *子类* 指向 *父类*
+    - 实际就是继承；
+    - 比如 `Animal` 特化出 `Tiger` （`Tiger` 泛化成 `Animal`）；
+    - 在 UML 中使用 *实线空心箭头* 由 *子类* 指向 *父类*。
 
 2. **实现**
-    - **类**和**接口**之间的关系
-    - 表示类实现了接口
-    - 在 UML 中使用 *虚线空心箭头* 由 *实现类* 指向 *接口*
+    - **类**和**接口**之间的关系；
+    - 表示类实现了接口；
+    - 在 UML 中使用 *虚线空心箭头* 由 *实现类* 指向 *接口*。
 
 3. **组合**
-    - 是整体和部分的关系
-        - 部分没有独立的生命周期
-            - 个体/部分的生命周期与整体的生命周期一致
-        - 组合是把部分作为整体类的一个对象来看待
+    - 是整体和部分的关系，
+        - 部分没有独立的生命周期，
+            - 个体/部分的生命周期与整体的生命周期一致。
+        - 组合是把部分作为整体类的一个对象来看待。
     - 组合关系是强拥有关系。
-        - 一定拥有
+        - 一定拥有。
 
 4. **聚合**
     - 同样是整体和部分的关系
-        - 部分有独立的生命周期
-        - 把个体对象的引用（指针）作为整体类的属性
+        - 部分有独立的生命周期，
+        - 把个体对象的引用（指针）作为整体类的属性。
     - 是弱拥有关系。
         - 不必须拥有 / 允许 `null`
 
 5. **关联**
+    - 是一种拥有关系，
+    - 是一个类知道另一个类的属性和方法。
+
 6. **依赖**
+    - 是一种使用关系，
+    - 和上面的诸多原则中的「依赖」意义一致。
+
+#### 类间关系的 UML 图 / 代码
+<div align="center">
+    <img src='/ProjectDocs/cs/DesignPattern/image/UML-Example-Of-CompositeReusePrinciple.png' width=60%>
+</div>
+
+```cs
+// 1.泛化 从 Tiger 泛化出的 Animal
+public class Animal
+{
+	private char _gender;
+	public void Eat()
+	{
+		Console.WriteLine("吃饭");
+	}
+	
+	public void Sleep()
+	{
+		Console.WriteLine("睡觉");
+	}
+}
+
+// 2.实现 待实现的接口
+public interface IClimb
+{
+	public void Climb();
+}
+
+// 3.组合 作为一部分被组合进入 Tiger
+public class Leg
+{
+	private int _count;
+}
+
+// 4.聚合 Tiger 作为潜在部分被聚合进 TigerGroup
+public class TigerGroup
+{
+	public Tiger[] tigers;
+}
+
+// 5.关联
+public class Food
+{
+	public string FoodName;
+	public string FoodColor;
+}
+
+// 6.依赖
+// 大多数情况会写接口，使用构造注入/接口注入/Set注入
+public class Water
+{
+	private float _weight;
+}
+
+// 1.泛化/特化 从 Animal 特化出 Tiger
+// 2.实现 实现接口IClimb
+// 4.聚合 类本身不体现聚合
+public class Tiger: Animal, IClimb
+{
+	// 自有字段
+	private string _name;
+	
+	// 2.实现 对接口方法 IClimb.Climb 实现
+	public void Climb()
+	{
+		Console.WriteLine("攀爬");
+	}
+	
+	// 3.组合
+		// Leg 作为部分，应与整体生命周期一致
+		private Leg _leg;
+		// 在构造函数中注入
+		public Tiger(Leg leg)
+		{
+			this._leg = leg;
+		}
+		// 某些情况下也可以这样写
+		public Tiger()
+		{
+			this._leg = new Leg();
+		}
+	
+	// 5.关联 关联 Food 类
+		private Food food;
+		
+	// 6.依赖 传入所依赖的 Water 类实例
+		public void Drink(Water water)
+		{
+			Console.WriteLine("喝水");
+		}
+}
+```
+
+
+
+---
+
+
 
 ## 设计模式导入
+
+
+---
+
 
 
 ## 类图 / UML图
