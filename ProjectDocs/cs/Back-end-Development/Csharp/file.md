@@ -58,6 +58,7 @@
 13. ADO.NET 数据库访问技术
 14. XML 及其应用
 15. LINQ 技术
+    * [LINQ概述](/ProjectDocs/cs/Back-end-Development/Csharp/LINQ/LinQ-Introducation.md)
 16. Windows 应用程序设计
     * WinForm
         * 窗体设计相关

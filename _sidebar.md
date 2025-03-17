@@ -91,6 +91,8 @@
       * 工具类库  <!--放置在 CSharp/Tools -->
         * [个人搜集的一些工具类库](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Utility-Collection.md)
         * [Newtonsoft.Json.Net](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Newtonsoft.md)
+      * LINQ 技术  <!--放置在 CSharp/LINQ -->
+        * [LINQ概述](/ProjectDocs/cs/Back-end-Development/Csharp/LINQ/LinQ-Introducation.md)
 
   * 框架学习  <!--放置在 cs-->
     * WinForm（Windows 应用程序设计）<!--放置在 cs/Back-end-Development/CSharp/WinForm -->
