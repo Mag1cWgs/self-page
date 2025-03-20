@@ -126,6 +126,8 @@
   * 设计模式  <!--放置在 cs/DesignPattern -->
     * [设计模式介绍](/ProjectDocs/cs/DesignPattern/init.md)
     * [编程思想与原则](/ProjectDocs/cs/DesignPattern/Programming-Ideas-And-Principles.md)
+    * 创建型设计模式  <!--放置在 cs/DesignPattern/Creative-Design-Pattern -->
+      * [单例设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/Singleton-Design-Pattern.md)
 
   * 工具
     * [命令行的艺术（转载、部分链接丢失）](/ProjectDocs/cs/CMD/Command-CMDart.md)
