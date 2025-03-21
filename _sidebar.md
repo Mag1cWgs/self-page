@@ -127,7 +127,12 @@
     * [设计模式介绍](/ProjectDocs/cs/DesignPattern/init.md)
     * [编程思想与原则](/ProjectDocs/cs/DesignPattern/Programming-Ideas-And-Principles.md)
     * 创建型设计模式  <!--放置在 cs/DesignPattern/Creative-Design-Pattern -->
-      * [单例设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/Singleton-Design-Pattern.md)
+      * [单例 设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/1-Singleton-Design-Pattern.md)
+      * [简单工厂 设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/2-Simple-Factory-Design-Pattern.md)
+      * [工厂方法 设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/3-Factory-Method-Design-Pattern.md)
+      * [抽象工厂 设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/4-Abstract-Factory-Design-Patterns.md)
+      * [原型 设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/5-Prototype-Design-Pattern.md)
+      * [建造者 设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/6-Builder-Design-Pattern.md)
 
   * 工具
     * [命令行的艺术（转载、部分链接丢失）](/ProjectDocs/cs/CMD/Command-CMDart.md)
