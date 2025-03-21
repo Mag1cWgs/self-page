@@ -1,0 +1,184 @@
+<mxfile host="Electron" modified="2025-03-21T07:48:26.227Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="F9oOGKkr7EaKR-dikaQ5" version="23.1.5" type="device">
+  <diagram name="第 1 页" id="1-r5CjDD-zsL6fv4mi_G">
+    <mxGraphModel dx="1009" dy="577" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_EigGaSI2OxLrJPelVtc-2" value="&lt;b&gt;客户端&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry y="140" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-3" value="调用工厂类&lt;br&gt;然后用工厂类产物处理业务" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="_EigGaSI2OxLrJPelVtc-2" vertex="1">
+          <mxGeometry y="26" width="160" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-6" value="&lt;b&gt;OperationFactory&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="140" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-7" value="+ GetCalculator(string oper) : ICalculator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=1;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;movable=1;resizable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="_EigGaSI2OxLrJPelVtc-6" vertex="1">
+          <mxGeometry y="26" width="240" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-11" value="抽象工厂：&lt;br&gt;根据客户端选择，&lt;br&gt;直接返回相应的对象" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#b85450;fillColor=#f8cecc;" parent="1" vertex="1">
+          <mxGeometry x="269" y="60" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-12" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;客户端：&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;初始化参数，&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;调用抽象工厂返回的对象&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#6c8ebf;fillColor=#dae8fc;" parent="1" vertex="1">
+          <mxGeometry y="60" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-13" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;entryX=-0.004;entryY=0.513;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.017;exitY=0.513;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1" target="_EigGaSI2OxLrJPelVtc-11" source="_EigGaSI2OxLrJPelVtc-12">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="160" y="70.12733446519519" as="sourcePoint" />
+            <mxPoint x="268.48" y="70.30000000000007" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-19" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;Calculator&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="490" y="240" width="240" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-20" value="+ Number_One : double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="_EigGaSI2OxLrJPelVtc-19" vertex="1">
+          <mxGeometry y="26" width="240" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-21" value="+ Number_Two : double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="_EigGaSI2OxLrJPelVtc-19" vertex="1">
+          <mxGeometry y="52" width="240" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-27" value="&amp;nbsp;+ GetResult(double, double) : double" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=none;" parent="_EigGaSI2OxLrJPelVtc-19" vertex="1">
+          <mxGeometry y="78" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-30" value="Cal_Add" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="850" y="230" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-33" value="+ GetResult(double, double) : double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="_EigGaSI2OxLrJPelVtc-30" vertex="1">
+          <mxGeometry y="26" width="230" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-39" value="Cal_Div" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="850" y="340" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-40" value="+ GetResult(double, double) : double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="_EigGaSI2OxLrJPelVtc-39" vertex="1">
+          <mxGeometry y="26" width="230" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-42" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;exitX=-0.001;exitY=0.002;exitDx=0;exitDy=0;exitPerimeter=0;edgeStyle=orthogonalEdgeStyle;entryX=1.005;entryY=0.312;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="_EigGaSI2OxLrJPelVtc-21" edge="1">
+          <mxGeometry x="-0.0007" width="160" relative="1" as="geometry">
+            <mxPoint x="850" y="259.998" as="sourcePoint" />
+            <mxPoint x="731.6700000000001" y="313.262" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="790" y="260" />
+              <mxPoint x="790" y="300" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-45" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;entryX=1.005;entryY=0.289;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.003;exitY=0.121;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="_EigGaSI2OxLrJPelVtc-40" target="_EigGaSI2OxLrJPelVtc-21" edge="1">
+          <mxGeometry x="-0.0007" width="160" relative="1" as="geometry">
+            <mxPoint x="840" y="410" as="sourcePoint" />
+            <mxPoint x="770" y="320" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="790" y="370" />
+              <mxPoint x="790" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-47" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;抽象产物角色：&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;定义工厂创建对象的父类&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;可以是抽象类/接口&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#82b366;fillColor=#d5e8d4;" parent="1" vertex="1">
+          <mxGeometry x="600" y="100" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-48" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;工厂产物：&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;具体产生对象的子类&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;继承 于抽象工厂角色父类&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#d79b00;fillColor=#ffe6cc;" parent="1" vertex="1">
+          <mxGeometry x="860" y="100" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-49" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=0.992;exitY=0.493;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1" target="8yvds1I2i2Yan49Rfuou-18" source="_EigGaSI2OxLrJPelVtc-11">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="398.74000000000024" y="70" as="sourcePoint" />
+            <mxPoint x="530" y="40" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_EigGaSI2OxLrJPelVtc-50" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=1.006;exitY=0.513;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.003;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="_EigGaSI2OxLrJPelVtc-48" edge="1" source="_EigGaSI2OxLrJPelVtc-47">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="813" y="90" as="sourcePoint" />
+            <mxPoint x="883" y="110" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-1" value="AddFactory" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="480" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-4" value="+ GetCalculator() : Calculator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="8yvds1I2i2Yan49Rfuou-1">
+          <mxGeometry y="26" width="170" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-5" value="SubFactory" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="480" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-6" value="+ GetCalculator() : Calculator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="8yvds1I2i2Yan49Rfuou-5">
+          <mxGeometry y="26" width="170" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-11" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0.471;exitY=0.013;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="8yvds1I2i2Yan49Rfuou-1" target="_EigGaSI2OxLrJPelVtc-7">
+          <mxGeometry x="-0.0007" width="160" relative="1" as="geometry">
+            <mxPoint x="120" y="460" as="sourcePoint" />
+            <mxPoint x="255" y="300" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="220" y="400" />
+              <mxPoint x="320" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-12" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="8yvds1I2i2Yan49Rfuou-5">
+          <mxGeometry x="-0.0007" width="160" relative="1" as="geometry">
+            <mxPoint x="655" y="480.0000000000001" as="sourcePoint" />
+            <mxPoint x="320" y="260" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="420" y="400" />
+              <mxPoint x="320" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-13" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;fillColor=#f8cecc;strokeColor=#f7322b;strokeWidth=3;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="8yvds1I2i2Yan49Rfuou-1" target="_EigGaSI2OxLrJPelVtc-33">
+          <mxGeometry x="-0.0015" width="160" relative="1" as="geometry">
+            <mxPoint x="194" y="440" as="sourcePoint" />
+            <mxPoint x="554" y="420" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-14" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=0.992;exitY=0.375;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.007;entryY=0.376;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="_EigGaSI2OxLrJPelVtc-3" target="_EigGaSI2OxLrJPelVtc-7">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="90" y="220" as="sourcePoint" />
+            <mxPoint x="190" y="220" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-15" value="" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=1.005;exitY=0.353;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="_EigGaSI2OxLrJPelVtc-7" target="_EigGaSI2OxLrJPelVtc-19">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="500" y="250" as="sourcePoint" />
+            <mxPoint x="600" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-16" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;fillColor=#f8cecc;strokeColor=#f7322b;strokeWidth=3;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="8yvds1I2i2Yan49Rfuou-5" target="_EigGaSI2OxLrJPelVtc-40">
+          <mxGeometry x="-0.0015" width="160" relative="1" as="geometry">
+            <mxPoint x="95" y="490" as="sourcePoint" />
+            <mxPoint x="940" y="193" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-18" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;具体工厂角色：&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;具体实现对象返回的角色&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#9673a6;fillColor=#e1d5e7;" vertex="1" parent="1">
+          <mxGeometry x="450" y="30" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-19" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=0.676;exitY=1.038;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.005;entryY=0.557;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="8yvds1I2i2Yan49Rfuou-18" target="_EigGaSI2OxLrJPelVtc-47">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="540" y="70" as="sourcePoint" />
+            <mxPoint x="640" y="70" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-21" value="产物依赖在工厂" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=1.005;exitY=0.505;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="8yvds1I2i2Yan49Rfuou-18" target="_EigGaSI2OxLrJPelVtc-48">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="750" y="60" as="sourcePoint" />
+            <mxPoint x="910" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8yvds1I2i2Yan49Rfuou-22" value="抽象依赖" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=1;exitY=0.642;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.001;entryY=0.683;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="_EigGaSI2OxLrJPelVtc-11" target="_EigGaSI2OxLrJPelVtc-47">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="440" y="130" as="sourcePoint" />
+            <mxPoint x="689" y="191" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
