@@ -133,6 +133,14 @@
       * [抽象工厂 设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/4-Abstract-Factory-Design-Patterns.md)
       * [原型 设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/5-Prototype-Design-Pattern.md)
       * [建造者 设计模式](/ProjectDocs/cs/DesignPattern/Creative-Design-Pattern/6-Builder-Design-Pattern.md)
+    * 结构型设计模式  <!--放置在 cs/DesignPattern/Structural-Design-Pattern -->
+      * [适配器 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/1-Adapter-Design-Pattern.md)
+      * [装饰器 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/2-Decorator-Design-Pattern.md)
+      * [代理 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/3-Agent-Design-Pattern.md)
+      * [外观 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/4-Appearance-Design-Parttern.md)
+      * [桥接 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/5-Bridge-Design-Pattern.md)
+      * [组合 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/6-Combinatorial-Design-Pattern.md)
+      * [享元 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/7-Flyweight-Design-Pattern.md)
 
   * 工具
     * [命令行的艺术（转载、部分链接丢失）](/ProjectDocs/cs/CMD/Command-CMDart.md)
