@@ -184,3 +184,8 @@ public class LazySingle
 	}
 }
 ```
+
+## 补充与追加：
+- 参考：
+	- [ZShijun/单例模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/4.%20单例模式.md)
+	- [C#关于单例模式的一切：概念 声明 懒加载 线程安全 现代用法 经典误区](https://www.bilibili.com/video/BV1wT421r7Ds/?)

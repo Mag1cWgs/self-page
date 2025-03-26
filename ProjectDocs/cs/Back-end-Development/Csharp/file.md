@@ -158,6 +158,10 @@
     - [每天进步多一点 的 博客园博文](https://www.cnblogs.com/lgx5)
     - [C#中处理JSON数据的方式](https://www.cnblogs.com/lgx5/p/18221632)
     - [C# Newtonsoft.Json 高级用法](https://www.cnblogs.com/lgx5/p/18299936)
+- [博客园: Learning hard](https://home.cnblogs.com/u/zhili)
+    - [C# 网络编程系列](https://www.cnblogs.com/zhili/category/397082.html)
+    - [C# 设计模式](https://www.cnblogs.com/zhili/category/496417.html)
+    - [C# 多线程](https://www.cnblogs.com/zhili/category/398603.html)
 
 ### 视频课程为主
 - [龙马008](https://space.bilibili.com/3546619083491369)

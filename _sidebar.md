@@ -139,8 +139,33 @@
       * [代理 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/3-Agent-Design-Pattern.md)
       * [外观 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/4-Appearance-Design-Parttern.md)
       * [桥接 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/5-Bridge-Design-Pattern.md)
-      * [组合 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/6-Combinatorial-Design-Pattern.md)
+      * [组合 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/6-Composite-Design-Pattern.md)
       * [享元 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/7-Flyweight-Design-Pattern.md)
+    * 转载笔记: ZShijun/DesignPattern.git  <!--放置在 cs/DesignPattern/ZShijun-DoNetDP -->
+      * 概述
+        * [设计模式概述](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/1.%20设计模式概述.md)
+        * [七大设计原则](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/2.%20七大设计原则.md)
+      * 创建型
+        * [工厂模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/3.%20工厂模式.md)
+        * [单例模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/4.%20单例模式.md)
+        * [建造者模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/5.%20建造者模式.md)
+        * [原型模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/6.%20原型模式.md)
+        * [创建型模式总结](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/7.%20创建型模式总结.md)
+      * 结构型
+        * [适配器模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/8.%20适配器模式.md)
+        * [代理模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/9.%20代理模式.md)
+        * [外观模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/10.%20外观模式.md)
+        * [装饰器模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/11.%20装饰器模式.md)
+        * [桥接模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/12.%20桥接模式.md)
+        * [组合模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/13.%20组合模式.md)
+        * [享元模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/14.%20享元模式.md)
+        * [结构型模式总结](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/15.%20结构型模式总结.md)
+      * 行为型
+        * [模板方法模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/16.%20模板方法模式.md)
+        * [策略模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/17.%20策略模式.md)
+        * [状态模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/18.%20状态模式.md)
+        * [观察者模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/19.%20观察者模式.md)
+        * [责任链模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/20.%20责任链模式.md)
 
   * 工具
     * [命令行的艺术（转载、部分链接丢失）](/ProjectDocs/cs/CMD/Command-CMDart.md)
