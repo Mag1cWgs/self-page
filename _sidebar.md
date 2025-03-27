@@ -93,6 +93,9 @@
         * [Newtonsoft.Json.Net](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Newtonsoft.md)
       * LINQ 技术  <!--放置在 CSharp/LINQ -->
         * [LINQ概述](/ProjectDocs/cs/Back-end-Development/Csharp/LINQ/LinQ-Introducation.md)
+      * 各种技巧/细碎知识
+        * [C#中问号（?）运算符的历代新增用法](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Question-Mark-Operator.md)
+        * [C# 中的 Using 用法](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Using-Mark.md)
 
   * 框架学习  <!--放置在 cs-->
     * WinForm（Windows 应用程序设计）<!--放置在 cs/Back-end-Development/CSharp/WinForm -->
