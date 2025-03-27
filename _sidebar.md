@@ -141,6 +141,18 @@
       * [桥接 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/5-Bridge-Design-Pattern.md)
       * [组合 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/6-Composite-Design-Pattern.md)
       * [享元 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/7-Flyweight-Design-Pattern.md)
+    * 行为型设计模式  <!--放置在 cs/DesignPattern/Behavioral-Design-Pattern -->
+      * [中介者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/1-Mediator-Design-Pattern.md)
+      * [观察者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/2-Observer-Design-Pattern.md)
+      * [迭代器 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/3-Interator-Design-Pattern.md)
+      * [访问者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/4-Visitor-Design-Pattern.md)
+      * [责任链 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/5-Chain-Of-Responsibility-Pattern.md)
+      * [模版 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/6-Template-Method-Pattern.md)
+      * [策略者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/7-Stragety-Design-Pattern.md)
+      * [命令 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/8-Command-Design-Patern.md)
+      * [备忘录设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/9-Memento-Design-Pattern.md)
+      * [状态 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/10-State-Design-Patern.md)
+      * [解释器 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/11-Interpreter-Design-Patern.md)
     * 转载笔记: ZShijun/DesignPattern.git  <!--放置在 cs/DesignPattern/ZShijun-DoNetDP -->
       * 概述
         * [设计模式概述](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/1.%20设计模式概述.md)
