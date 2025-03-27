@@ -151,7 +151,7 @@
       * [策略者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/7-Stragety-Design-Pattern.md)
       * [命令 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/8-Command-Design-Patern.md)
       * [备忘录设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/9-Memento-Design-Pattern.md)
-      * [状态 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/10-State-Design-Patern.md)
+      * [状态者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/10-State-Design-Patern.md)
       * [解释器 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/11-Interpreter-Design-Patern.md)
     * 转载笔记: ZShijun/DesignPattern.git  <!--放置在 cs/DesignPattern/ZShijun-DoNetDP -->
       * 概述
