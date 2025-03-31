@@ -32,7 +32,7 @@
         - 熟悉 GOF 23种设计模式
     - 工具
         - GIT / Powershell 等开发工具
-        - $LaTeX$/Markdown 等工具语言
+        - $\LaTeX$/Markdown 等工具语言
     - 实战项目
         - 学生信息管理系统
             1. C/Python 实现的控制台应用

@@ -51,13 +51,16 @@
 10. 序列化与反序列化
     * [Serialization 特性](/ProjectDocs/cs/Back-end-Development/Csharp/Serialization-And-Deserialization/SerializationAttribute.md)
 10. 错误调试和异常处理
-11. 多线程和异步程序设计
-    * [多线程与异步设计](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/Multi-Thread.md)
+11. 多线程
+    * [参考资料](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/Multithreading-Reference.md)
+11. 异步程序设计
+    * [参考资料](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/Asynchronous-Reference.md)
 12. 工具类库
     * [个人搜集的一些工具类库](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Utility-Collection.md)
 13. ADO.NET 数据库访问技术
 14. XML 及其应用
 15. LINQ 技术
+    * [参考资料](/ProjectDocs/cs/Back-end-Development/Csharp/LINQ/LINQ-Reference.md)
     * [LINQ概述](/ProjectDocs/cs/Back-end-Development/Csharp/LINQ/LinQ-Introducation.md)
 16. Windows 应用程序设计
     * WinForm
@@ -145,6 +148,8 @@
     - [《.NET 高级调试》经典书籍视频解读系列课](https://www.bilibili.com/video/BV1a24y1q7Bp/)
 - [安木夕——技术人生（IT）](https://www.yuque.com/kanding/ktech)
     - 很全的语雀文档
+    - [C#.Net筑基-集合知识全解](https://www.cnblogs.com/anding/p/18229596)
+    - [ C#.Net筑基-解密委托与事件](https://www.cnblogs.com/anding/p/18229672)
 - [Mustenaka](https://www.mustenaka.cn/index.php/author/mustenaka/)
     - [C#学习路线图](https://www.mustenaka.cn/index.php/2022/02/16/learnofcsharp/)
 - [CSDN: 厦门德仔](https://david.blog.csdn.net/?type=blog)

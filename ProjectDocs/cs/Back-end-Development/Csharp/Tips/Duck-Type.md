@@ -249,5 +249,3 @@ var query =
 
 Console.WriteLine(new string(query.ToArray()).ToUpper());
 ```
-
-## 总结

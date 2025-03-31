@@ -86,13 +86,19 @@
       * 序列化与反序列化  <!--放置在 CSharp/Serialization-And-Deserialization -->
           * [Serialization 特性](/ProjectDocs/cs/Back-end-Development/Csharp/Serialization-And-Deserialization/SerializationAttribute.md)
       * 错误调试和异常处理
-      * 多线程和异步程序设计 <!--放置在 CSharp/Multi-Thread -->
-        * [多线程与异步设计](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/Multi-Thread.md)
+      * 多线程 <!--放置在 CSharp/Multi-Thread -->
+        * [多线程相关资料](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/Multithreading-Reference.md)
+      * 异步程序设计 <!--放置在 Csharp/Asynchronous-Design -->
+        * [异步设计相关资料](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/Asynchronous-Reference.md)
+        * [异步编程模型 APM]()
       * 工具类库  <!--放置在 CSharp/Tools -->
         * [个人搜集的一些工具类库](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Utility-Collection.md)
         * [Newtonsoft.Json.Net](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Newtonsoft.md)
       * LINQ 技术  <!--放置在 CSharp/LINQ -->
+        * [参考资料](/ProjectDocs/cs/Back-end-Development/Csharp/LINQ/LINQ-Reference.md)
         * [LINQ概述](/ProjectDocs/cs/Back-end-Development/Csharp/LINQ/LinQ-Introducation.md)
+      * 网络编程
+        * [参考链接](/ProjectDocs/cs/Back-end-Development/Csharp/Network-Programming/Reference.md)
       * 各种技巧/细碎知识
         * [C#中问号（?）运算符的历代新增用法](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Question-Mark-Operator.md)
         * [C# 中的 Using 用法](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Using-Mark.md)
@@ -117,7 +123,7 @@
       * 绘图与动画
 
   * 数据库    <!--放置在 cs/Sql -->
-    * 参考链接
+    * [参考链接](/ProjectDocs/cs/sql/Reference.md)
     * [SQL 语法基础](ProjectDocs\cs\Sql\SQL-basic.md)
     * MySql 相关学习
       * [MySql 概述](/ProjectDocs/cs/Sql/MySql/MySQL-front.md)
