@@ -129,11 +129,12 @@
 
   * 数据库    <!--放置在 cs/Sql -->
     * [参考链接](/ProjectDocs/cs/sql/Reference.md)
-    * [SQL 语法基础](ProjectDocs\cs\Sql\SQL-basic.md)
     * MySql 相关学习
       * [MySql 概述](/ProjectDocs/cs/Sql/MySql/MySQL-front.md)
+      * [MySQL 语法基础](ProjectDocs\cs\Sql/MySql/SQL-basic.md)
       * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySql/MySQL-statements-and-data-types.md)
     * SqlServer
+      * [SQL Server 基本语法](/ProjectDocs/cs/Sql/SQL-Server/SQL-basic.md)
     * SqlLite
     * MongoDB
     * Redis
