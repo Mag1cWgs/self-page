@@ -692,9 +692,309 @@
 - ManualResetEventSlim
 
 ## 并发集合
-- `ConcurrentBag`/`ConcurrentStack`/`ConcurrentQueue`
-- `BlockingCollection`
-- `Channel`
+- 一些默认提供的，同步多线程所用
+    - `ConcurrentBag`/`ConcurrentStack`/`ConcurrentQueue`
+    - `BlockingCollection`
+- 可用于异步编程的
+    - `Channel`
+
+### 使用 Channel 实现异步任务之间的通信
+- 原有例子
+    - 不能用于异步编程
+        - 因为使用阻塞方法
+        - 包括 `ConcurrentQueue` 其中也大多不使用异步
+        - 与异步编程目标违背
+    
+    ```cs
+    using System.Collections.Concurrent;
+
+    // 建立一个承载 Message 类实例的 BlockingCollection
+    // 构造时传入 ConcurrentQueue<Message> 作为后台实际容器
+    var queue = new BlockingCollection<Message>(new ConcurrentQueue<Message>());
+
+    // 定义生产者线程
+    var sender = new Thread(SendMessageThread);
+    // 定义消费者线程
+    var receiver_1 = new Thread(ReceiveMessageThread);
+    var receiver_2 = new Thread(ReceiveMessageThread);
+    var receiver_3 = new Thread(ReceiveMessageThread);
+
+    // 开始发送，其中 1 是 SendMessageThread 的参数
+    sender.Start(1);
+    // 开始接收，同理 2-4 是 ReceiveMessageThread 的参数
+    receiver_1.Start(2);
+    receiver_2.Start(3);
+    receiver_3.Start(4);
+
+    // 阻塞主线程到生产者线程完成，保证所有 message 都被接受
+    sender.Join();
+    Thread.Sleep(100); // 短暂等待
+
+    // 中断消费者线程，触发 ThreadInterruptedException 异常
+    receiver_1.Interrupt();
+    receiver_2.Interrupt();
+    receiver_3.Interrupt();
+    
+    // 阻塞主线程到消费者线程完成
+    receiver_1.Join();
+    receiver_2.Join();
+    receiver_3.Join();
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
+
+    // 生成二十个 Message 实例，每次生成线程阻塞 100ms
+    void SendMessageThread(object? arg)
+    {
+        // !是 C#8.0 开始引入的空值检查
+        // 哪怕 arg == null 也仍然执行而不是抛出异常
+        int id = (int)arg!;
+        
+        for (int i = 1; i <= 20; i++)
+        {
+            queue.Add(new Message(id, i.ToString()));
+            Console.WriteLine($"Thread {id} sent {i}");
+            Thread.Sleep(100);
+        }
+    }
+
+    // 从队列中依次取出其中的 Message
+    void ReceiveMessageThread(object? id)
+    {
+        try
+        {
+            // 使用轮询
+            while(true)
+            {
+                // 实际自带信号量
+                // 队列为空时阻塞，直到收到新消息被唤醒
+                var message = queue.Take();
+                Console.WriteLine($"Thread {id} received {message.Content} From {message.FromId}");
+                Thread.Sleep(1);
+            }
+        }
+        catch(ThreadInterruptedException)
+        {
+            Console.WriteLine($"Thread {id} interrupted.");
+        }
+    }
+
+    // 产物
+    record Message(int FromId, string Content);
+    ```
+
+- 对原生提供集合不了解情况下可能会做的操作
+    - 对集合访问时加锁
+    - 通过轮询判断生产者是否有产物可用
+    - 使用 信号量/全局布尔值 判断生产者生产结束
+
+- `Channel` 实际上具备如上功能
+    - 可以用于异步编程的类似 `BlockingQueue` 的类
+    - 相当一个自带信号量的 `ConcurrentQueue`
+    
+1. 直接用 `Channel` 替换 `BlockingQueue`
+    ```cs
+    using System.Collections.Concurrent;
+    using System.Threading.Channels;
+
+    // 可以使用 BoundedChannelOption 来存储要构建Channel的参数
+    // 实际还有可设置参数更少的 UnboundedChannelOption
+    //var option = new BoundedChannelOption()
+    //{   
+    //    // Capacity 可以直接在构造函数内输入
+    //    Capacity = 100,
+    //    // FullMode还有 DropNewest / DropOldest / DropWrite
+    //    FullMode = BoundedChannelFullMode.Wait,
+    //    SingleReader = true,
+    //    SingleWriter = true
+    //    // 还有一个通常在边界情况下考虑的设置
+    //    // 高性能要求优化时考虑（一般忽略）
+    //    // 对空 Channel 操作优化，避免信号量/入、出队
+    //    // ,AllowSynchronousContinuations =
+    //};
+
+    // 建立一个承载 Message 类实例的 Channel
+    // 还有 CreatedBounded 可选，使用 Create 方法获取
+    var channel = Channel.CreateUnbounded<Message>();
+    // 实际后台还是ConcurrentQueue
+
+    var sender = new Thread(SendMessageThread);
+    var receiver_1 = new Thread(ReceiveMessageThread);
+    sender.Start(1);
+    receiver_1.Start(2);
+    sender.Join();
+    Thread.Sleep(100);
+    receiver_1.Interrupt();
+    receiver_1.Join();
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
+
+    void SendMessageThread(object? arg)
+    {
+        int id = (int)arg!;
+
+        for (int i = 1; i <= 20; i++)
+        {   // Channel 实际也有同步方法，调用Writer的TryWrite方法
+            if(channel.Writer.TryWrite(new Message(i,i.ToString())))
+                Console.WriteLine($"Thread {id} sent {i}");
+            Thread.Sleep(100);
+        }
+    }
+    
+    void ReceiveMessageThread(object? id)
+    {
+        try
+        {
+            while(true)
+            {
+                // 仅仅使用 Channel 取代 BlockingCollection
+                if(channel.Reader.TryRead(out var message))
+                    Console.WriteLine($"Thread {id} received {message.Content} From {message.FromId}");
+                Thread.Sleep(1);
+            }
+        }
+        catch(ThreadInterruptedException)
+        {
+            Console.WriteLine($"Thread {id} interrupted.");
+        }
+    }
+
+    // 产物
+    record Message(int FromId, string Content);
+    ```
+
+2. 异步化
+    ```cs
+    using System.Collections.Concurrent;
+    using System.Threading.Channels;
+    
+    var channel = Channel.CreateUnbounded<Message>();
+    using var cts = new CancellationTokenSource();
+
+    var sender = SendMessageAsync(channel.Writer, 1);
+    var receiver_1 = ReceiveMessageAsync(channel.Writer, 2, cts.Token);
+
+    await sender;
+    await Task.Delay(100);
+    cts.Cancel();
+    await receriver;
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
+
+
+    async Task SendMessageAsync(ChannelWriter<Message> writer, int id)
+    {
+        int id = (int)arg!;
+        
+        for (int i = 1; i <= 20; i++)
+        {
+            await writer.WriteAsync(new Message(id, i.ToString()));
+            Console.WriteLine($"Thread {id} received {message.Content} From {message.FromId}");
+            await Task.Delay(100);
+        }
+    }
+
+    async Task ReceiveMessageAsync(ChannelReader<Message> reader, int id
+                            , CancellationToken token)
+    {
+        try
+        {   // 仍然轮询
+            while(!token.IsCancellationRequest)
+            {
+                // 类似 BlockingCollection 中的 Take() 方法
+                var message = await reader.ReadAsync(token);
+                Console.WriteLine($"Thread {id} received {message.Content} From {message.FromId}");
+            }
+        }
+        catch(OperationCanceledException)
+        {
+            Console.WriteLine($"Task {id} canceled.");
+        }
+    }
+
+    // 产物
+    record Message(int FromId, string Content);
+    ```
+
+3. 参照 GO 语言尝试优化
+    - C# 中提供了类似 Golang 中 `Close()` 的方法
+        - 同样类似一个**信号量**
+
+    ```cs
+    using System.Collections.Concurrent;
+    using System.Threading.Channels;
+    
+    var channel = Channel.CreateUnbounded<Message>();
+
+    var sender = SendMessageAsync(channel.Writer, 1);
+    var receiver_1 = ReceiveMessageAsync(channel.Writer, 2);
+
+    await sender;
+    await Task.Delay(100);
+    // 标记 Writer 写入完成
+    channel.Writer.Complete();
+    await receriver;
+
+    Console.WriteLine("Press any key to exit...");
+    Console.ReadKey();
+
+
+    async Task SendMessageAsync(ChannelWriter<Message> writer, int id)
+    {
+        int id = (int)arg!;
+        
+        for (int i = 1; i <= 20; i++)
+        {
+            await writer.WriteAsync(new Message(id, i.ToString()));
+            Console.WriteLine($"Thread {id} received {message.Content} From {message.FromId}");
+            await Task.Delay(100);
+        }
+        // 如果生产者是单例，可以考虑直接
+        //channel.Writer.Complete();
+    }
+
+    async Task ReceiveMessageAsync(ChannelReader<Message> reader, int id)
+    {
+        try
+        {   // 当前轮开始前检查，触发条件: 
+            // 1. writer 标记 Completed
+            // 2. Channel 没有新消息
+            while(!reader.Completion.IsCompleted)
+            {
+                var message = await reader.ReadAsync();
+                Console.WriteLine($"Thread {id} received {message.Content} From {message.FromId}");
+            }
+        }
+        // 仍然要捕捉异常，大多数占用都在 ReadAsync
+        catch(ChannelClosedException)
+        {
+            Console.WriteLine($"Channel {id} closed.");
+        }
+    }
+
+    // 产物
+    record Message(int FromId, string Content);
+    ```
+
+4. 对 `ReceiveMessaggeAsync` 优化
+    ```cs
+    async Task ReceiveMessageAsync(ChannelReader<Message> reader, int id)
+    {
+        // ReadAllAsync 方法返回 C#8.0 提供的 IAsyncEnumable
+        // 里面自带了对任务结束的处理，无需再捕捉异常
+        await foreach(var item in reader.ReadAllAsync())
+        {
+            Console.WriteLine($"Thread {id} received {message.Content} From {message.FromId}");
+        }
+    }
+    ```
+
+
+
+---
+
 
 ## 第三方库
 - `AsyncManualResetEvent`
