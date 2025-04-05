@@ -48,9 +48,15 @@
 
 
 ## 异步方法（async Task）
+- 不一定要使用 `async`/`await` 关键字
+    - 参考[鸭子类型](../Tips/Duck-Type.md)
+
 - 将方法标记 `async` 后，可以在方法中使用 `await` 关键字
     - 如果不存在 `await` 关键字，则一直是同步调用
     - 异步方法推荐命名时尾部加上 `Async`
+    - 接口中不能使用 `async` 标记
+    - 抽象类中不应该使用 `async` 标记
+
 - `await` 关键字会等待异步任务的结束，并获得结果
 
 - `async` + `await` 会将方法包装成状态机，`await` 类似于检查点
@@ -61,6 +67,7 @@
 - `async void`
     - 同样是状态机，但缺少记录状态的 `Task` 对象
     - 无法聚合异常（Aggregate Exception），需要谨慎处理异常
+        - 关于聚合异常：参考下文「**任务超时处理——WaitAsync**」
     - 几乎只用于对于事件的注册
 - 异步编程具有传染性（Contagious）
     - 一处 `async`，处处 `async`
@@ -81,8 +88,14 @@
         - `Task.GetAwaiter().GetResult()`
             - 不会将 `Exception` 包装为 `AggregateException`
     2. `Task.Delay()` vs. `Thread.Sleep()`
+        - 回顾[C#异步编程的一些新手常见误区](https://www.bilibili.com/video/BV1fkX7YQE4Y)
         - 前者是一个异步任务，会立刻释放当前的线程
+            - 在 Delay 时间内资源被释放出来
+            - 可以用 `ConfigureAwait(bool)` 来设置是否返回主线程
+                - `false` 时不一定返回主线程，可能会导致跨线程UI操作从而抛出异常
         - 后者会阻塞当前的线程，这与异步编程的理念不符
+            - Sleep 时间内线程不会被释放
+            - 会导致窗体卡死
     3. IO 等操作的同步方法
         - 较新版本的 .NET 为我们提供了一整套的异步方法，包含 Web、IO、Stream 等
     4. 其他繁重且耗时的任务
@@ -164,7 +177,7 @@
 
 - 例子
     ```cs
-    var tasks = new list<Task<参数>>();
+    var tasks = new List<Task<参数>>();
 
     foreach(var item in Col)
     {
@@ -176,6 +189,27 @@
     // 下面这条会等待 x.Result 完成，实际上造成阻塞
     // 通过 Task.WhenAll/ Task.WhenAny 避免 tasks 未完成带来的阻塞
     var outputs = tasks.Select(x => x.Result).ToArray();
+    ```
+
+- 例子：同时执行多个相同异步方法
+    ```cs
+    var tasks = new List<Task>();
+    for(int i=0; i<5; i++)
+    {
+        tasks.Add(FooAsync());
+    }
+    //也可以直接用 LINQ 表达式
+    //tasks.Add(FooAsync())
+    //     .Add(FooAsync())
+    //     .Add(FooAsync())
+    //     .Add(FooAsync())
+    //     .Add(FooAsync());
+    await Task.WhenAll(tasks);
+
+    async Task FooAsync()
+    {
+        await Task.Delay(3000);
+    }
     ```
 
 
@@ -295,7 +329,6 @@
             });
             await Task.WhenAll(Task.Delay(5000,token),cancelTask);
 
-
             // 实际上 CancellationTokenSource 还支持传入 TimeSpan
             // 从而实现超时即取消，具体如下
             var cts = new CancellationTokenSource(TimeSpan.FromSecond(3));
@@ -303,7 +336,6 @@
             var token = cts.Token;
             await Task.Delay(5000, token);
             // 经过 3000ms 后 cts 自动调用 cts.Cancel() 方法
-
 
             // CTS 还有一个叫 CancelAfter() 方法
             var cts = new CancellationTokenSource();
@@ -468,7 +500,6 @@
     }
     ConsoleWriteLine("Done.");
 
-
     async Task FooAsync(CancellationToken token)
     {
         try
@@ -620,8 +651,67 @@
 ## 异步方法一定要写成 async Task？
 - `async` 关键字只是用来配合 `await` 使用，从而将方法包装为状态机
 - 本质上仍然是 `Task`，只不过提供了语法糖，并且函数体中可以直接 `return Task` 的泛型类型
-- 接口中无法声明 `async Task`
-    - 只能写 `Task`，实现的时候可以加 `async`
+    - 接口中无法声明 `async Task`
+        - 只能写 `Task`，实现的时候可以加 `async`
+    - 抽象类可以声明 `async Task`
+        - 但是不推荐
+    - 应该在具体实现时候考虑是否使用 `async`+`await` 
+
+## 有接口要求实现异步方法时一定要用 async/await？
+- 不一定
+    - 使用 `async` 会包装成状态机，有潜在性能花销
+
+- 如果异步方法要求目标值可以直接给出
+
+```cs
+interface IFoo
+{
+    Task<string> FooAsync();
+}
+
+class Foo: IFoo
+{
+    // 这样写不好，会包装城状态机
+    public async Task<string> FooAsync()
+    {
+        return "123";
+    }
+
+    // 推荐使用
+    public Task<string> FooAsync()
+    {
+        return Task.FromResult<String>("123");
+    }
+}
+```
+
+- 如果异步方法是可直接使用同步解决的
+
+```cs
+interface IFoo
+{
+    Task<string> FooAsync(CancellationToken token);
+}
+
+class Foo: IFoo
+{
+    public async Task<string> FooAsync(CancellationToken token)
+    {
+        await Task.Delay(1000,token)
+    }
+
+    // 应修改为
+    public Task<string> FooAsync(CancellationToken token)
+    {
+        if(token.IsCancellationRequested)
+            return Task.FromCanceled<string>(token);
+            //也可以
+            //Task.FromException<string>(token);
+        return Task.FromResult("123");
+    }
+}
+```
+
 
 ## await 一定会切换同步上下文？
 - 在使用 `await` 关键字调用并等待一个异步任务时，异步方法不一定会立刻来到新的线程上
@@ -883,7 +973,6 @@
     Console.WriteLine("Press any key to exit...");
     Console.ReadKey();
 
-
     async Task SendMessageAsync(ChannelWriter<Message> writer, int id)
     {
         int id = (int)arg!;
@@ -939,7 +1028,6 @@
 
     Console.WriteLine("Press any key to exit...");
     Console.ReadKey();
-
 
     async Task SendMessageAsync(ChannelWriter<Message> writer, int id)
     {
