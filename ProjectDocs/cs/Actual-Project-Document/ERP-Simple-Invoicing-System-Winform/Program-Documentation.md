@@ -107,6 +107,8 @@
 | up_date   | datetime       | NOT NULL    | 更新日期         |
 
 #### 2. 子代码表（b_minor）
+> - 记录分类信息
+> - 使用 `Get_Minor_nm(minor_cd)` 来获取 `minor_nm` 字段信息
 
 | 列名        | 数据类型          | 约束             | 备注                   |
 |------------|------------------|------------------|------------------------|
@@ -209,22 +211,25 @@
 
 
 - 商品单位代码（item_unit）
-  | 字段名     | 数据类型         | 约束          | 备注        |
+  - 调用 `Get_Minor_nm` 函数获取
+  | 字段名  | 数据类型      | 约束         | 备注       |
   | ------- | ------------ | ----------- | --------- |
-  | unit_id | VARCHAR(50)  | PRIMARY KEY | 单位编号，作为主键 |
-  | unit_nm | VARCHAR(255) | NOT NULL    | 单位名称，不可为空 |
+  | item_unit | nvarcahr(6)  | NOT NULL | 单位编号，作为主键 |
+  | item_unit_nm | nvarcahr(50) | NOT NULL    | 单位名称，不可为空 |
 
 - 商品分类代码（item_group）
-  | 字段名      | 数据类型         | 约束          | 备注        |
+  - 调用 `Get_Minor_nm` 函数获取
+  | 字段名   | 数据类型      | 约束         | 备注      |
   | -------- | ------------ | ----------- | --------- |
-  | group_id | VARCHAR(50)  | PRIMARY KEY | 分类编号，作为主键 |
-  | group_nm | VARCHAR(255) | NOT NULL    | 分类名称，不可为空 |
+  | item_group | nvarcahr(6)  | NOT NULL | 分类编号，作为主键 |
+  | item_group_nm | nvarcahr(50) | NOT NULL    | 分类名称，不可为空 |
 
 - 默认仓库代码（item_sl_cd）
-  | 字段名      | 数据类型         | 约束          | 备注        |
+  - 调用 `Get_Minor_nm` 函数获取
+  | 字段名   | 数据类型      | 约束         | 备注      |
   | -------- | ------------ | ----------- | --------- |
-  | sl_cd_id | VARCHAR(100) | PRIMARY KEY | 仓库编号，作为主键 |
-  | sl_cd_nm | VARCHAR(255) | NOT NULL    | 仓库名称，不可为空 |
+  | sl_cd | nvarcahr(6) | NOT NULL | 仓库编号，作为主键 |
+  | sl_nm | nvarcahr(50) | NOT NULL    | 仓库名称，不可为空 |
 
 #### 2. 商品往来单价信息表（b_item_price）
 
@@ -244,76 +249,141 @@
 
 > 表设计相较实际系统更加简易
 
-| 字段名         | 数据类型        | 说明         |
-| ----------- | ----------- | ---------- |
-| RecordID    | INT         | 入库编号，主键，自增 |
-| OrderID     | VARCHAR(50) | 采购/销售订单编号  |
-| ProductID   | VARCHAR(50) | 商品编号       |
-| Quantity    | INT         | 商品数量       |
-| Date        | DATE        | 入库/出库日期    |
-| WarehouseID | VARCHAR(50) | 入库/出库仓库编号  |
+
+#### 期初库存信息表（beg_stock）
+
+| 字段名 | 类型 | 说明 |
+| --- | --- | --- |
+| year        | nvarchar(4)   | 年份 |
+| mm          | nvarchar(2)   | 月份 |
+| yyyymmdd    | nvarchar(8)   | 年月日，**联合主键** |
+| item_cd     | nvarchar(10)  | 商品编号，**联合主键**，**关联外键** |
+| beg_qty     | numeric(18,4) | 期初数量 |
+| manual_qty  | numeric(18,4) | 调整数量 |
+| manual_date | datetime      | 调整时间 |
+| manual_user | nvarchar(20)  | 调整者ID |
+| check_date  | datetime      | 盘点时间 |
+| manual_flag | nvarchar(2)   | 手动调整与否 |
+| remark      | nvarchar(200) | 备注                 |
+| ins_user    | nvarchar(6)   | 创建者用户ID          |
+| ins_date    | datetime      | 创建日期              |
+| up_user     | nvarchar(6)   | 更新者用户ID          |
+| up_date     | datetime      | 更新日期              |
+
+#### 库存记录信息表（io_stock）
+| 字段名 | 类型 | 说明 |
+| --- | --- | --- |
+| io_no     | nvarchar(20)  | 入库编号，**联合主键** |
+| po_so_no  | nvarchar(20)  | 采购/销售订单编号，**联合主键** |
+| item_cd   | nvarchar(10)  | 商品编号，**联合主键** |
+| item_qty  | numeric(18,4) | 商品数量 |
+| io_date   | datetime      | 入库/出库日期 |
+| sl_cd     | nvarchar(6)   | 入库/出库仓库 |
+| io_type   | nvarchar(2)   | 出入库类型标记 |
+| remark      | nvarchar(200) | 备注                 |
+| ins_user    | nvarchar(6)   | 创建者用户ID          |
+| ins_date    | datetime      | 创建日期              |
+| up_user     | nvarchar(6)   | 更新者用户ID          |
+| up_date     | datetime      | 更新日期              |
+
 
 
 
 ### 4.4 采购信息表
 
-#### 1. 采购信息综合表
+#### 1. 采购信息综合表（po_hdr）
 
 | 字段名             | 数据类型          | 说明           |
 | --------------- | ------------- | ------------ |
-| po_no           | VARCHAR(50)   | 采购订单编号，可自动生成 |
-| bp_cd           | VARCHAR(50)   | 供应商编号        |
-| po_date         | DATE          | 下单日期         |
-| user_cd         | INT           | 采购者信息，外键关联   |
-| po_type         | VARCHAR(50)   | 订单类型，外键关联    |
-| last_date       | DATE          | 预计最迟送货日期     |
-| PaymentMethodID | VARCHAR(50)   | 付款方式，外键关联    |
-| TaxRateID       | VARCHAR(50)   | 税率，外键关联      |
-| TaxAmount       | DECIMAL(10,2) | 税额           |
-| PreTaxAmount    | DECIMAL(10,2) | 订单税前金额       |
-| TotalAmount     | DECIMAL(10,2) | 订单含税金额       |
-| Notes           | TEXT          | 备注信息         |
+| po_no           | nvarchar(20)  | 采购订单编号，可自动生成，**主键** |
+| bp_cd           | nvarchar(10)  | 供应商编号        |
+| po_date         | datetime      | 下单日期         |
+| user_cd         | nvarchar(6)   | 采购者信息，外键关联   |
+| po_type         | nvarchar(6)   | 订单类型，外键关联    |
+| last_date       | datetime      | 预计最迟送货日期     |
+| pay_type        | VARCHAR(6)    | 付款方式，外键关联  |
+| po_amt          | numeric(18,4) | 订单金额        |
+| confirm_type    | nvarchar(2)   | 确认信息        |
+| po_state        | VARCHAR(50)   | 订单状态，外键关联  |
+| remark      | nvarchar(200) | 备注                 |
+| ins_user    | nvarchar(6)   | 创建者用户ID          |
+| ins_date    | datetime      | 创建日期              |
+| up_user     | nvarchar(6)   | 更新者用户ID          |
+| up_date     | datetime      | 更新日期              |
 
 - 采购者信息表
-  | 字段名           | 数据类型         | 说明       |
-  | ------------- | ------------ | -------- |
-  | BuyerID       | INT          | 采购者编号，主键 |
-  | BuyerName     | VARCHAR(100) | 采购姓名     |
-  | ContactNumber | VARCHAR(20)  | 联系电话     |
+
 
 - 付款方式表
-  | 字段名             | 数据类型         | 说明        |
-  | --------------- | ------------ | --------- |
-  | PaymentMethodID | VARCHAR(50)  | 付款方式编号，主键 |
-  | MethodName      | VARCHAR(100) | 付款方式名称    |
+
 
 - 订单类型表（国内/国外）
-  | 字段名         | 数据类型         | 说明      |
-  | ----------- | ------------ | ------- |
-  | OrderTypeID | VARCHAR(50)  | 类型编号，主键 |
-  | TypeName    | VARCHAR(100) | 类型名称    |
 
-#### 2. 采购信息明细表
 
-| 字段名             | 数据类型          | 约束信息                                | 说明                |
-| --------------- | ------------- | ----------------------------------- | ----------------- |
-| PurchaseOrderID | VARCHAR(50)   | PRIMARY KEY                         | 采购订单编号，可自动生成，主键   |
-| ProductID       | VARCHAR(50)   | PRIMARY KEY, FOREIGN KEY            | 商品编号，主键           |
-| Quantity        | INT           | NOT NULL                            | 采购数量              |
-| UnitPrice       | DECIMAL(10,2) | CHECK (UnitPrice > 0)               | 采购单价（参考往来信息表，可修改） |
-| TaxRateID       | VARCHAR(50)   | FOREIGN KEY                         | 税率 （独立表，外键关联税率表）  |
-| TaxAmount       | DECIMAL(10,2) | AS (Quantity * UnitPrice * TaxRate) | 根据采购数量、单价和税率计算的税额 |
-| PreTaxAmount    | DECIMAL(10,2) | AS (Quantity * UnitPrice)           | 未税金额，等于采购数量乘以单价   |
-| TotalAmount     | DECIMAL(10,2) | AS (PreTaxAmount + TaxAmount)       | 含税金额，等于未税金额加上税额   |
-| WarehouseID     | INT           | FOREIGN KEY                         | 入库仓库，外键关联仓库表      |
-| Notes           | TEXT          |                                     | 备注信息              |
+#### 2. 采购信息明细表（po_dtl）
+| 字段名          | 数据类型       | 说明          |
+| --------------- | ------------- | ------------ |
+| po_no           | nvarchar(20)   | 采购订单编号，**联合主键** |
+| item_cd         | nvarchar(10)   | 商品编号，**联合主键** |
+| item_qty        | INT           | 采购数量      |
+| item_price      | numeric(18,4) | 采购单价      |
+| item_amt        | numeric(18,4) | 采购金额      |
+| sl_cd           | nvarchar(4)   | 入库仓库      |
+| remark      | nvarchar(200) | 备注                 |
+| ins_user    | nvarchar(6)   | 创建者用户ID          |
+| ins_date    | datetime      | 创建日期              |
+| up_user     | nvarchar(6)   | 更新者用户ID          |
+| up_date     | datetime      | 更新日期              |
 
 - 入库仓库表
-  | 字段名           | 数据类型         | 约束信息        | 说明      |
-  | ------------- | ------------ | ----------- | ------- |
-  | WarehouseID   | INT          | PRIMARY KEY | 仓库编号，主键 |
-  | WarehouseName | VARCHAR(100) | NOT NULL    | 仓库名称    |
 
+#### 3. 采购退货综合表（rt_hdr）
+
+| 字段名       | 数据类型       | 说明          |
+| ----------- | ------------- | ------------ |
+| rt_no       | nvarcahr(20)  | 退货订单编号，**主键**  |
+| bp_no       | nvarcahr(10)  | 供应商编号，**外键关联** |
+| rt_date     | datetime      | 退货日期      |
+| rt_reason   | nvarcahr(6)   | 退货原因      |
+| rt_amt      | numeric(18,4) | 订货总额      |
+| refund_type | nvarcahr(6)   | 退款方式      |
+| seq         | int           | 序列          |
+| remark      | nvarchar(200) | 备注                 |
+| ins_user    | nvarchar(6)   | 创建者用户ID          |
+| ins_date    | datetime      | 创建日期              |
+| up_user     | nvarchar(6)   | 更新者用户ID          |
+| up_date     | datetime      | 更新日期              |
+
+- 退货原因表（rt_reason）
+  - 通过 `Get_Minor_nm` 函数获取
+  | 字段名    | 数据类型      | 约束         | 备注      |
+  | --------- | ------------ | ----------- | --------- |
+  | rt_reason | nvarcahr(6) | NOT NULL    | 退货原因编号 |
+  | rt_reason_nm | nvarcahr(50) | NOT NULL    | 退货原因名称 |
+
+- 退款方式表（refund_type）
+  - 通过 `Get_Minor_nm` 函数获取
+  | 字段名   | 数据类型      | 约束         | 备注      |
+  | -------- | ------------ | ----------- | --------- |
+  | refund_type | nvarcahr(6) | NOT NULL    | 退货方式编号 |
+  | refund_nm   | nvarcahr(50) | NOT NULL    | 退货方式名称 |
+  
+#### 4. 采购退货明细表（rt_dtl）
+
+| 字段名     | 数据类型  | 说明          |
+| ---------- | -------- | ------------ |
+| rt_no      | nvarchar(20)  | 退货订单编号，**联合主键** |
+| io_no      | nvarchar(20)  | 采购入库编号，**联合主键** |
+| item_cd    | nvarchar(10)  | 商品编号，**联合主键** |
+| item_qty   | numeric(18,4) | 数量         |
+| item_price | numeric(18,4) | 单价         |
+| item_amt   | numeric(18,4) | 金额         |
+| sl_cd      | nvarchar(6)   | 出库仓库     |
+| remark     | nvarchar(200) | 备注         |
+| ins_user   | nvarchar(6)   | 创建者用户ID  |
+| ins_date   | datetime      | 创建日期      |
+| up_user    | nvarchar(6)   | 更新者用户ID  |
+| up_date    | datetime      | 更新日期      |
 
 
 ### 4.5 销售信息表
@@ -379,10 +449,7 @@
 | remark           | TEXT          |                                     | 备注信息               |
 
 - 出库仓库表
-  | 字段名           | 数据类型         | 约束信息        | 说明      |
-  | ------------- | ------------ | ----------- | ------- |
-  | WarehouseID   | INT          | PRIMARY KEY | 仓库编号，主键 |
-  | WarehouseName | VARCHAR(100) | NOT NULL    | 仓库名称    |
+
 
 ### 4.6 系统消息代码
 - 操作成功

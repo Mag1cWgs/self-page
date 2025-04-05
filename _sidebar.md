@@ -195,30 +195,17 @@
       * [组合 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/6-Composite-Design-Pattern.md)
       * [享元 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/7-Flyweight-Design-Pattern.md)
     * 行为型设计模式  <!--放置在 cs/DesignPattern/Behavioral-Design-Pattern -->
-      * 概述
-        * [设计模式概述](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/1.%20设计模式概述.md)
-        * [七大设计原则](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/2.%20七大设计原则.md)
-      * 创建型
-        * [工厂模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/3.%20工厂模式.md)
-        * [单例模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/4.%20单例模式.md)
-        * [建造者模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/5.%20建造者模式.md)
-        * [原型模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/6.%20原型模式.md)
-        * [创建型模式总结](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/7.%20创建型模式总结.md)
-      * 结构型
-        * [适配器模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/8.%20适配器模式.md)
-        * [代理模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/9.%20代理模式.md)
-        * [外观模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/10.%20外观模式.md)
-        * [装饰器模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/11.%20装饰器模式.md)
-        * [桥接模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/12.%20桥接模式.md)
-        * [组合模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/13.%20组合模式.md)
-        * [享元模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/14.%20享元模式.md)
-        * [结构型模式总结](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/15.%20结构型模式总结.md)
-      * 行为型
-        * [模板方法模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/16.%20模板方法模式.md)
-        * [策略模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/17.%20策略模式.md)
-        * [状态模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/18.%20状态模式.md)
-        * [观察者模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/19.%20观察者模式.md)
-        * [责任链模式](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/20.%20责任链模式.md)
+      * [中介者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/1-Mediator-Design-Pattern.md)
+      * [观察者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/2-Observer-Design-Pattern.md)
+      * [迭代器 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/3-Interator-Design-Pattern.md)
+      * [访问者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/4-Visitor-Design-Pattern.md)
+      * [责任链 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/5-Chain-Of-Responsibility-Pattern.md)
+      * [模版 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/6-Template-Method-Pattern.md)
+      * [策略者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/7-Stragety-Design-Pattern.md)
+      * [命令 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/8-Command-Design-Patern.md)
+      * [备忘录设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/9-Memento-Design-Pattern.md)
+      * [状态者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/10-State-Design-Patern.md)
+      * [解释器 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/11-Interpreter-Design-Patern.md)
 
   * 工具
     * [命令行的艺术（转载、部分链接丢失）](/ProjectDocs/cs/CMD/Command-CMDart.md)
