@@ -7,15 +7,15 @@
 > 如果你也想建立同样的网站，可参考本站文章：[Docsify部署教程](/ProjectDocs/cs/Docsify/docsify-startinit.md)
 
 
-## 本站主要内容
+## 本站记录笔记与相关概况
 - 计算机技术相关
     - 编程语言
         - 主修 C#，另外有较系统学习过 Python 和 C
-        - 学习了解过一段时间的 Rust 和 JAVA
+        - 学习了解过一段时间的 Rust / JAVA / Golang
         - 同样有轻度使用过 HTML / CSS / JavaScript
         - 远期目标：
             - 学习精进 C# 网络编程/异步编程
-            - 学习和了解 GoLang/TypeScript 等编程语言
+            - 学习和了解 TypeScript 等语言
     - 框架
         - 目前主要是 WinForm
         - 在学习 WPF、ASP.NET MVC、ASP.NET MVVM 等内容
@@ -37,8 +37,9 @@
         - 学生信息管理系统
             1. C/Python 实现的控制台应用
             2. 基于 ASP.NET Core MVC 技术的 Web 应用
-        - ERP 建议进销存系统（基于 .NET Framework 4.8 下 WinForm 框架实现，数据库选用 MSSQL 2019）
+        - ERP 简易进销存系统（基于 .NET Framework 4.8 下 WinForm 框架实现，数据库选用 MSSQL 2019）
         - Todo 待办事项桌面应用（原型阶段）
+        - 基于 Golang 的简易即时通信系统
 - 本科课业笔记相关
     - 数学系主修课程的一些期末速记
         - 离散数学

@@ -52,9 +52,15 @@
     * [Serialization 特性](/ProjectDocs/cs/Back-end-Development/Csharp/Serialization-And-Deserialization/SerializationAttribute.md)
 10. 错误调试和异常处理
 11. 多线程
-    * [参考资料](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/Multithreading-Reference.md)
+    * [多线程相关资料](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/Multithreading-Reference.md)
+    * [基本概念](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/1-Basic.md)
 11. 异步程序设计
-    * [参考资料](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/Asynchronous-Reference.md)
+    * [异步设计相关资料](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/Asynchronous-Reference.md)
+    * [异步编程模型 APM](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/1-APM.md)
+    * [基于事件异步编程模式 EAP](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/2-EAP.md)
+    * [基于任务异步编程模式 TAP](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/3-TAP.md)
+    * [await/async 关键字](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/4-await-async.md)
+    * [一些异步的基本用法](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/10-Basic.md)
 12. 工具类库
     * [个人搜集的一些工具类库](/ProjectDocs/cs/Back-end-Development/Csharp/Tools/Utility-Collection.md)
 13. ADO.NET 数据库访问技术

@@ -17,6 +17,13 @@
       <!--放置在 cs/Back-end-Development -->  
 
     * Python
+      * [参考链接](/ProjectDocs/cs/Back-end-Development/Python/py-init.md)
+      * 变量、控制语句
+      * 列表、元组、数组
+      * 字符串、日期、时间
+      * 文件 I/O、File 方法
+      * 异常处理、常用函数
+      * 面向对象编程
 
     * 算法导论初步（Python）<!--放置在 AlgorithmTheory-using-python -->
       * [介绍](/ProjectDocs/cs/Back-end-Development/AlgorithmTheory-using-python/Introduction.md)
@@ -89,6 +96,7 @@
       * 多线程 <!--放置在 CSharp/Multi-Thread -->
         * [多线程相关资料](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/Multithreading-Reference.md)
         * [基本概念](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/1-Basic.md)
+        * [使用信号量代替轮询和标志位](/ProjectDocs/cs/Back-end-Development/Csharp/Multi-Thread/2-Use-Signal-Over-Polling-Flags.md)
       * 异步程序设计 <!--放置在 Csharp/Asynchronous-Design -->
         * [异步设计相关资料](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/Asynchronous-Reference.md)
         * [异步编程模型 APM](/ProjectDocs/cs/Back-end-Development/Csharp/Asynchronous-Design/1-APM.md)
@@ -108,6 +116,20 @@
         * [C#中问号（?）运算符的历代新增用法](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Question-Mark-Operator.md)
         * [C# 中的 Using 用法](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Using-Mark.md)
         * [C# 中的鸭子类型](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Duck-Type.md)
+    
+    * Golang
+      * [参考链接](/ProjectDocs/cs/Back-end-Development/Golang/go-init.md)
+      * Go 基础语法
+        * 开发环境、包管理、特性、格式与注释
+        * 变量、常量、函数
+        * 延迟函数、错误捕捉
+        * 数组、键值对
+        * 接口、类型断言/转换
+        * 反射
+        * 结构体标签
+        * 异步/多线程支持：goroutine、channel、select
+      * Go Web 编程
+      * Go 简单分布式系统
 
   * 框架学习  <!--放置在 cs-->
     * WinForm（Windows 应用程序设计）<!--放置在 cs/Back-end-Development/CSharp/WinForm -->
@@ -158,18 +180,6 @@
       * [组合 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/6-Composite-Design-Pattern.md)
       * [享元 设计模式](/ProjectDocs/cs/DesignPattern/Structural-Design-Pattern/7-Flyweight-Design-Pattern.md)
     * 行为型设计模式  <!--放置在 cs/DesignPattern/Behavioral-Design-Pattern -->
-      * [中介者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/1-Mediator-Design-Pattern.md)
-      * [观察者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/2-Observer-Design-Pattern.md)
-      * [迭代器 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/3-Interator-Design-Pattern.md)
-      * [访问者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/4-Visitor-Design-Pattern.md)
-      * [责任链 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/5-Chain-Of-Responsibility-Pattern.md)
-      * [模版 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/6-Template-Method-Pattern.md)
-      * [策略者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/7-Stragety-Design-Pattern.md)
-      * [命令 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/8-Command-Design-Patern.md)
-      * [备忘录设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/9-Memento-Design-Pattern.md)
-      * [状态者 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/10-State-Design-Patern.md)
-      * [解释器 设计模式](/ProjectDocs/cs/DesignPattern/Behavioral-Design-Pattern/11-Interpreter-Design-Patern.md)
-    * 转载笔记: ZShijun/DesignPattern.git  <!--放置在 cs/DesignPattern/ZShijun-DoNetDP -->
       * 概述
         * [设计模式概述](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/1.%20设计模式概述.md)
         * [七大设计原则](/ProjectDocs/cs/DesignPattern/ZShijun-DoNetDP/2.%20七大设计原则.md)
@@ -203,12 +213,13 @@
     * [LaTex语法学习](/ProjectDocs/cs/LaTeX/LaTex-Learning.md)
 
   * 实战项目
-    * 学生信息管理系统
-    * ERP 简易进销存系统
+    * 基于 C/Python 的学生信息管理系统（100%）
+    * 基于 Winform 的 ERP/简易进销存系统（80%）
       * [项目文档](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Program-Documentation.md)
-      * [开发笔记-项目设计](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Note-Project-Sql.md)
-      * [开发笔记-窗体设计](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Note-Form.md)
-    * Todo 待办事项桌面应用
+      * [开发笔记-项目设计笔记](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Note-Project-Sql.md)
+      * [开发笔记-窗体设计笔记](/ProjectDocs/cs/Actual-Project-Document/ERP-Simple-Invoicing-System-Winform/Note-Form.md)
+    * Todo 待办事项桌面应用（20%）
+    * 基于 Go 语言的简易即时通信系统（100%）
 
 
 * 数学笔记
