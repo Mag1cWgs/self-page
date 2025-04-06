@@ -117,17 +117,17 @@
         * [C# 中的 Using 用法](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Using-Mark.md)
         * [C# 中的鸭子类型](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Duck-Type.md)
     
-    * Golang
+    * Golang  <!--放置在 Golang -->
       * [参考链接](/ProjectDocs/cs/Back-end-Development/Golang/go-init.md)
-      * Go 基础语法
-        * 开发环境、包管理、特性、格式与注释
-        * 变量、常量、函数
-        * 延迟函数、错误捕捉
+      * Go 基础语法 <!--放置在 Golang/BasicSyntax -->
+        * [开发环境、包管理、特性、格式与注释](/ProjectDocs/cs/Back-end-Development/Golang/BasicSyntax/0-DevelopmentEnvironment-Package-Feature-Format.md)
+        * [变量、常量、函数](/ProjectDocs/cs/Back-end-Development/Golang/BasicSyntax/1-Variable-Constant-Function.md)
+        * [延迟函数、错误捕捉](/ProjectDocs/cs/Back-end-Development/Golang/BasicSyntax/2-Defer-PanicCatch.md)
         * 数组、键值对
         * 接口、类型断言/转换
         * 反射
         * 结构体标签
-        * 异步/多线程支持：goroutine、channel、select
+        * [异步/多线程支持：goroutine、channel、select](/ProjectDocs/cs/Back-end-Development/Golang/BasicSyntax/7-Goroutine-Channel-Select.md)
       * Go Web 编程
         * Handle/Request
         * Form 文件

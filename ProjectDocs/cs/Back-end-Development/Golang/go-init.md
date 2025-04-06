@@ -5,4 +5,5 @@
 - [BiliBili-刘丹冰Aceld: 8小时转职Golang工程师](https://www.bilibili.com/video/BV1gf4y1r79E)
     - [语雀](https://www.yuque.com/aceld/mo95lb/dsk886)
 
+- [Go 程序员面试笔试宝典](https://golang.design/go-questions/)
 - [作为 Gopher，你知道 Go 的注释即文档应该怎么写吗？](https://segmentfault.com/a/1190000041604192)
