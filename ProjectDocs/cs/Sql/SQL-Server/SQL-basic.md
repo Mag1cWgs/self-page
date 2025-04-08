@@ -176,3 +176,121 @@ ADD CONSTRAINT 约束(目标列)
     [ ORDER BY 排序表达式 [ ASC | DESC ] ] 
     ```
 
+
+### 运算符
+T-SQL 支持如下运算符
+- 数字运算符：`+`/`-`/`*`/`/`/`%`
+- 赋值运算符：`=`
+- 按位运算符：`&`/`^`/`|`
+- 比较运算符：`=`/`<>`/`>`/`<`/`>=`/`<=`/`!=`/`!>`/`!<`
+- 逻辑运算符
+    - ALL 如果一系列的比较都为 TRUE，那么就为 TRUE。 
+    - AND 如果两个布尔表达式都为 TRUE，那么就为 TRUE。 
+    - ANY 如果一系列的比较中任何一个为 TRUE，那么就为 TRUE。 
+    - BETWEEN 如果操作数在某个范围之内，那么就为 TRUE。 
+    - EXISTS 如果子查询包含一些行，那么就为 TRUE。 
+    - IN 如果操作数等于表达式列表中的一个，那么就为 TRUE。 
+    - LIKE 如果操作数与一种模式相匹配，那么就为 TRUE。 
+    - NOT 对任何其它布尔运算符的值取反。 
+    - OR 如果两个布尔表达式中的一个为 TRUE，那么就为 TRUE。 
+    - SOME 如果在一系列比较中，有些为 TRUE，那么就为 TRUE。
+
+- 字符串串联
+
+
+### 函数
+
+#### 分类
+- 配置函数：返回配置信息
+- 游标函数：返回游标信息
+- 日期时间函数：返回字符串/数字/日期/时间值
+- 数学函数：返回数字值
+- 元数据函数：返回有关 数据库/数据库对象 的信息
+- 安全函数：返回有关 用户 和 角色 的信息
+- 字符串函数： 对字符串 `char`/`varchar` 操作，返回字符串/数字值
+- 系统函数：返回 SQLserver 的值、对象、设置的信息
+- 文本图像函数：返回 图像/文本 输入/操作 值 的信息
+
+#### 日期时间函数
+1. `GETDATE()`：获取当前时间
+
+2. `DATEADD`：对指定事件的指定部分添加指定长度
+    - 语法
+        ```sql
+        DATEADD (datepart , number, date)
+        ```
+    - `datepart`：修改哪一部分
+    - `number`：添加数值
+    - `date`：要修正的时间值
+
+3. 其他函数（详见Transact-SQL参考）
+
+#### 数学函数
+- 算数函数返回与输入值相同数据类型的值。
+    - 例如 ABS、CEILING、DEGREES、FLOOR、POWER、RADIANS 和 SIGN
+- 三角函数和其它函数将输入值投影到 float 并返回 float 值。
+    - 包括 EXP、LOG、LOG10、SQUARE 和 SQRT
+
+- 除了 RAND 外，所有数学函数都是确定性函数。
+    - 每次用一组特定输入值调用它们时，所返回的结果相同。
+- 仅当指定种子参数时，RAND 才具有确定性。
+
+
+#### 字符串函数
+- 除 CHARINDEX 和 PATINDEX 外的所有其它内置字符串函数都具有确定性。
+    - 每次用一组给定的输入值调用它们时，都返回相同的值。
+1. `SUBSTRING`
+    - 语法:
+        ```sql
+        SUBSTRING ( expression , start , length ) 
+        ```
+    - `expression`：字符串/二进制字符串/text/image/列/包含列表达式
+        - 不应使用包含聚合函数的表达式
+    - `start`：整数，指定子串开始位置（从1开始索引）
+    - `length`：整数，指定子串长度
+        - 对 `text` 数据上指定字节数时，可能会对 DBCS 文字（日文汉字）产生非法字符
+        - 与 `READTEXT` 函数处理 DBCS 文字的行为一致。
+        - 建议对 DBCS 字符使用 `ntext` 而非 `text`
+2. `LEFT`：返回从左侧开始读取所得的子串
+    - 语法
+        ```sql
+        LEFT ( character_expression , integer_expression ) 
+        ```
+    - `character_expression`：字符串/二进制数据表达式，要求是可以隐式转换为 `varchar` 的数据类型
+        - 否则请使用 `CAST` 函数显式转换
+    - `integer_expression`：正整数
+        - 如果 `integer_expre·ssion` 为负，则返回空字符串。
+3. `RIGHT`：相应的从右侧读取子串
+
+4. 其他函数（详见Transact-SQL参考）
+
+
+### 查询语句
+
+1. 枚举选取
+    ```sql
+    SELECT Sno, Sname
+    FROM Student
+    ```
+2. 通配符
+    ```sql
+    SELECT *
+    FROM Student
+    ```
+
+3. 字符串函数
+    ```sql
+    -- 除了原有查询结果，会另外多出一列，列名为 Enter_Year
+    -- 值类似于 `2000年入校（`Sno`为`2000`时）`
+    SELECT *, LEFT(Sno, 4)+'年入校' AS Enter_Year
+    FROM Student
+
+    -- 使用 CONVERT(目标类型, 待转换值) 函数产生一个 int 型数据
+    -- 减去查询时选取的 Sage 列数据，最后声明为 BoY 列
+    -- 比如对一个 Sno='202210000001' Sage = 20 的数据行
+    -- 会有 BoY = 2022 - 20 = 2002 的数值结果
+    SELECT *, CONVERT(int, LEFT(Sno, 4)) - Sage AS BoY
+    FROM Student
+    ```
+
+
