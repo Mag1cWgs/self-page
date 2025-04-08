@@ -231,6 +231,7 @@
   * [运筹学](/ProjectDocs/Mathematic/Operations-Research.md)
   * [最优化理论与算法](/ProjectDocs/Mathematic/Optimization-Calculation-Method.md)
   * [统计计算与软件](/ProjectDocs/Mathematic/Statistic-Computing-Software.md)
+  * [组合数学](/ProjectDocs/Mathematic/Combinatorics.md)
   * [转码自学中收集的一些资料](/ProjectDocs/Prattle/LearnCS/Ref_For_CS.md)
 
 
