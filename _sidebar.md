@@ -110,16 +110,16 @@
       * LINQ 技术  <!--放置在 CSharp/LINQ -->
         * [参考资料](/ProjectDocs/cs/Back-end-Development/Csharp/LINQ/LINQ-Reference.md)
         * [LINQ概述](/ProjectDocs/cs/Back-end-Development/Csharp/LINQ/LinQ-Introducation.md)
-      * 网络编程
+      * 网络编程    <!--放置在 Csharp/Network-Programming -->
         * [参考链接](/ProjectDocs/cs/Back-end-Development/Csharp/Network-Programming/Reference.md)
-      * 各种技巧/细碎知识
+      * 各种技巧/细碎知识   <!--放置在 Csharp/Tips -->
         * [C#中问号（?）运算符的历代新增用法](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Question-Mark-Operator.md)
         * [C# 中的 Using 用法](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Using-Mark.md)
         * [C# 中的鸭子类型](/ProjectDocs/cs/Back-end-Development/Csharp/Tips/Duck-Type.md)
     
-    * Golang  <!--放置在 Golang -->
+    * Golang    <!--放置在 Golang -->
       * [参考链接](/ProjectDocs/cs/Back-end-Development/Golang/go-init.md)
-      * Go 基础语法 <!--放置在 Golang/BasicSyntax -->
+      * Go 基础语法   <!--放置在 Golang/BasicSyntax -->
         * [开发环境、包管理、特性、格式与注释](/ProjectDocs/cs/Back-end-Development/Golang/BasicSyntax/0-DevelopmentEnvironment-Package-Feature-Format.md)
         * [变量、常量、函数](/ProjectDocs/cs/Back-end-Development/Golang/BasicSyntax/1-Variable-Constant-Function.md)
         * [延迟函数、错误捕捉](/ProjectDocs/cs/Back-end-Development/Golang/BasicSyntax/2-Defer-PanicCatch.md)
@@ -128,7 +128,7 @@
         * 反射
         * 结构体标签
         * [异步/多线程支持：goroutine、channel、select](/ProjectDocs/cs/Back-end-Development/Golang/BasicSyntax/7-Goroutine-Channel-Select.md)
-      * Go Web 编程
+      * Go Web 编程   <!--放置在 Golang/WebProgram-->
         * Handle/Request
         * Form 文件
         * 响应
@@ -163,6 +163,29 @@
       * Command 命令
       * 资源与模板
       * 绘图与动画
+
+    * Asp.Net Core  <!--放置在 cs/Back-endDevelopment/Csharp/AspDotNet-Core -->
+      * Asp.Net Core
+      * EF Core
+        * EF Core 介绍
+        * Code First
+        * Database First
+      * Asp.Net Core MVC
+        * [介绍 MVC、路由 Routing](/ProjectDocs/cs/Back-end-Development/Csharp/AspDotNet-Core/3-AspDotNetCore-MVC/1-MVC-Routing.md)
+        * 模型 Model、视图 View、布局 Layout
+        * 标签助手 TagHelper
+        * 局部视图 PartialViews
+        * 视图组件ViewComponent
+        * 控制器 Controller、Action、Asction Result
+        * 过滤器 Filter
+        * 依赖注入 View/Controller
+        * 区域 Area
+      * Asp.Net Core Web API
+      * 单元测试
+
+    * .NET 8.0
+      * [学习笔记](./ProjectDocs/cs/Back-end-Development/Csharp/DotNet8/0-Introduction-Practice-Note.md)
+      * [SqlSugar学习]
 
   * 数据库    <!--放置在 cs/Sql -->
     * [参考链接](/ProjectDocs/cs/sql/Reference.md)
