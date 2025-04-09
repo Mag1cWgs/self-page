@@ -264,6 +264,8 @@ T-SQL 支持如下运算符
 
 4. 其他函数（详见Transact-SQL参考）
 
+#### 系统函数/聚合函数
+- `COUNT(字段)`：查询该字段共有多少条值记录
 
 ### 查询语句
 
@@ -293,4 +295,37 @@ T-SQL 支持如下运算符
     FROM Student
     ```
 
+4. 消除取值重复的行
+    - 通过在 `SELECT` 关键字后，使用 `DISTINCT` 关键字来消除重复元祖
+        ```sql
+        SELECT DISTINCT Sno
+        FROM Student
+        ```
+    - 不使用时默认是 `ALL`
+        ```sql
+        SELECT ALL Sno
+        FROM Student
+        ```
+
+5. 查询满足条件的元组
+    - 九个比较运算符和 `NOT`
+    - 确定范围：`{NOT} BETWEEN ... AND ...`
+    - 确定集合：`{NOT} IN`
+    - 字符匹配：`{NOT} LIKE`
+    - 空值：`IS {NOT} NULL`
+        - `IS` 不能被 `=` 替代，因为 `NULL` 的运算比较通常返回 `NULL`
+        - 可以有 `字段 IS NOT NULL` 和 `NOT 字段 IS NULL` 两种写法
+    - 多重条件：`AND`、`OR`
+        - `AND` 的优先级高于 `OR`
+
+6. 通配符
+    - `%`：代替任何字符
+        - `WHERE Sname LIKE '刘%'`：在 `SName` 字段中匹配所有以'刘'开头的值
+    - `_`：替代任何的单个字符
+        - `WHERE Sname LIKE '_kar'`：在 `SName` 字段中匹配所有的尾部为 `kar` 四个字符值
+    - `[]`：对内部指定范围/集合的值进行匹配
+        - `WHERE Sname LIKE 'de[acf]'`：匹配 `Sname` 值为 `dea`/`dec`/`def`
+        - `WHERE Sname LIKE 'KR[a-f]'`：匹配 `KRa`/`KRb`/.../`KRe`/`KRf`
+    - `[^]`：内部指定不匹配的值
+        - 类似 `[]` 的用法
 
