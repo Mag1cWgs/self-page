@@ -3,21 +3,22 @@
 
 ---
 
-# 第二课时：仓储——服务架构模式
-- 在 Respository/UserResponsitory.cs 中，使用 .Net 高版本的反序列化方法，替代了常用的 Newtonsoft.Json
+# 第一部分-仓储——服务架构模式
 
-```cs
-using System.Text.Json;
+## 1-1-仓储——服务架构模式
+- 在 Respository/UserResponsitory.cs 中，使用 .Net 高版本的反序列化方法，替代 Newtonsoft.Json
+    ```cs
+    using System.Text.Json;
 
-public async Task<List<User>> Query()
-{
-    await Task.CompletedTask;
-    // 模拟从数据库中查询数据
-    var data = "[{\"Name\":\"exampleName\"}]";
-    //return Newtonsoft.Json.JsonConvert.DeserializeObject<List<User>>(data) ?? new List<User>();
-    return JsonSerializer.Deserialize<List<User>>(data) ?? new List<User>();
-}
-```
+    public async Task<List<User>> Query()
+    {
+        await Task.CompletedTask;
+        // 模拟从数据库中查询数据
+        var data = "[{\"Name\":\"exampleName\"}]";
+        //return Newtonsoft.Json.JsonConvert.DeserializeObject<List<User>>(data) ?? new List<User>();
+        return JsonSerializer.Deserialize<List<User>>(data) ?? new List<User>();
+    }
+    ```
 
 - 建立共用层 Common
     - 提供共用的工具类
@@ -56,13 +57,13 @@ public async Task<List<User>> Query()
 
 ---
 
-# 第三课时：泛型基类使用
+## 1-2-泛型基类使用
 - 面对问题
     - 1. 代码重复
     - 2. 代码不易维护
     - 3. 代码不易扩展
 
-## 示例：创建 Role.cs 的 Model
+### 示例：创建 Role.cs 的 Model
 1. 在 Model 层中创建 Role.cs 和 RoleVo.cs
 2. 在 Respository 层中创建 IBaseRepository.cs
     - 作为基类接口
@@ -123,7 +124,7 @@ public async Task<List<User>> Query()
 
 ---
 
-# 第四课时：泛型对象的关系映射
+## 1-3-泛型对象的关系映射
 
 - 如果对服务层也做泛型基类的话，需要产生泛型
     - Entity 实体泛型
@@ -290,7 +291,7 @@ public async Task<List<User>> Query()
 
 ---
 
-# 第五课时：原生依赖注入串联整体框架
+## 1-4-原生依赖注入串联整体框架
 - 使用 泛型仓储基类+泛型服务基类 可以快速搭建框架
 - 整体框架只需要引入实体模型和视图模型即可快速映射
 - 但是业务逻辑复杂时不方便
@@ -330,8 +331,234 @@ public async Task<List<User>> Query()
 
             //...
         }
-        ```        
-    
-            
-            
+        ```
+2. 修改仓储层
+    - 当前使用模拟数据产出，如果需要连接到服务器操作则需要做依赖注入
+    ```cs
+    // 仓储接口类
+    public interface IBaseRepository<TEntity>
+                                where TEntity : class
+    {
+        Task<List<TEntity>> Query();
+    }
+
+    // 仓库实例类
+    public class BaseRespository<TEntity> : IBaseRepository<TEntity>
+                            where TEntity : class, new()
+    {
+        public async Task<List<TEntity>> Query()
+        {
+            // 这里仅仅是模拟数据
+            // 如果使用 SqlServer 或者 EFCore，需要注入 DbContext 实例
+            await Task.CompletedTask;
+            var data = "[{\"Id\":20,\"Name\":\"exampleRoleName\"}]";
+            return JsonSerializer.Deserialize<List<TEntity>>(data) ?? new List<TEntity>();
+        }
+    }
+    ```
+
+3. 修改服务层
+    ```cs
+    // 服务接口类
+    public interface IBaseService<TEntity,TVo>
+                    where TEntity : class   where TVo : class
+    {
+        Task<List<TVo>> Query();
+    }
+
+    // 服务实体类
+    public class BaseService<TEntity,TVo> : IBaseService<TEntity,TVo>
+                where TEntity : class, new() where TVo : class, new()
+    {
+        private readonly IMapper _mapper;
+        private readonly IBaseRespository<TEntity> _baseRepo;
+
+        // 这里使用构造函数注入两个依赖接口
+        // 在容器中建立一个服务依赖清单
+        public BaseService(IMapper mapper, IBaseRespository<TEntity> baseRepo)
+        {
+            this._mapper = mapper;
+            this._baseRepo = baseRepo;
+        }
+
+        public async Task<List<TVo>> Query()
+        {
+            // 不需要再使用 new 实例化
+            //var baseRepo = new BaseRespository<TEntity>();
+            var entitis = await baseRepo.Query();
+            var data = _mapper.Map<List<TVo>>(entitis);
+
+            return data;
+        }
+    }
+    ```
+
+4. 改造具体服务（控制器）
+    - 原有写法
+        ```cs
+        [ApiController]
+        [Route("[controller]")]
+        public class WeatherForecastController : ControllerBase
+        {
+            private static readonly string[] Summaries = new[]
+            {
+                "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            };
+
+            // 定义自带示例
+            private readonly ILogger<WeatherForecastController> _logger;
+            private readonly IMapper _mapper;
+
+            // 修改构造函数，注入 AutoMapper
+            public WeatherForecastController(ILogger<WeatherForecastController> logger, IMapper mapper)
+            {
+                _logger = logger;
+                _mapper = mapper;
+            }
+
+            [HttpGet(Name = "GetWeatherForecast")]
+            public async Task<List<RoleVo>> Get()
+            {
+                var roleService = new BaseService<Role, RoleVo>(_mapper);
+                var role = await roleService.Query();
+                return role;
+            }
+        }
+        ```
+
+    - 修改后
+        ```cs
+        [ApiController]
+        [Route("[controller]")]
+        public class WeatherForecastController : ControllerBase
+        {
+            private static readonly string[] Summaries = new[]
+            {
+                "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            };
+
+            private readonly ILogger<WeatherForecastController> _logger;
+
+            // 定义需要注入的服务
+            private readonly IBaseService<Role, RoleVo> _roleService;
+
+            // 通过构造函数注入服务
+            // 只需要告诉 DI 容器需要注入的类型，由 DI 容器自动解析
+            public WeatherForecastController(ILogger<WeatherForecastController> logger,
+                                IBaseService<Role,RoleVo> roleService)
+            {
+                _logger = logger;
+                _roleService = roleService;
+            }
+
+            // 目标仍是一个 RoleService 实例
+            [HttpGet(Name = "GetWeatherForecast")]
+            public async Task<List<RoleVo>> Get()
+            {
+                var roleList = await _roleService.Query();
+                return roleList;
+            }
+        }
+        ```
+
+# 小节
+- 框架使用常见的三层模式（仓储模式）
+- 仓储层只关心对象实例的控制，获取对象的实例，只需要实体模型泛型
+- 服务层需要处理业务，需要返回视图模型泛型。
+    - 为了安全，要求每一个接口均采用视图模型泛型
+    - 同时依赖仓储传递的实体模型泛型
+- 实体层
+- 公共层
+- 采用依赖注入形式注册，并使用 AutoMapper 进行对象关系映射
+
+
+---
+
+
+# 2-自定义项目框架
+
+## 2-1自定义项目框架模板——如何进行Nuget包打包
+- [参考链接](https://www.bilibili.com/video/BV13g4y1Z7in)
+
+- 核心文件
+    - content
+        - 放置所有源码
+        - 不放置 obj 和 bin（但是有 .gitignore .gitattributes .sln和 README.md）
+        - 另外需要有一个子文件夹 .template.config
+            - 有子文件 `template.json` 内容如下
+            ```json
+            {
+                $schema": "http://json.schemastore.org/template"
+                "author": "作者",
+                "classifications": [ "Web/WebAPI" 类型],
+                "name": "包体显示名",
+                "identity": "包体的唯一身份名"
+                "shortName": "简称"
+                "tags": {
+                    "language": "C#语言",
+                    "type":"project类型"
+                },
+                "sourceName":"启动项目名，也是使用模板时被替换的名字"
+                "preferNameDirectory": true
+            }
+            ```
+    - license
+        - 可以放空 `license.txt`
+    - 包体的唯一身份名.nuspec
+        ```xml
+        <?xml version="1.0" encoding="utf-8"?>
+        <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+            <metadata>
+                <id>包体的唯一身份名</id>
+                <version>版本号</version>
+                <description>包描述</description>
+                <authors>包作者</authors>
+                <packageTypes>
+                    <packageType name="Template"/>
+                </packageTypes>
+                <licenseUrl>许可声明的完整URL</licenseUrl>
+                <projectUrl>项目的托管地址完整URL</projectUrl>
+                <iconUrl>包体图标的完整URL</iconUrl>
+                <copyright>版权声明标识</copyright>
+                <tags>包体的标签</tags>
+            </metadata>
+        </package>
+        ```
+
+- 在准备好核心文件后通过命令行来生成项目
+    - 可以建立 `Package.bat` 来实现一键打包
+    - .bat 脚本内容如下
+        ```bash
+        nuget package 包体的唯一身份名.nuspec
+
+        pause
+        ```
+    - 只需要双击运行就可以尝试构建程序包
+- 生成好后会出现文件「包体的唯一身份名.版本号.nupkg」
+
+- 使用只需要下载文件然后执行命令行去安装
+    - 使用整个文件，需要将上面的 .nupkg 拷贝过来
+    - 然后在目标路径下
+        - 如果已经上传官网，则无需填入相对路径，可以直接官网下载
+        - 实际 `-u` 是删除原有包体（避免版本问题），`-i` 是新建
+        ```bash
+        dotnet new -u 包体名
+        dotnet new -i [相对路径/]包体的唯一身份名.版本号.nupkg
+        dotnet new --list
+        pause
+        ```
+- 具体使用
+    - 可以直接使用命令行形式新建
+        ```bash
+        dotnet new -i 包体名
+        set /p OP=请输入创建项目名:
+        md .输入的项目名
+        cd .输入的项目名
+        dotnet new 上面包体的简短名 -n %OP%
+        cd ../
+        ```
+    - 也可以直接用 Visual Studio 直接创建
+
+
+---
 
