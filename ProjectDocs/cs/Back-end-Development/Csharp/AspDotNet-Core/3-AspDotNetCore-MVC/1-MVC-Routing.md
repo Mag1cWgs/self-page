@@ -377,47 +377,388 @@
     - 比如把 `/products` 和 `/products/5` 分配到不同的操作。
 
 ### 2-4-组合路由
+- 为了减少特性路由的重复部分，控制器上的路由特性会和各个操作上的路由特性进行结合。
+- 任何定义在控制器上的路由模板都会作为操作路由模板的前缀。
+- 在控制器上放置一个路由特性会使所有这个控制器中的操作使用这个特性路由： 
+    ```cs
+    [Route("products")]
+    public class ProductsApiController : Controller
+    {
+        [HttpGet]
+        public IActionResult ListProducts() { ...}
+
+        [HttpGet("{id}")]
+        public ActionResult GetProduct(int id) {...}
+    }
+    ```
+
+    - URL 路径 `/products` 会匹配 `ProductsApi.ListProducts`
+    - URL 路径 `/products/5` 会匹配 `ProductsApi.GetProduct(int)`
+    - 两个操作都只会匹配 HTTP GET，因为它们使用 `HttpGetAttribute` 进行装饰。
+
+- 应用到操作上的路由模板以 `/` 开头时不会联合控制器上的路由模板。
+    - 下面这个例子匹配一组类似默认路由的 URL 路径： 
+    ```cs
+    // 对 Home 匹配
+    [Route("Home")]
+    public class HomeController : Controller
+    {
+        [Route("")]   //定义组合路由模板 "Home"
+        [Route("Index")] //定义组合路由模板 "Home/Index"
+        [Route("/")]    //不组合，定义路由模板 "/"
+        public IActionResult Index()
+        {
+            ViewData["Message"] = "Home index";
+            var url = Url.Action("Index", "Home");
+            ViewData["Message"] = "Home index" + "var url = Url.Action == " + url;
+            return View();
+        }
+
+        [Route("About")] //定义组合路由模板 "Home/About"
+        public IActionResult About()
+        {
+            return View();
+        }
+    }
+    ```
 
 ### 2-5-特性路由的顺序
+- **常规路由**：根据定义顺序来执行，开发者需要负责路由的合理排序。 
+- **特性路由**：
+    - 构建树形结构，同时匹配所有路由
+    - 最具体的路由会在一般的路由之前执行。
+    - 比如 `blog/search/{topic}` 比 `blog/{*article}` 更具体 ，`blog/search/{topic}` 会优先执行。
+
+- 特性路由通过框架提供的`Order`属性配置路由顺序，按`Order`属性升序处理路由。
+ - 默认`Order`值为0 。
+ - 当设置`Order = -1`时，该路由会在未设置`Order`的路由之前运行。
+ - 当设置`Order = 1`时，该路由会在默认路由排序后运行。 
 
 
 ---
 
 
 ## 3-路由模板的标记替换
+- 为了方便，特性路由支持**标记替换**，即通过在方括号中封闭一个标记(`[, ]`)来替换对应的名称。
+- 标记 `[action]`、`[area]` 以及 `[controller]` 会被替换成路由中定义的操作所对应的操作名、区域名、控制器名。
+- 在下面例子中，操作可以匹配注释中描述的 URL 路径： 
+    ```cs
+    [Route("[controller]/[action]")]
+    public class ProductsController : Controller
+    {
+        [HttpGet] // 匹配'/Products/List'
+        public IActionResult List() {
+            //...
+        }
+
+        [HttpGet("{id}")] // 匹配 '/Products/Edit/{id}'
+        public IActionResult Edit(int id) {
+            //...
+        }
+    }
+    ```
+
+- 标记替换发生在构建特性路由的**最后一步**。
+    - 下面代码的实现效果与上面的例子相同：
+    ```cs
+    public class ProductsController : Controller
+    {   // 匹配 '/Products/List'
+        [HttpGet("[controller]/[action]")]
+        public IActionResult List() {
+            //...
+        }
+
+        // 匹配 '/Products/Edit/{id}'
+        [HttpGet("[controller]/[action]/{id}")]
+        public IActionResult Edit(int id) {
+            //...
+        }
+    }
+    ```
+
+- 特性路由也可以与继承结合。
+    - 子类会**继承**基类的特性路由
+    ```cs
+    [Route("api/[controller]")]
+    public abstract class MyBaseController : Controller { ... }
+
+    // 继承基类的 [Route("api/[controller]")]
+    public class ProductsController : MyBaseController
+    {
+        [HttpGet] // 匹配 '/api/Products'
+        public IActionResult List() { ... }
+
+        [HttpPost("{id}")] // 匹配 '/api/Products/{id}'
+        public IActionResult Edit(int id) { ... }
+    }
+    ```
+
+- **标记替换定义路由名称**：
+    - 通过`[Route("[controller]/[action]", Name = "[controller]_[action]")]` 形式，利用标记替换为每个操作生成唯一路由名称
+    - `[controller]`会替换成控制器名，`[action]`会替换成操作名。
+- **多个路由指向同一操作**：
+    - 特性路由支持这种设置，常见用法是模仿默认常规路由。
+    ```cs
+    [Route("[controller]")]
+    public class ProductsController : Controller
+    {
+        [Route("")]   //匹配 'Products'
+        [Route("Index")] //匹配 'Products/Index'
+        public IActionResult Index()
+    }
+    ``` 
+
+- 放置多个路由特性到控制器上，意味着每一个特性都会与每一个操作方法上的路由特性进行结合
+    - 自由组合
+    ```cs
+    [Route("Store")]
+    [Route("[controller]")]
+    public class ProductsController : Controller
+    {
+        [HttpPost("Buy")]   //匹配 'Products/Buy' 和 'Store/Buy'
+        [HttpPost("Checkout")] //匹配 'Products/Checkout' 和 'Store/Checkout'
+        public IActionResult Buy()  {...}
+    }
+    
+    ```
+
+- 当多个路由特性（`IActionConstraint` 的实现）在一个操作上
+    - 每一个操作约束都会与特性定义的路由模板相结合
+    - 虽然使用多个路由到一个操作上看起来很强大,但最好还是保持应用程序的 URL 空间简单和定义明确。
+    - 使用多个路由到操作上仅仅在特殊需要的时候使用，例如支持现有客户端。
+    ```cs
+    [Route ("api/ [controller]")]
+    public class ProductsController : Controller 
+    {
+        [HttpPut ("Buy")]//匹配 PUT 'api/Products/Buy'
+        [HttpPost("Checkout")]// 匹配 POST 'api/Products/Checkout'
+        public IActionResult Buy()  {...}
+    }
+    ```
 
 
 ---
 
 
-## 4-IRouteTemplateProvider-自定义路由特性
+## 4-自定义路由特性
+
+## 4-1-IRouteTemplateProvider
+- 所有框架提供的路由特性(`[Route(..)]`、`[HttpGet(..)]`等)都实现了 `IRouteTemplateProvider` 接口。
+- 当应用程序启动时，MVC查找控制器类和操作方法上都实现了 `IRouteTemplateProvider` 接口的特性来构建初始路由集合。
+- 可以通过实现 `IRouteTemplateProvider` 来定义自己的路由特性。
+    - 每个 `IRouteTemplateProvider` 都允许定义使用自定义路由模板、顺序以及名称的单一路由
+
+```cs
+// 定义 Attribute
+public class MyApiControllerAttribute : Attribute, IRouteTemplateProvider
+{
+    // 指定模版
+    public string Template => "api/[controller]";
+
+    public int? Order { get; set; }
+
+    public string Name { get; set; }
+}
+
+// 使用
+public class Example_1_Controller : Controller  {...}
+```
+
+## 4-2-使用应用程序模型来自定义特性路由
+- 应用程序模型是在启动时创建的对象模型，其中包含 MVC 用于路由和执行操作的所有元数据。
+- 应用程序模型包括从路由特性收集的所有数据（通过 `IRouteTemplateProvider`）。
+- 我们可以编写约定以在启动时修改应用程序模型为自定义路由行为。
+
+```cs
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using System.Linq;
+using System.Text;
+
+public class NamespaceRoutingConvention : IControllerModelConvention
+{
+    private readonly string _baseNamespace;
+
+    public NamespaceRoutingConvention(string baseNamespace)
+    {
+        _baseNamespace = baseNamespace;
+    }
+
+    public void Apply(ControllerModel controller)
+    {   // 使用 ControllerModel.Selector.Any方法确定是否绑定路由
+        var hasRouteAttributes = controller.Selectors.Any(selector => 
+            selector.AttributeRouteModel != null);
+        if (hasRouteAttributes)
+        {
+            // 此控制器自定义了一些路由，因此将其视为覆盖，不适用以下约定
+            return;
+        }
+
+        // 使用命名空间和控制器名称来推断控制器的路由
+        // 这使得你的路由大致与你的项目的文件夹结构一致
+        //
+        // 对应关系示例:
+        // controller.ControllerTypeInfo ->
+        //          "My.Application.Admin.UsersController"
+        // baseNamespace ->
+        //          "My.Application"
+        // template =>
+        //          "Admin/[controller]"
+        var namespc = controller.ControllerType.Namespace;
+
+        // 使用 StringBuilder 拼接模板
+        var template = new StringBuilder();
+        template.Append(namespc, _baseNamespace.Length + 1, 
+                        namespc.Length - _baseNamespace.Length - 1);
+        template.Replace('.', '/');
+        template.Append("/[controller]");
+
+        // 对所有选取器构造特性路由模型
+        foreach (var selector in controller.Selectors)
+        {
+            selector.AttributeRouteModel = new AttributeRouteModel()
+            {
+                Template = template.ToString()
+            };
+        }
+    }
+}
+```
 
 
 ---
 
 
-## 5-使用应用程序模型来自定义特性路由
+## 5-URL的几种生成
+- MVC应用程序可以使用路由由URL的生成特性来生成URL链接到操作。
+- 生成URL可消除硬编码URL，会使你的代码更健壮和易维护。 
+
+### 5-1-路由生成
+- `IUrlHelper` 接口是 MVC 与生成 URL 路由之间基础设施的基本块。
+- 可以通过控制器、视图以及视图组件中的 `Url` 属性找到一个可用的 `IUrlHelper` 实例：
+    - 在下面例子中，`IUrlHelper` 接口用 `Controller.Url` 属性来生成一个到其他操作的URL：
+    ```cs
+    using Microsoft.AspNetCore.Mvc;
+
+    public class UrlGenerationController : Controller
+    {
+        public IActionResult Source()
+        {
+            // 生成 /UrlGeneration/Destination
+            var url = Url.Action("Destination");
+            return Content($"Go check out {url}, it's really great.");
+        }
+
+        public IActionResult Destination()
+        {
+            return View();
+        }
+    }
+    ```
+
+- 如果应用程序使用默认的常规路由，则url变量的值会是URL路径字符串 `/UrlGeneration/Destination`。
+- 这个URL路径是由路由由值与当前请求相结合而成的路由创建，并将值传递给 `Url.Action`，从而替换这些值到路由模板，过程大致如下：
+    1. 环境值: `{ controller = "UrlGeneration", action = "Source" }`
+    2. 值传递给 `Url.Action`: `{ controller = "UrlGeneration", action = "Destination" }`
+    3. 构建路由模板: `{controller}/{action}/{id?}`
+    4. 结果: `/UrlGeneration/Destination`
+
+- 路由参数替换规则
+    - 路由模板中的每个路由参数值会被匹配名字的值和环境值替换。
+    - 若路由参数无值，有默认值则用默认值，若为可选参数则跳过（如示例中`id`）。
+    - 必需路由参数无对应值会导致URL生成失败，此时会尝试下一个路由，直到所有路由尝试完或找到匹配路由。 
+
+- 常规路由与特性路由在URL生成上的区别
+    - **常规路由**：
+        - 路由值用于扩展模板
+            - `controller` 和`action` 的路由值常出现在模板中
+        - 因为路由匹配的URL遵循特定约定。
+    - **特性路由**：
+        - `controller` 和`action` 的路由值不允许出现在模板中，而是用于查找应使用哪个模板。
+
+- 有特性路由例子如下
+    ```cs
+    // Startup.cs
+    public void Configure(IApplicationBuilder app)
+    {
+        app.UseMvc();
+    }
+
+    // UrlGenerationController.cs
+    using Microsoft.AspNetCore.Mvc;
+
+    public class UrlGenerationController : Controller
+    {
+        [HttpGet("")]   // GET /UrlGeneration
+        public IActionResult Source()
+        {   // 生成 /custom/url/to/destination
+            var url = Url.Action("Destination"); //调用下面的 Desitination
+            return Content($"Go check out {url}, it's really great.");
+        }
+
+        // 生成 Get URL:custom/url/to/destination
+        [HttpGet("custom/url/to/destination")]
+        public IActionResult Destination()
+        {
+            return View();
+        }
+    }
+    ```
+- MVC 构建了一个所有特性路由操作的查找表，并且会匹配 Controller 和 Action 值来选择路由模板用于 URL 生成
+    - 在上例中，生成了 `custom/url/to/destination`
+
+### 5-2-操作名生成
+- 生成URL的依据
+    - `Url.Action`及其重载方法基于指定的控制器名和操作名来确定要链接的内容。
+    - 在使用时，当前的 controller 和 action 路由值会被自动指定
+        - 它们既是环境值也是值的一部分
+        - 以此生成指向当前操作的URL路径。 
+- 路由值填充规则
+    - 路由会优先使用环境值来填充信息生成URL，无需额外提供值，因为默认认为所有路由参数都有值。
+    - 例如对于路由`{a}/{b}/{c}/{d}`
+        - 环境值为`{a=Alice, b=Bob, c=Carol, d=David}`
+        - 若添加`{d=Donovan}` ，`d=David` 会被忽略，此时生成的URL是`Alice/Bob/Carol/Donovan` 。 
+ - URL路径是分层的。
+    - 若添加值如`{c = Cheryl}` ，会导致`c` 和`d` 原有的值（`c=Carol, d = David` ）被忽略，若此时`d` 是必需参数，因缺少值URL生成会失败。
+    - 不过实际中，`Url.Action` 总会明确指定`controller` 和`action` 的值
+
+- `Url.Action` 较长的重载也采取额外的路由值对象来提供除了 controller 和 action 意外的路由参数。
+    - 最常看到的是使用 `id`，比如 `Url.Action("Buy","Products",new{id=17})`。
+    - 按照惯例，路由值通常是一个匿名类的对象
+        - 但是它也可以是一个IDictionary<>或者一个普通的.NET 对象。
+    - 任何额外的路由值都不会匹配放置在查询字符串中的路由参数
+    ```cs
+    using Microsoft.AspNetCore.Mvc;
+
+    public class TestController : Controller
+    {
+        public IActionResult Index()
+        {
+            // 生成 /Products/Buy/17?color=red
+            var url = Url.Action("Buy", "Products", new { id = 17, color = "red" });
+            return Content(url);
+        }
+    }
+    ```
+- 如果你想创建一个绝对URL，则可以使用一个接受protocol的重载：
+    - 在该重载中，除了指定目标动作名（`"Buy"` ）、目标控制器名（`"Products"` ） 、路由值（`new { id = 17 }` ）外，还通过`protocol: Request.Scheme` 来指定协议部分
+    - `Request.Scheme` 会获取当前请求的协议（如`http`或`https`），从而生成完整的绝对URL
+    ```cs
+    Url.Action("Buy", "Products", new { id = 17 }, protocol: Request.Scheme)
+    ```
+
+### 5-3-路由生成
+
+### 5-4-操作结果生成
+
+### 5-5-专用常规路由
+
+
+---
+
+## 6-区域
 
 
 ---
 
 
-## 6-URL的几种生成
-
-### 6-1-特性路由生成
-
-### 6-2-操作名生成
-
-### 6-3-路由生成
-
-### 6-4-操作结果生成
-
-### 6-5-专用常规路由
-
-## 7-区域
-
-
----
-
-
-## 8-IActionConstraint
+## 7-IActionConstraint
