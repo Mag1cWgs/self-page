@@ -184,7 +184,8 @@
       * 单元测试
 
     * .NET 8.0
-      * [学习笔记](./ProjectDocs/cs/Back-end-Development/Csharp/DotNet8/0-Introduction-Practice-Note.md)
+      * [仓储——服务架构](./ProjectDocs/cs/Back-end-Development/Csharp/DotNet8/1-Reponsitory-Service.md)
+      * [自定义项目框架](./ProjectDocs/cs/Back-end-Development/Csharp/DotNet8/2-Customize-Project-Framework.md)
       * [SqlSugar学习]
 
   * 数据库    <!--放置在 cs/Sql -->
