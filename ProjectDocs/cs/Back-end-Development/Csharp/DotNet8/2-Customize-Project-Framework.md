@@ -396,3 +396,65 @@
         ---> 详细信息
     ```
 
+
+---
+
+
+## 2-3-AOP服务切面编程-初探
+- 上面的 Autofac 没有使用动态代理
+- 动态代理需要了解 AOP——服务切面编程
+
+- AOP 服务切面编程
+    - 对于分层结构必然会带来切面概念
+    - 分两种
+        - 动态代理
+        - 静态支柱
+
+### 在 Autofac 中使用 AOP 思想
+1. 添加依赖注入
+    - 在 Extension 层中添加 Autofac.Extensions.DependencyInjection
+    - 在 Extension 层中添加 Autofac.Extras.DynamicProxy
+
+2. 写相应配置（设计AOP拦截器）
+    - 在 Extension 层中添加AOP类拦截器 ServiceAOP.cs
+        - 需要依赖 IInterceptor 接口
+            - 实现 Intercept 方法
+    - 在 Common 层中添加数据模型类 AOPLogInfo.cs
+
+3. 将拦截器绑定到 Autofac
+    - 在 AutofacModuleRegister.cs 中，修改服务注册
+        ```cs
+        // 记录目录 ...
+
+        // 记录 AOP 切面类
+        var aopTypes = new List<Type>() { typeof(ServiceAOP) };
+        builder.RegisterType<ServiceAOP>();
+
+        // 对服务类注册...
+        // BaseRepository BaseServices
+
+        // 对 Service 程序集追加配置
+        // PropertiesAutowired EnableInterfaceInterceptors InterceptedBy
+        builder.RegisterAssemblyTypes(assemblyServices)
+                    .Where(t => t.Name.EndsWith("Service"))
+                    .AsImplementedInterfaces()
+                    .InstancePerLifetimeScope()
+                    .PropertiesAutowired()
+                    .EnableInterfaceInterceptors()
+                    .InterceptedBy(aopTypes.ToArray());
+        // 设置注册模式 ...
+        ```
+
+4. 但是此时还是没有成功
+    - 因为控制器层中 `Get` 方法仍然调用的 `IBaseService` 对象
+    - 使用服务系类泛型的注册方式
+    - 需要在 AutofacModuleRegister.cs 中修改原有的注册语句
+        ```cs
+        // 追加三条注册配置
+        // InstancePerDependency EnableInterfaceInterceptors InterceptedBy
+        builder.RegisterGeneric(typeof(BaseService<>))
+                .As(typeof(IBaseService<>))
+                .InstancePerDependency()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(aopTypes.ToArray());
+        ```
