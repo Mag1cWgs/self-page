@@ -404,6 +404,8 @@
 - 上面的 Autofac 没有使用动态代理
 - 动态代理需要了解 AOP——服务切面编程
 
+> 参考[JAVA Guide: IoC & AOP详解（快速搞懂](https://javaguide.cn/system-design/framework/spring/ioc-and-aop.html)
+
 - AOP 服务切面编程
     - 对于分层结构必然会带来切面概念
     - 分两种
@@ -458,3 +460,152 @@
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(aopTypes.ToArray());
         ```
+
+
+---
+
+
+## 2-4-封装Appsetting单例类获取配置
+> - [十月的寒流:]()
+> - [老张的哲学8: ](https://www.bilibili.com/video/BV13g4y1Z7in/?p=8)
+
+- 实际 .NET 底层提供了一个 IConfiguration 接口和相应扩展
+
+### 单例化 appsettings.json
+- 这里使用静态类
+- 也可以动态类
+    - 新建一个配置文件对应的特定类
+    - 然后项目中均使用引用而非硬编码
+    - 这样只需要修改特定类就可以实现批量替换
+
+1. 写单例操作类
+    - 在 Common 层中引入依赖的 Nuget 包
+        - Microsoft.Extensions.Configuration
+        - Microsoft.Extensions.Configuration.Json
+        - Microsoft.Extensions.Configuration.Binder
+    - 在 Common 层建立操作类 AppSettings.cs
+        ```cs
+        using Microsoft.Extensions.Configuration;
+        using Microsoft.Extensions.Configuration.Json;
+
+        namespace Learn.Net8.Common
+        {
+            /// <summary>
+            /// appsettings.json操作类
+            /// </summary>
+            public class AppSettings
+            {
+                public static IConfiguration Configuration { get; set; }
+                static string contentPath { get; set; }
+
+                public AppSettings(string contentPath)
+                {
+                    string Path = "appsettings.json";
+
+                    //如果你把配置文件 是 根据环境变量来分开了，可以这样写
+                    //Path = $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json";
+
+                    Configuration = new ConfigurationBuilder()
+                        .SetBasePath(contentPath)
+                        .Add(new JsonConfigurationSource
+                        {
+                            Path = Path,
+                            Optional = false,
+                            ReloadOnChange = true
+                        }) //这样的话，可以直接读目录里的json文件，而不是 bin 文件夹下的，所以不用修改复制属性
+                        .Build();
+                }
+
+                public AppSettings(IConfiguration configuration)
+                {
+                    Configuration = configuration;
+                }
+
+                /// <summary>
+                /// 封装要操作的字符
+                /// </summary>
+                /// <param name="sections">节点配置</param>
+                /// <returns></returns>
+                public static string app(params string[] sections)
+                {
+                    try
+                    {
+                        if (sections.Any())
+                        {
+                            return Configuration[string.Join(":", sections)];
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    return "";
+                }
+
+                /// <summary>
+                /// 递归获取配置信息数组
+                /// </summary>
+                /// <typeparam name="T"></typeparam>
+                /// <param name="sections"></param>
+                /// <returns></returns>
+                public static List<T> app<T>(params string[] sections)
+                {
+                    List<T> list = new List<T>();
+                    // 引用 Microsoft.Extensions.Configuration.Binder 包
+                    Configuration.Bind(string.Join(":", sections), list);
+                    return list;
+                }
+
+                /// <summary>
+                /// 根据路径  configuration["App:Name"];
+                /// </summary>
+                /// <param name="sectionsPath"></param>
+                /// <returns></returns>
+                public static string GetValue(string sectionsPath)
+                {
+                    try
+                    {
+                        return Configuration[sectionsPath];
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    return "";
+                }
+            }
+        }
+        ```
+
+2. 在接口层的 Program.cs 中进行单例化注册
+    ```cs
+    // 使用 builder.Configuration 读取 appsettings.json 配置文件
+    //builder.Services.AddSingleton(new AppSettings(builder.Environment.ContentRootPath));
+    builder.Services.AddSingleton(new AppSettings(builder.Configuration));
+    ```
+
+3. 使用配置文件
+    1. 修改 appsetting.json（在`"AllowedHosts": "*"`后添加）
+        ```json
+        "AllowedHosts": "*", // 记得加逗号
+        "Redis": {
+            "Enabled": false,
+            "ConnectionString": "localhost:6379",
+            "InstanceName": "Learn.Net8" //前缀
+        }
+        ```
+    2. 修改 Contoller
+        ```cs
+        [HttpGet(Name = "GetWeatherForecast")]
+        public async Task<List<RoleVo>> Get()
+        {
+            var roleList = await _roleServiceObj.Query();
+            // 下面两种读取配置文件的方法类似
+            var redisEnable = AppSettings.app(new string[] { "Redis", "Enabled" }); // 但是这个自定义方法做了拼接
+            var redisConnectionString = AppSettings.GetValue("Redis:ConnectionString");
+            Console.WriteLine($"Enable:{redisEnable}, ConnectionString:{redisConnectionString}");
+                return roleList;
+        }
+        ```
+
+### 注册到原生接口 IOpinion
