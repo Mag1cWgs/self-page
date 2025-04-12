@@ -466,18 +466,17 @@
 
 
 ## 2-4-封装Appsetting单例类获取配置
-> - [十月的寒流:]()
-> - [老张的哲学8: ](https://www.bilibili.com/video/BV13g4y1Z7in/?p=8)
+> [老张的哲学8: 封装Appsetting单例类获取配置](https://www.bilibili.com/video/BV13g4y1Z7in/?p=8)
 
 - 实际 .NET 底层提供了一个 IConfiguration 接口和相应扩展
 
-### 单例化 appsettings.json
 - 这里使用静态类
 - 也可以动态类
     - 新建一个配置文件对应的特定类
     - 然后项目中均使用引用而非硬编码
     - 这样只需要修改特定类就可以实现批量替换
 
+### 实现
 1. 写单例操作类
     - 在 Common 层中引入依赖的 Nuget 包
         - Microsoft.Extensions.Configuration
@@ -608,4 +607,177 @@
         }
         ```
 
-### 注册到原生接口 IOpinion
+## 2-5-注册到原生接口 IOptions
+- 原有方案（单例化 appsetting.json）
+    - 启动时将配置文件中获取的内容填充到 `IConfiguration` 中，然后在 main 函数的服务注册中注入到 `AppSettings` 类中实现单例持久化，而后就可以通过特定路径读取
+    - 优点：简单，可读性好
+    - 弊端：使用硬编码，后续重构有风险
+
+- 为了避免硬编码带来的弊端
+    - 通过 IOptions 接口实现来动态化获取
+
+### 实现
+1. 在 Common 层添加 Nuget 包依赖
+    - Microsoft.Extensions.DependencyModel
+    - Microsoft.Extensions.Options.ConfigurationExtensions
+2. 在 Common 层中添加配置类
+    - 建立接口类作为配置类，作为标志
+        ```cs
+        public interface IConfigurableOptions  {   }
+        ```
+    - 写相应的配置类 `ConfigurableOptions`
+        ```cs
+        public static class ConfigurableOptions
+        {
+            #region 构造函数，使用 DI 注入
+            internal static IConfiguration Configuration;
+            public static void ConfigureApplication(this IConfiguration configuration)
+            {
+                Configuration = configuration;
+            }
+            #endregion
+
+            #region 辅助函数
+            /// <summary>获取配置路径</summary>
+            /// <param name="optionsType">选项类型</param>
+            /// <returns></returns>
+            public static string GetConfigurationPath(Type optionsType)
+            {
+                var endPath = new[] { "Option", "Options" };
+                var configurationPath = optionsType.Name;
+                foreach (var s in endPath)
+                {
+                    if (configurationPath.EndsWith(s))
+                    {
+                        return configurationPath[..^s.Length];
+                    }
+                }
+                return configurationPath;
+            }
+            #endregion
+
+            #region 添加选项配置（注册函数）
+            /// <summary>添加选项配置</summary>
+            /// <typeparam name="TOptions">选项类型</typeparam>
+            /// <param name="services">服务集合</param>
+            /// <returns>服务集合</returns>
+            public static IServiceCollection AddConfigurableOptions<TOptions>(this IServiceCollection services)
+                where TOptions : class, IConfigurableOptions
+            {
+                Type optionsType = typeof(TOptions);
+                string path = GetConfigurationPath(optionsType);
+                services.Configure<TOptions>(Configuration.GetSection(path));
+
+                return services;
+            }
+
+            public static IServiceCollection AddConfigurableOptions(this IServiceCollection services, Type type)
+            {   // 根据动态类型添加路径
+                string path = GetConfigurationPath(type);
+                // 根据路径获取配置节点
+                var config = Configuration.GetSection(path);
+                // 获取值
+                Type iOptionsChangeTokenSource = typeof(IOptionsChangeTokenSource<>);
+                Type iConfigureOptions = typeof(IConfigureOptions<>);
+                Type configurationChangeTokenSource = typeof(ConfigurationChangeTokenSource<>);
+                Type namedConfigureFromConfigurationOptions = typeof(NamedConfigureFromConfigurationOptions<>);
+                iOptionsChangeTokenSource = iOptionsChangeTokenSource.MakeGenericType(type);
+                iConfigureOptions = iConfigureOptions.MakeGenericType(type);
+                configurationChangeTokenSource = configurationChangeTokenSource.MakeGenericType(type);
+                namedConfigureFromConfigurationOptions = namedConfigureFromConfigurationOptions.MakeGenericType(type);
+                // 进行服务注册
+                services.AddOptions();
+                services.AddSingleton(iOptionsChangeTokenSource,
+                    Activator.CreateInstance(configurationChangeTokenSource, Options.DefaultName, config) ?? throw new InvalidOperationException());
+                return services.AddSingleton(iConfigureOptions,
+                    Activator.CreateInstance(namedConfigureFromConfigurationOptions, Options.DefaultName, config) ?? throw new InvalidOperationException());
+            }
+            #endregion
+        }
+        ```
+    - 回顾前面在 appsettings.json 中的 Redis 配置，写 `RedisOptions`
+        ```cs
+        /// <summary>
+        /// Redis缓存配置选项
+        /// </summary>
+        public sealed class RedisOptions : IConfigurableOptions
+        {
+            /// <summary>
+            /// 是否启用
+            /// </summary>
+            public bool Enable { get; set; }
+
+            /// <summary>
+            /// Redis连接
+            /// </summary>
+            public string ConnectionString { get; set; }
+
+            /// <summary>
+            /// 键值前缀
+            /// </summary>
+            public string InstanceName { get; set; }
+        }
+        ```
+3. 在 Extension 层中添加注册配置文件 AllOptionRegister.cs
+    ```cs
+    public static class AllOptionRegister
+    {
+        /// <summary>
+        /// 注册所有选项配置
+        /// </summary>
+        /// <param name="services">主服务</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void AddAllOptionRegister(this IServiceCollection services)
+        {
+            // 检查服务集合是否为空
+            if (services == null) throw new ArgumentNullException(nameof(services));
+
+            // 获取所有实现 IConfigurableOptions 接口的类型，并注册
+            foreach (var optionType in typeof(ConfigurableOptions).Assembly.GetTypes().Where(s =>
+                         !s.IsInterface && typeof(IConfigurableOptions).IsAssignableFrom(s)))
+            {
+                services.AddConfigurableOptions(optionType);
+            }
+        }
+    }
+    ```
+4. 在接口层 Program.cs 的 main 函数中注册
+    - 在 `builder.Host` 中使用 `ConfigureAppConfiguration` 注册
+        - 如果此处不注册，也可以在下面注入配置文件前调用 `ConfigurableOptions.ConfigureApplication(builder.Configuration);` 注册
+    - 注册服务时调用 `builder.Services.AddAllOptionRegister();`
+    ```cs
+        var builder = WebApplication.CreateBuilder(args);
+        builder.Host
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                //...
+            })
+            .ConfigureAppConfiguration((hostingContent, config) =>
+            {
+                // 读取配置文件
+                hostingContent.Configuration.ConfigureApplication();
+            });
+    //其他服务注册...
+
+    // 2-4 中的硬编码方法
+    // 使用 builder.Configuration 读取 appsettings.json 配置文件
+    //builder.Services.AddSingleton(new AppSettings(builder.Configuration));
+
+    // 用如下方法替代
+    // 如果 builder.host.Configuration 未配置则加上此行
+    //ConfigurableOptions.ConfigureApplication(builder.Configuration);
+    // 注入全体配置文件（实现 IConfigurableOptions 接口）
+    builder.Services.AddAllOptionRegister();
+    ```
+5. 在控制器中设置测试
+    ```cs
+    [HttpGet(Name = "GetWeatherForecast")]
+    public async Task<List<RoleVo>> Get()
+    {
+        var roleList = await _roleService.Query();       
+        var redisOptions = _redisOptions.Value;
+        Console.WriteLine($"Redis Service Options: Enable:{redisOptions.Enable}, ConnectionString:{redisOptions.ConnectionString}, InstanceName: {redisOptions.InstanceName}");
+        return roleList;
+    }
+    ```
