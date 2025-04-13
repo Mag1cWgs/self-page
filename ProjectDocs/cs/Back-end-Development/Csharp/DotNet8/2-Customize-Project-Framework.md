@@ -303,6 +303,27 @@
             ```
 
 ### 对当前容器设置属性注入
+
+>[!note|label:为什么要进行属性注入]
+> - 浏览器发起请求时，会构造一个新的相应的 Controller 实例
+>     - IOC 容器负责在构造时将依赖注入
+>     - 但是容器不负责调用 Controller 实例
+>         - 那么控制器类中的属性也不是容器负责构造进入
+> - 因为默认的 `IControlActivator` 接口的实现，是 `DefaultControllerActivator`，其又 `ITypeActivatorCache` 生成实例，所以控制器本身不是 > IOC 容器生成，容器只提供依赖
+> - 所以要通过以下方法来替换掉默认的实现，从 `DefaultControllerActivator` 到 `ServiceBasedControllerActivator`
+>     - 实际上，`ServiceBasedControllerActivator` 的 `Create` 方法，是从 `actionContext.HttpContext,ReguestServices` 的 `GetReguiredService(controllerType)` 获取的，实际上也是从容器中获取对应的类型，将 `controllerType` 转换为 Service 实例
+>     ```cs
+>     builder.Services.Replace(ServiceDescriptor
+>         .Scoped<IControllerActivator,ServiceBasedControllerActivator>());
+>     ```
+> - 相应的，实际有如下方法，可以将控制器转为服务。
+>     - 从侧面验证控制器的构造不是容器管理下实现
+>     - 底层实际还是调用上面的 Replace 方法
+>     ```cs
+>     builder.Services.AddControllers()
+>         .AddControllersAsServices();
+>     ```
+
 1. 在接口层添加注册配置文件
     - 在 Learn.Net8 项目的 Extension 文件夹中添加类 AutofacPropertityModuleReg.cs
     ```cs
@@ -355,6 +376,12 @@
     - 这里要求是公共属性
     ```cs
     private readonly IBaseService<Role, RoleVo> _roleService;
+
+    // 这里这个属性的获取，依赖于在 Program.main() 中的 builder.Services.Replace() 方法
+    // 通过上面的替换，将控制器的构造移交给容器管理，容器此时才能访问和注入到这个类的属性中
+    // 如果没有替换，使用默认的 DefaultControllerActivator，容器将无法将依赖注入到相应属性内部
+    // 实际也可以用如下特性标记来避免因为 Replace 导致的潜在性能问题
+    // [FromService]
     public IBaseService<Role, RoleVo> _roleServiceObj { get; set; }
 
     public WeatherForecastController(ILogger<WeatherForecastController> logger,
@@ -778,6 +805,457 @@
         var roleList = await _roleService.Query();       
         var redisOptions = _redisOptions.Value;
         Console.WriteLine($"Redis Service Options: Enable:{redisOptions.Enable}, ConnectionString:{redisOptions.ConnectionString}, InstanceName: {redisOptions.InstanceName}");
+        return roleList;
+    }
+    ```
+
+
+---
+
+
+## 2-6-非依赖注入管道中获取所有服务
+- 配置的几种选择
+    - 静态化配置文件 `appsettings.json` `App.config`
+        - 优点：灵活
+        - 缺点：（硬编码）不方便修改和重构
+    - IOptions 依赖注入
+        - 优点：方便修改，取用灵活
+        - 缺点：只能借助容器进行获取，没办法自由取用服务实例
+    - 使用非依赖注入的管道
+
+1. 在 Common 层中引用 Nuget 包
+    - Serilog
+    - Serilog.AspNetCore
+    - 不使用 LogFor.Net，虽然使用 ILogger 接口，但是不如所用的 Serilog
+
+2. 在 Common 层中新建文件夹 `Core`
+    - 在 Common.Core 中建立一个类 `InternalApp`
+        ```cs
+        using Microsoft.AspNetCore.Builder;
+        using Microsoft.AspNetCore.Hosting;
+        using Microsoft.Extensions.Configuration;
+        using Microsoft.Extensions.DependencyInjection;
+        using Microsoft.Extensions.Hosting;
+
+        //命名空间相关...
+
+        /// <summary>
+        /// 内部只用于初始化使用
+        /// </summary>
+        public static class InternalApp
+        {
+            internal static IServiceCollection InternalServices;
+
+            /// <summary>根服务</summary>
+            internal static IServiceProvider RootServices;
+
+            /// <summary>获取Web主机环境</summary>
+            internal static IWebHostEnvironment WebHostEnvironment;
+
+            /// <summary>获取泛型主机环境</summary>
+            internal static IHostEnvironment HostEnvironment;
+
+            /// <summary>配置对象</summary>
+            internal static IConfiguration Configuration;
+
+            public static void ConfigureApplication(this WebApplicationBuilder web)
+            {
+                HostEnvironment = web.Environment;
+                WebHostEnvironment = web.Environment;
+                InternalServices = web.Services;
+            }
+
+            public static void ConfigureApplication(this IConfiguration configuration)
+            {
+                Configuration = configuration;
+            }
+
+            public static void ConfigureApplication(this IHost app)
+            {
+                RootServices = app.Services;
+            }
+        }
+        ```
+
+    - 在 Common.Core 建立依赖类 `RuntimeExtension`
+        ```cs
+        public static class RuntimeExtension
+        {
+            /// <summary>
+            /// 获取项目程序集，排除所有的系统程序集(Microsoft.***、System.***等)、Nuget下载包
+            /// </summary>
+            /// <returns></returns>
+            public static IList<Assembly> GetAllAssemblies()
+            {
+                var list = new List<Assembly>();
+                var deps = DependencyContext.Default;
+                //只加载项目中的程序集
+                var libs = deps.CompileLibraries.Where(lib => !lib.Serviceable && lib.Type == "project"); //排除所有的系统程序集、Nuget下载包
+                foreach (var lib in libs)
+                {
+                    try
+                    {
+                        var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(lib.Name));
+                        list.Add(assembly);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug(e, "GetAllAssemblies Exception:{ex}", e.Message);
+                    }
+                }
+
+                return list;
+            }
+
+            public static Assembly GetAssembly(string assemblyName)
+            {
+                return GetAllAssemblies().FirstOrDefault(assembly => assembly.FullName.Contains(assemblyName));
+            }
+
+            public static IList<Type> GetAllTypes()
+            {
+                var list = new List<Type>();
+                foreach (var assembly in GetAllAssemblies())
+                {
+                    var typeInfos = assembly.DefinedTypes;
+                    foreach (var typeInfo in typeInfos)
+                    {
+                        list.Add(typeInfo.AsType());
+                    }
+                }
+
+                return list;
+            }
+
+            public static IList<Type> GetTypesByAssembly(string assemblyName)
+            {
+                var list = new List<Type>();
+                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(assemblyName));
+                var typeInfos = assembly.DefinedTypes;
+                foreach (var typeInfo in typeInfos)
+                {
+                    list.Add(typeInfo.AsType());
+                }
+
+                return list;
+            }
+
+            public static Type GetImplementType(string typeName, Type baseInterfaceType)
+            {
+                return GetAllTypes().FirstOrDefault(t =>
+                {
+                    if (t.Name == typeName &&
+                        t.GetTypeInfo().GetInterfaces().Any(b => b.Name == baseInterfaceType.Name))
+                    {
+                        var typeInfo = t.GetTypeInfo();
+                        return typeInfo.IsClass && !typeInfo.IsAbstract && !typeInfo.IsGenericType;
+                    }
+
+                    return false;
+                });
+            }
+        }
+        ```
+
+    - 在 Common.Core 中建立类 `App`
+        - 类似 `AppSettings.cs` 的作用
+    
+        ```cs
+            public class App
+        {
+            static App()
+            {
+                EffectiveTypes = Assemblies.SelectMany(GetTypes);
+            }
+
+            private static bool _isRun;
+
+            /// <summary>是否正在运行</summary>
+            public static bool IsBuild { get; set; }
+
+            public static bool IsRun
+            {
+                get => _isRun;
+                set => _isRun = IsBuild = value;
+            }
+
+            /// <summary>应用有效程序集</summary>
+            public static readonly IEnumerable<Assembly> Assemblies = RuntimeExtension.GetAllAssemblies();
+
+            /// <summary>有效程序集类型</summary>
+            public static readonly IEnumerable<Type> EffectiveTypes;
+
+            /// <summary>优先使用App.GetService()手动获取服务</summary>
+            public static IServiceProvider RootServices => IsRun || IsBuild ? InternalApp.RootServices : null;
+
+            /// <summary>获取Web主机环境，如，是否是开发环境，生产环境等</summary>
+            public static IWebHostEnvironment WebHostEnvironment => InternalApp.WebHostEnvironment;
+
+            /// <summary>获取泛型主机环境，如，是否是开发环境，生产环境等</summary>
+            public static IHostEnvironment HostEnvironment => InternalApp.HostEnvironment;
+
+            /// <summary>全局配置选项</summary>
+            public static IConfiguration Configuration => InternalApp.Configuration;
+
+            /// <summary>
+            /// 获取请求上下文
+            /// </summary>
+            public static HttpContext HttpContext => RootServices?.GetService<IHttpContextAccessor>()?.HttpContext;
+
+            //public static IUser User => GetService<IUser>();
+
+            #region Service
+
+            /// <summary>解析服务提供器</summary>
+            /// <param name="serviceType"></param>
+            /// <param name="mustBuild"></param>
+            /// <param name="throwException"></param>
+            /// <returns></returns>
+            public static IServiceProvider GetServiceProvider(Type serviceType, bool mustBuild = false, bool throwException = true)
+            {
+                if (HostEnvironment == null || RootServices != null &&
+                    InternalApp.InternalServices
+                        .Where(u =>
+                            u.ServiceType ==
+                            (serviceType.IsGenericType ? serviceType.GetGenericTypeDefinition() : serviceType))
+                        .Any(u => u.Lifetime == ServiceLifetime.Singleton))
+                    return RootServices;
+
+                //获取请求生存周期的服务
+                if (HttpContext?.RequestServices != null)
+                    return HttpContext.RequestServices;
+
+                if (RootServices != null)
+                {
+                    IServiceScope scope = RootServices.CreateScope();
+                    return scope.ServiceProvider;
+                }
+
+                if (mustBuild)
+                {
+                    if (throwException)
+                    {
+                        throw new ApplicationException("当前不可用，必须要等到 WebApplication Build后");
+                    }
+
+                    return default;
+                }
+
+                ServiceProvider serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
+                return serviceProvider;
+            }
+
+            public static TService GetService<TService>(bool mustBuild = true) where TService : class =>
+                GetService(typeof(TService), null, mustBuild) as TService;
+
+            /// <summary>获取请求生存周期的服务</summary>
+            /// <typeparam name="TService"></typeparam>
+            /// <param name="serviceProvider"></param>
+            /// <param name="mustBuild"></param>
+            /// <returns></returns>
+            public static TService GetService<TService>(IServiceProvider serviceProvider, bool mustBuild = true)
+                where TService : class => (serviceProvider ?? GetServiceProvider(typeof(TService), mustBuild, false))?.GetService<TService>();
+
+            /// <summary>获取请求生存周期的服务</summary>
+            /// <param name="type"></param>
+            /// <param name="serviceProvider"></param>
+            /// <param name="mustBuild"></param>
+            /// <returns></returns>
+            public static object GetService(Type type, IServiceProvider serviceProvider = null, bool mustBuild = true) =>
+                (serviceProvider ?? GetServiceProvider(type, mustBuild, false))?.GetService(type);
+
+            #endregion
+
+            #region private
+
+            /// <summary>加载程序集中的所有类型</summary>
+            /// <param name="ass"></param>
+            /// <returns></returns>
+            private static IEnumerable<Type> GetTypes(Assembly ass)
+            {
+                Type[] source = Array.Empty<Type>();
+                try
+                {
+                    source = ass.GetTypes();
+                }
+                catch
+                {
+                    Console.WriteLine($@"Error load `{ass.FullName}` assembly.");
+                }
+
+                return source.Where(u => u.IsPublic);
+            }
+
+            #endregion
+
+            #region Options
+
+            /// <summary>获取配置</summary>
+            /// <typeparam name="TOptions">强类型选项类</typeparam>
+            /// <returns>TOptions</returns>
+            public static TOptions GetConfig<TOptions>()
+                where TOptions : class, IConfigurableOptions
+            {
+                TOptions instance = Configuration
+                    .GetSection(ConfigurableOptions.GetConfigurationPath(typeof(TOptions)))
+                    .Get<TOptions>();
+                return instance;
+            }
+
+            /// <summary>获取选项</summary>
+            /// <typeparam name="TOptions">强类型选项类</typeparam>
+            /// <param name="serviceProvider"></param>
+            /// <returns>TOptions</returns>
+            public static TOptions GetOptions<TOptions>(IServiceProvider serviceProvider = null) where TOptions : class, new()
+            {
+                IOptions<TOptions> service = GetService<IOptions<TOptions>>(serviceProvider ?? RootServices, false);
+                return service?.Value;
+            }
+
+            /// <summary>获取选项</summary>
+            /// <typeparam name="TOptions">强类型选项类</typeparam>
+            /// <param name="serviceProvider"></param>
+            /// <returns>TOptions</returns>
+            public static TOptions GetOptionsMonitor<TOptions>(IServiceProvider serviceProvider = null)
+                where TOptions : class, new()
+            {
+                IOptionsMonitor<TOptions> service =
+                    GetService<IOptionsMonitor<TOptions>>(serviceProvider ?? RootServices, false);
+                return service?.CurrentValue;
+            }
+
+            /// <summary>获取选项</summary>
+            /// <typeparam name="TOptions">强类型选项类</typeparam>
+            /// <param name="serviceProvider"></param>
+            /// <returns>TOptions</returns>
+            public static TOptions GetOptionsSnapshot<TOptions>(IServiceProvider serviceProvider = null)
+                where TOptions : class, new()
+            {
+                IOptionsSnapshot<TOptions> service = GetService<IOptionsSnapshot<TOptions>>(serviceProvider, false);
+                return service?.Value;
+            }
+
+            #endregion
+        }
+        ```
+
+3. 设置启动时构造 App 类
+    - 在 Extension.ServiceExtensions 中添加一个配置类 
+        ```cs
+        using Learn.Net8.Common.Core;
+        using Microsoft.AspNetCore.Builder;
+        using Serilog;
+
+        namespace Learn.Net8.Extension.ServiceExtensions
+
+        public static class ApplicationSetup
+        {
+            public static void UseApplicationSetup(this WebApplication app)
+            {
+                // app 的生命周期开始的时候，注册 App 类的 IsRun 属性为 true
+                app.Lifetime.ApplicationStarted.Register(() =>
+                {
+                    App.IsRun = true;
+                });
+                // app 的生命周期结束的时候，注册 App 类的 IsRun 属性为 false
+                app.Lifetime.ApplicationStopped.Register(() =>
+                {
+                    App.IsRun = false;
+
+                    //清除日志
+                    Log.CloseAndFlush();
+                });
+            }
+        }
+        ```
+
+4. 在 Program.cs 中注册
+    - 建立了了 App 类后，实际就不需要再使用 `ConfigurableOptions` 类中的 `ConfigureApplication` 方法来获取
+    - 修改 Extension.ServiceExtensions.ConfigurableOptions.cs
+        ```cs
+        #region 构造函数，使用 DI 注入，被非依赖注入管道调用替代
+        //internal static IConfiguration Configuration;
+        //public static void ConfigureApplication(this IConfiguration configuration)
+        //{
+        //    Configuration = configuration;
+        //}
+        #endregion
+
+        // 修改注册函数
+        IServiceCollection AddConfigurableOptions<TOptions>(this IServiceCollection services)
+        {
+            //...前缀代码
+
+            // 使用 App.Configuration
+            // 而非当前类原有的依靠IOC注入的 ConfigurableOptions.Configuration
+            services.Configure<TOptions>(App.Configuration.GetSection(path));
+
+            //...后续代码
+        }
+
+        // 修改注册配置函数
+        IServiceCollection AddConfigurableOptions(this IServiceCollection services, Type type)
+        {
+            //...前缀代码
+
+            // 同样改用 App.Configuration
+            // 原有用 IOC 容器获取配置对象 ConfigurableOptions.Configuration
+            // var config = Configuration.GetSection(path);
+            var config = App.Configuration.GetSection(path);
+
+            //...后续代码
+        }
+        ```
+    
+    - 回顾 [上一节](#2-5-注册到原生接口-ioptions) 中的注入方法，进行修改如下
+        - 其中使用 `builder.Host.ConfigureAppConfiguration<ContainerBuilder>{...} `读取配置文件的部分
+            - 未修改 ConfigurableOptions.cs 前指向的是 ConfigurableOptions 类通过 IOC 容器构造时 DI 获取的
+            - 修改后变为基于 App.cs
+        - 而后追加了配置的绑定
+        ```cs
+        builder.Host
+        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+        .ConfigureContainer<ContainerBuilder>(builder =>
+        {
+            // 使用自定义注册器
+            //...
+        }).
+        ConfigureAppConfiguration((hostingContent, config) =>
+        {
+            // 读取配置文件
+            hostingContent.Configuration.ConfigureApplication();
+        });
+
+        // 使用 InternalApp.ConfigureApplication() 方法
+        // 配置 WebApplicationBuilder 获取 WebHost 和 环境变量
+        builder.ConfigureApplication();
+
+        //... 其他builder 服务注册
+
+        var app = builder.Build();  // 不修改此处，正常进行app构建
+
+        // 只有 Build() 完成后才能获取容器中的 Service 实例
+        // 对 App 实例进行配置
+        app.ConfigureApplication();
+        // 使用 ApplicationSetup 类的扩展方法，设置 App 的 IsRun 属性，作为标记
+        app.UseApplicationSetup();
+        ```
+
+5. 在 Controller 中这样使用
+    ```cs
+    
+    
+    [HttpGet(Name = "GetWeatherForecast")]
+    public async Task<List<RoleVo>> Get()
+    {
+        // 通过 App 的 GetService 方法从 RootServices 获取服务
+        var roleServiveObjNew = App.GetService<IBaseService<Role,RoleVo>>(false);
+        var roleList = await roleServiveObjNew.Query();
+
+        // 可以通过如下方法获取配置文件
+        var redisOptions = App.GetOptions<RedisOptions>();
+        var redisConnetionString = redisOptions.ConnectionString;
+
         return roleList;
     }
     ```
