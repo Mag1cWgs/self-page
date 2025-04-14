@@ -12,7 +12,7 @@
 > | ---- | ---- |
 > | 大写 | TSQL 关键字 |
 > | *斜体* | 输入参数 |
-> | `|` | 分割括号/大括号内的语法项目，只能选择其一 |
+> | `\|` | 分割括号/大括号内的语法项目，只能选择其一 |
 > | `[]` | 可选项，不必使用括号 |
 > | `{}` | 必选语法 |
 > | `[,...n]` | 使用 `,` 分割，可重复 n 次 |
@@ -267,7 +267,15 @@ T-SQL 支持如下运算符
 #### 系统函数/聚合函数
 - `COUNT(字段)`：查询该字段共有多少条值记录
 
-### 查询语句
+
+#### 常用聚合函数
+- 计数
+    - 语法：`COUNT([DISTINCT|ALL] 限定列)`，其中 DISTINCT 指定去除重复行
+    - `COUNT(*)` 行数
+    - `COUNT(列名)` 限定列名内值存在（非 `NULL`）的行数
+
+
+###  SELECT 查询语句
 
 1. 枚举选取
     ```sql
@@ -329,3 +337,75 @@ T-SQL 支持如下运算符
     - `[^]`：内部指定不匹配的值
         - 类似 `[]` 的用法
 
+
+### GROUP BY 聚集函数
+- 业务逻辑
+    1. 先按关键词分为若干子关系
+    2. 然后子关系内部分别统计
+    3. 最后汇总所有子关系结果
+
+- 注意
+    - 不分组时，`ORDER BY` 将对所有字段生效
+    - 分组后，只对各自分组内部生效
+
+```sql
+-- SELECT 的字段必须包括后面分组所用字段
+SELECT 字段名或聚合函数 FROM 表名
+GROUP BY {分组字段名 [HAVING 条件]},..n
+ORDER BY 排序依照字段名 --这里字段必须包含于
+
+
+
+-- 返回两列数据，分别是 Sdept 和 无名称(数值)
+-- 分别对应 Sdept 的种类名，和相应的记录条数
+SELECT Sdept, COUNT(*)
+FROM Student
+GROUP BY Sdept
+
+-- 返回两列：Sage 和 C
+-- 分别对应 Sage 的种类名 和 相应的记录条数
+-- 且结果按照记录条数升序排列
+SELECT Sage, COUNT(*) AS C
+FROM Student
+GROUP BY Sage
+ORDER BY C
+
+-- 选取 Student 表中
+SELECT Sage, COUNT(*) AS COUNT
+FROM Student
+GROUP BY Cno HAVING COUNT(*)>=2
+ORDER BY COUNT
+
+SELECT Cno, AVG(Grade) AS AVG_Grade
+FROM SC
+GROUP BY Cno HAVING AVG(Grade)>90
+ORDER BY AVG_Grade
+
+
+-- 从 SC 表中
+-- 通过满足 记录数超过3条 的 Sno 分组
+-- 依照 平均成绩 排序
+-- 显示 学号，平均成绩，最高分，最低分
+SELECT Sno
+        ,AVG(Grade) AS AVG_Grade
+        ,COUNT(*) AS COUNT_Grade
+        ,MAX(Grade) AS MAX_Grade
+        ,MIN(Grade) AS MIN_Grade
+FROM SC
+GROUP BY Sno HAVING COUNT(*) >= 3
+ORDER BY AVG(Grade)
+```
+
+
+### ORDER BY 子句
+- 对结果排序输出
+    - ASC 升序从小到大（默认）
+    - DESC 降序从大到小
+
+```sql
+SELECT 字段名 FROM 表名
+ORDER BY {排序选择字段 [排序类型]},..n
+
+SELECT * FROM Student
+ORDER BY Sno ASC, Sage DESC
+```
