@@ -826,7 +826,7 @@
 1. 在 Common 层中引用 Nuget 包
     - Serilog
     - Serilog.AspNetCore
-    - 不使用 LogFor.Net，虽然使用 ILogger 接口，但是不如所用的 Serilog
+    - 不使用 Log4Net，虽然使用 ILogger 接口，但是不如所用的 Serilog
 
 2. 在 Common 层中新建文件夹 `Core`
     - 在 Common.Core 中建立一个类 `InternalApp`
@@ -1243,8 +1243,6 @@
 
 5. 在 Controller 中这样使用
     ```cs
-    
-    
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<List<RoleVo>> Get()
     {
@@ -1257,5 +1255,946 @@
         var redisConnetionString = redisOptions.ConnectionString;
 
         return roleList;
+    }
+    ```
+
+## 2-7-分布式缓存接口
+- 项目大小对缓存选择的影响：
+    - 小项目建议使用内存缓存
+    - 大项目建议使用分布式缓存(如REDIS)
+- 使用多种缓存时，控制器注入不同的接口可能导致复杂性
+    - 实现类可能不同，导致兼容性问题
+    - 使用统一接口和实现类的解决方案
+- 需要一种方法能够控制多个实现类，同时不让调用者过多关注底层实现。
+
+- .NET 提供了一个标准分布式缓存接口 `IDistributedCache`
+    - 来自 Microsoft.Extensions.Caching.Distributed 
+
+### 实现
+1. 引用依赖环境：在 Extensions 层中添加依赖
+    ```xml
+    <!---->
+    <Project Sdk="Microsoft.NET.Sdk">
+        <!--其他配置-->
+        <ItemGroup>
+            <!--其他依赖项-->
+            <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.2" />
+            <PackageReference Include="StackExchange.Redis" Version="2.8.31" />
+        </ItemGroup>
+    ```
+
+2. 添加依赖服务实体
+    - 在 Extensions 层中添加 Redis 文件夹
+    - 在 Extensions.Redis 中添加接口 `IRedisBasketRepository`
+
+        ```cs
+        /// <summary>
+        /// Redis缓存接口
+        /// </summary>
+        [Description("普通缓存考虑直接使用ICaching,如果要使用Redis队列等还是使用此类")]
+        public interface IRedisBasketRepository
+        {
+
+            //获取 Reids 缓存值
+            Task<string> GetValue(string key);
+
+            //获取值，并序列化
+            Task<TEntity> Get<TEntity>(string key);
+
+            //保存
+            Task Set(string key, object value, TimeSpan cacheTime);
+
+            //判断是否存在
+            Task<bool> Exist(string key);
+
+            //移除某一个缓存值
+            Task Remove(string key);
+
+            //全部清除
+            Task Clear();
+
+            Task<RedisValue[]> ListRangeAsync(string redisKey);
+            Task<long> ListLeftPushAsync(string redisKey, string redisValue, int db = -1);
+            Task<long> ListRightPushAsync(string redisKey, string redisValue, int db = -1);
+            Task<long> ListRightPushAsync(string redisKey, IEnumerable<string> redisValue, int db = -1);
+            Task<T> ListLeftPopAsync<T>(string redisKey, int db = -1) where T : class;
+            Task<T> ListRightPopAsync<T>(string redisKey, int db = -1) where T : class;
+            Task<string> ListLeftPopAsync(string redisKey, int db = -1);
+            Task<string> ListRightPopAsync(string redisKey, int db = -1);
+            Task<long> ListLengthAsync(string redisKey, int db = -1);
+            Task<IEnumerable<string>> ListRangeAsync(string redisKey, int db = -1);
+            Task<IEnumerable<string>> ListRangeAsync(string redisKey, int start, int stop, int db = -1);
+            Task<long> ListDelRangeAsync(string redisKey, string redisValue, long type = 0, int db = -1);
+            Task ListClearAsync(string redisKey, int db = -1);
+
+        }
+        ```
+
+    - 在 Exntensions.Redis 中添加它的实现类 `RedisBasketRepository`
+
+        ```cs
+        [Description("普通缓存考虑直接使用ICaching,如果要使用Redis队列等还是使用此类")]
+        public class RedisBasketRepository : IRedisBasketRepository
+        {
+            private readonly ILogger<RedisBasketRepository> _logger;
+            private readonly ConnectionMultiplexer _redis;
+            private readonly IDatabase _database;
+
+            public RedisBasketRepository(ILogger<RedisBasketRepository> logger, ConnectionMultiplexer redis)
+            {
+                _logger = logger;
+                _redis = redis;
+                _database = redis.GetDatabase();
+            }
+
+            private IServer GetServer()
+            {
+                var endpoint = _redis.GetEndPoints();
+                return _redis.GetServer(endpoint.First());
+            }
+
+            public async Task Clear()
+            {
+                foreach (var endPoint in _redis.GetEndPoints())
+                {
+                    var server = GetServer();
+                    foreach (var key in server.Keys())
+                    {
+                        await _database.KeyDeleteAsync(key);
+                    }
+                }
+            }
+
+            public async Task<bool> Exist(string key)
+            {
+                return await _database.KeyExistsAsync(key);
+            }
+
+            public async Task<string> GetValue(string key)
+            {
+                return await _database.StringGetAsync(key);
+            }
+
+            public async Task Remove(string key)
+            {
+                await _database.KeyDeleteAsync(key);
+            }
+
+            public async Task Set(string key, object value, TimeSpan cacheTime)
+            {
+                if (value != null)
+                {
+                    if (value is string cacheValue)
+                    {
+                        // 字符串无需序列化
+                        await _database.StringSetAsync(key, cacheValue, cacheTime);
+                    }
+                    else
+                    {
+                        //序列化，将object值生成RedisValue
+                        await _database.StringSetAsync(key, SerializeHelper.Serialize(value), cacheTime);
+                    }
+                }
+            }
+
+            public async Task<TEntity> Get<TEntity>(string key)
+            {
+                var value = await _database.StringGetAsync(key);
+                if (value.HasValue)
+                {
+                    //需要用的反序列化，将Redis存储的Byte[]，进行反序列化
+                    return SerializeHelper.Deserialize<TEntity>(value);
+                }
+                else
+                {
+                    return default;
+                }
+            }
+
+            /// <summary>
+            /// 根据key获取RedisValue
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="redisKey"></param>
+            /// <returns></returns>
+            public async Task<RedisValue[]> ListRangeAsync(string redisKey)
+            {
+                return await _database.ListRangeAsync(redisKey);
+            }
+
+            /// <summary>
+            /// 在列表头部插入值。如果键不存在，先创建再插入值
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <param name="redisValue"></param>
+            /// <returns></returns>
+            public async Task<long> ListLeftPushAsync(string redisKey, string redisValue, int db = -1)
+            {
+                return await _database.ListLeftPushAsync(redisKey, redisValue);
+            }
+            
+            /// <summary>
+            /// 在列表尾部插入值。如果键不存在，先创建再插入值
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <param name="redisValue"></param>
+            /// <returns></returns>
+            public async Task<long> ListRightPushAsync(string redisKey, string redisValue, int db = -1)
+            {
+                return await _database.ListRightPushAsync(redisKey, redisValue);
+            }
+
+            /// <summary>
+            /// 在列表尾部插入数组集合。如果键不存在，先创建再插入值
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <param name="redisValue"></param>
+            /// <returns></returns>
+            public async Task<long> ListRightPushAsync(string redisKey, IEnumerable<string> redisValue, int db = -1)
+            {
+                var redislist = new List<RedisValue>();
+                foreach (var item in redisValue)
+                {
+                    redislist.Add(item);
+                }
+                return await _database.ListRightPushAsync(redisKey, redislist.ToArray());
+            }
+
+            /// <summary>
+            /// 移除并返回存储在该键列表的第一个元素  反序列化
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <returns></returns>
+            public async Task<T> ListLeftPopAsync<T>(string redisKey, int db = -1) where T : class
+            {
+                return JsonConvert.DeserializeObject<T>(await _database.ListLeftPopAsync(redisKey));
+            }
+
+            /// <summary>
+            /// 移除并返回存储在该键列表的最后一个元素   反序列化
+            /// 只能是对象集合
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <returns></returns>
+            public async Task<T> ListRightPopAsync<T>(string redisKey, int db = -1) where T : class
+            {
+                return JsonConvert.DeserializeObject<T>(await _database.ListRightPopAsync(redisKey));
+            }
+
+            /// <summary>
+            /// 移除并返回存储在该键列表的第一个元素   
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <param name="db"></param>
+            /// <returns></returns>
+            public async Task<string> ListLeftPopAsync(string redisKey, int db = -1)
+            {
+                return await _database.ListLeftPopAsync(redisKey);
+            }
+
+            /// <summary>
+            /// 移除并返回存储在该键列表的最后一个元素   
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="redisKey"></param>
+            /// <param name="db"></param>
+            /// <returns></returns>
+            public async Task<string> ListRightPopAsync(string redisKey, int db = -1)
+            {
+                return await _database.ListRightPopAsync(redisKey);
+            }
+
+            /// <summary>
+            /// 列表长度
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <param name="db"></param>
+            /// <returns></returns>
+            public async Task<long> ListLengthAsync(string redisKey, int db = -1)
+            {
+                return await _database.ListLengthAsync(redisKey);
+            }
+
+            /// <summary>
+            /// 返回在该列表上键所对应的元素
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <returns></returns>
+            public async Task<IEnumerable<string>> ListRangeAsync(string redisKey, int db = -1)
+            {
+                var result = await _database.ListRangeAsync(redisKey);
+                return result.Select(o => o.ToString());
+            }
+
+            /// <summary>
+            /// 根据索引获取指定位置数据
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <param name="start"></param>
+            /// <param name="stop"></param>
+            /// <param name="db"></param>
+            /// <returns></returns>
+            public async Task<IEnumerable<string>> ListRangeAsync(string redisKey, int start, int stop, int db = -1)
+            {
+                var result = await _database.ListRangeAsync(redisKey, start, stop);
+                return result.Select(o => o.ToString());
+            }
+
+            /// <summary>
+            /// 删除List中的元素 并返回删除的个数
+            /// </summary>
+            /// <param name="redisKey">key</param>
+            /// <param name="redisValue">元素</param>
+            /// <param name="type">大于零 : 从表头开始向表尾搜索，小于零 : 从表尾开始向表头搜索，等于零：移除表中所有与 VALUE 相等的值</param>
+            /// <param name="db"></param>
+            /// <returns></returns>
+            public async Task<long> ListDelRangeAsync(string redisKey, string redisValue, long type = 0, int db = -1)
+            {
+                return await _database.ListRemoveAsync(redisKey, redisValue, type);
+            }
+
+            /// <summary>
+            /// 清空List
+            /// </summary>
+            /// <param name="redisKey"></param>
+            /// <param name="db"></param>
+            public async Task ListClearAsync(string redisKey, int db = -1)
+            {
+                await _database.ListTrimAsync(redisKey, 1, 0);
+            }
+        }
+        ```
+    
+    - 在 Common 层中添加缓存常量存储类 `CacheConst`
+
+        ```cs
+         /// <summary>
+        /// 缓存相关常量
+        /// </summary>
+        public class CacheConst
+        {
+            /// <summary>
+            /// 用户缓存
+            /// </summary>
+            public const string KeyUser = "user:";
+
+            /// <summary>
+            /// 用户部门缓存
+            /// </summary>
+            public const string KeyUserDepart = "userDepart:";
+
+            /// <summary>
+            /// 菜单缓存
+            /// </summary>
+            public const string KeyMenu = "menu:";
+
+            /// <summary>
+            /// 菜单
+            /// </summary>
+            public const string KeyPermissions = "permissions";
+
+            /// <summary>
+            /// 权限缓存
+            /// </summary>
+            public const string KeyPermission = "permission:";
+
+            /// <summary>
+            /// 接口路由
+            /// </summary>
+            public const string KeyModules = "modules";
+
+            /// <summary>
+            /// 系统配置
+            /// </summary>
+            public const string KeySystemConfig = "sysConfig";
+
+            /// <summary>
+            /// 查询过滤器缓存
+            /// </summary>
+            public const string KeyQueryFilter = "queryFilter:";
+
+            /// <summary>
+            /// 机构Id集合缓存
+            /// </summary>
+            public const string KeyOrgIdList = "org:";
+
+            /// <summary>
+            /// 最大角色数据范围缓存
+            /// </summary>
+            public const string KeyMaxDataScopeType = "maxDataScopeType:";
+
+            /// <summary>
+            /// 验证码缓存
+            /// </summary>
+            public const string KeyVerCode = "verCode:";
+
+            /// <summary>
+            /// 所有缓存关键字集合
+            /// </summary>
+            public const string KeyAll = "keys";
+
+            /// <summary>
+            /// 定时任务缓存
+            /// </summary>
+            public const string KeyTimer = "timer:";
+
+            /// <summary>
+            /// 在线用户缓存
+            /// </summary>
+            public const string KeyOnlineUser = "onlineuser:";
+
+            /// <summary>
+            /// 常量下拉框
+            /// </summary>
+            public const string KeyConstSelector = "selector:";
+
+            /// <summary>
+            /// swagger登录缓存
+            /// </summary>
+            public const string SwaggerLogin = "swaggerLogin:";
+        }
+        ```
+
+    - 在 Common 层中添加序列化工具类 `SerializeHelper`
+
+        ```cs
+        public class SerializeHelper
+        {
+            /// <summary>
+            /// 序列化
+            /// </summary>
+            /// <param name="item"></param>
+            /// <returns></returns>
+            public static byte[] Serialize(object item)
+            {
+                var jsonString = JsonConvert.SerializeObject(item);
+
+                return Encoding.UTF8.GetBytes(jsonString);
+            }
+            /// <summary>
+            /// 反序列化
+            /// </summary>
+            /// <typeparam name="TEntity"></typeparam>
+            /// <param name="value"></param>
+            /// <returns></returns>
+            public static TEntity Deserialize<TEntity>(byte[] value)
+            {
+                if (value == null)
+                {
+                    return default;
+                }
+                var jsonString = Encoding.UTF8.GetString(value);
+                return JsonConvert.DeserializeObject<TEntity>(jsonString);
+            }
+        }
+        ```
+
+    - 在 Common 层中添加文件夹 Caches
+    - 在 Common.Caches 中添加接口 `ICaching`，其继承了 `IDistributed`
+
+        ```cs
+        /// <summary>
+        /// 缓存抽象接口,基于IDistributedCache封装
+        /// </summary>
+        public interface ICaching
+        {
+            public IDistributedCache Cache { get; }
+            void AddCacheKey(string cacheKey);
+            Task AddCacheKeyAsync(string cacheKey);
+
+            void DelByPattern(string key);
+            Task DelByPatternAsync(string key);
+
+            void DelCacheKey(string cacheKey);
+            Task DelCacheKeyAsync(string cacheKey);
+
+            bool Exists(string cacheKey);
+            Task<bool> ExistsAsync(string cacheKey);
+
+            List<string> GetAllCacheKeys();
+            Task<List<string>> GetAllCacheKeysAsync();
+
+            T Get<T>(string cacheKey);
+            Task<T> GetAsync<T>(string cacheKey);
+
+            object Get(Type type, string cacheKey);
+            Task<object> GetAsync(Type type, string cacheKey);
+
+            string GetString(string cacheKey);
+            Task<string> GetStringAsync(string cacheKey);
+
+            void Remove(string key);
+            Task RemoveAsync(string key);
+
+            void RemoveAll();
+            Task RemoveAllAsync();
+
+            void Set<T>(string cacheKey, T value, TimeSpan? expire = null);
+            Task SetAsync<T>(string cacheKey, T value);
+            Task SetAsync<T>(string cacheKey, T value, TimeSpan expire);
+
+            void SetPermanent<T>(string cacheKey, T value);
+            Task SetPermanentAsync<T>(string cacheKey, T value);
+
+            void SetString(string cacheKey, string value, TimeSpan? expire = null);
+            Task SetStringAsync(string cacheKey, string value);
+            Task SetStringAsync(string cacheKey, string value, TimeSpan expire);
+
+            Task DelByParentKeyAsync(string key);
+        }
+        ```
+    
+    - 在 Common.Caches 中添加其实现类 `Caching`
+
+        ```cs
+        public class Caching : ICaching
+        {
+            private readonly IDistributedCache _cache;
+
+            public Caching(IDistributedCache cache)
+            {
+                _cache = cache;
+            }
+
+            private byte[] GetBytes<T>(T source)
+            {
+                return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(source));
+            }
+
+            public IDistributedCache Cache => _cache;
+
+            public void AddCacheKey(string cacheKey)
+            {
+                var res = _cache.GetString(CacheConst.KeyAll);
+                var allkeys = string.IsNullOrWhiteSpace(res) ? new List<string>() : JsonConvert.DeserializeObject<List<string>>(res);
+                if (!allkeys.Any(m => m == cacheKey))
+                {
+                    allkeys.Add(cacheKey);
+                    _cache.SetString(CacheConst.KeyAll, JsonConvert.SerializeObject(allkeys));
+                }
+            }
+
+            /// <summary>
+            /// 增加缓存Key
+            /// </summary>
+            /// <param name="cacheKey"></param>
+            /// <returns></returns>
+            public async Task AddCacheKeyAsync(string cacheKey)
+            {
+                var res = await _cache.GetStringAsync(CacheConst.KeyAll);
+                var allkeys = string.IsNullOrWhiteSpace(res) ? new List<string>() : JsonConvert.DeserializeObject<List<string>>(res);
+                if (!allkeys.Any(m => m == cacheKey))
+                {
+                    allkeys.Add(cacheKey);
+                    await _cache.SetStringAsync(CacheConst.KeyAll, JsonConvert.SerializeObject(allkeys));
+                }
+            }
+
+            public void DelByPattern(string key)
+            {
+                var allkeys = GetAllCacheKeys();
+                if (allkeys == null) return;
+
+                var delAllkeys = allkeys.Where(u => u.Contains(key)).ToList();
+                delAllkeys.ForEach(u => { _cache.Remove(u); });
+
+                // 更新所有缓存键
+                allkeys = allkeys.Where(u => !u.Contains(key)).ToList();
+                _cache.SetString(CacheConst.KeyAll, JsonConvert.SerializeObject(allkeys));
+            }
+
+            /// <summary>
+            /// 删除某特征关键字缓存
+            /// </summary>
+            /// <param name="key"></param>
+            /// <returns></returns>
+            public async Task DelByPatternAsync(string key)
+            {
+                var allkeys = await GetAllCacheKeysAsync();
+                if (allkeys == null) return;
+
+                var delAllkeys = allkeys.Where(u => u.Contains(key)).ToList();
+                delAllkeys.ForEach(u => { _cache.Remove(u); });
+
+                // 更新所有缓存键
+                allkeys = allkeys.Where(u => !u.Contains(key)).ToList();
+                await _cache.SetStringAsync(CacheConst.KeyAll, JsonConvert.SerializeObject(allkeys));
+            }
+
+            public void DelCacheKey(string cacheKey)
+            {
+                var res = _cache.GetString(CacheConst.KeyAll);
+                var allkeys = string.IsNullOrWhiteSpace(res) ? new List<string>() : JsonConvert.DeserializeObject<List<string>>(res);
+                if (allkeys.Any(m => m == cacheKey))
+                {
+                    allkeys.Remove(cacheKey);
+                    _cache.SetString(CacheConst.KeyAll, JsonConvert.SerializeObject(allkeys));
+                }
+            }
+
+            /// <summary>
+            /// 删除缓存
+            /// </summary>
+            /// <param name="cacheKey"></param>
+            /// <returns></returns>
+            public async Task DelCacheKeyAsync(string cacheKey)
+            {
+                var res = await _cache.GetStringAsync(CacheConst.KeyAll);
+                var allkeys = string.IsNullOrWhiteSpace(res) ? new List<string>() : JsonConvert.DeserializeObject<List<string>>(res);
+                if (allkeys.Any(m => m == cacheKey))
+                {
+                    allkeys.Remove(cacheKey);
+                    await _cache.SetStringAsync(CacheConst.KeyAll, JsonConvert.SerializeObject(allkeys));
+                }
+            }
+
+            public bool Exists(string cacheKey)
+            {
+                var res = _cache.Get(cacheKey);
+                return res != null;
+            }
+
+            /// <summary>
+            /// 检查给定 key 是否存在
+            /// </summary>
+            /// <param name="cacheKey">键</param>
+            /// <returns></returns>
+            public async Task<bool> ExistsAsync(string cacheKey)
+            {
+                var res = await _cache.GetAsync(cacheKey);
+                return res != null;
+            }
+
+            public List<string> GetAllCacheKeys()
+            {
+                var res = _cache.GetString(CacheConst.KeyAll);
+                return string.IsNullOrWhiteSpace(res) ? null : JsonConvert.DeserializeObject<List<string>>(res);
+            }
+
+            /// <summary>
+            /// 获取所有缓存列表
+            /// </summary>
+            /// <returns></returns>
+            public async Task<List<string>> GetAllCacheKeysAsync()
+            {
+                var res = await _cache.GetStringAsync(CacheConst.KeyAll);
+                return string.IsNullOrWhiteSpace(res) ? null : JsonConvert.DeserializeObject<List<string>>(res);
+            }
+
+            public T Get<T>(string cacheKey)
+            {
+                var res = _cache.Get(cacheKey);
+                return res == null ? default : JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(res));
+            }
+
+            /// <summary>
+            /// 获取缓存
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="cacheKey"></param>
+            /// <returns></returns>
+            public async Task<T> GetAsync<T>(string cacheKey)
+            {
+                var res = await _cache.GetAsync(cacheKey);
+                return res == null ? default : JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(res));
+            }
+
+            public object Get(Type type, string cacheKey)
+            {
+                var res = _cache.Get(cacheKey);
+                return res == null ? default : JsonConvert.DeserializeObject(Encoding.UTF8.GetString(res), type);
+            }
+
+            public async Task<object> GetAsync(Type type, string cacheKey)
+            {
+                var res = await _cache.GetAsync(cacheKey);
+                return res == null ? default : JsonConvert.DeserializeObject(Encoding.UTF8.GetString(res), type);
+            }
+
+            public string GetString(string cacheKey)
+            {
+                return _cache.GetString(cacheKey);
+            }
+
+            /// <summary>
+            /// 获取缓存
+            /// </summary>
+            /// <param name="cacheKey"></param>
+            /// <returns></returns>
+            public async Task<string> GetStringAsync(string cacheKey)
+            {
+                return await _cache.GetStringAsync(cacheKey);
+            }
+
+            public void Remove(string key)
+            {
+                _cache.Remove(key);
+                DelCacheKey(key);
+            }
+
+            /// <summary>
+            /// 删除缓存
+            /// </summary>
+            /// <param name="key"></param>
+            /// <returns></returns>
+            public async Task RemoveAsync(string key)
+            {
+                await _cache.RemoveAsync(key);
+                await DelCacheKeyAsync(key);
+            }
+
+            public void RemoveAll()
+            {
+                var catches = GetAllCacheKeys();
+                foreach (var @catch in catches) Remove(@catch);
+
+                catches.Clear();
+                _cache.SetString(CacheConst.KeyAll, JsonConvert.SerializeObject(catches));
+            }
+
+            public async Task RemoveAllAsync()
+            {
+                var catches = await GetAllCacheKeysAsync();
+                foreach (var @catch in catches) await RemoveAsync(@catch);
+
+                catches.Clear();
+                await _cache.SetStringAsync(CacheConst.KeyAll, JsonConvert.SerializeObject(catches));
+            }
+
+            public void Set<T>(string cacheKey, T value, TimeSpan? expire = null)
+            {
+                _cache.Set(cacheKey, GetBytes(value),
+                    expire == null
+                        ? new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6) }
+                        : new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expire });
+
+                AddCacheKey(cacheKey);
+            }
+
+            /// <summary>
+            /// 增加对象缓存
+            /// </summary>
+            /// <param name="cacheKey"></param>
+            /// <param name="value"></param>
+            /// <returns></returns>
+            public async Task SetAsync<T>(string cacheKey, T value)
+            {
+                await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value)),
+                    new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6) });
+
+                await AddCacheKeyAsync(cacheKey);
+            }
+
+            /// <summary>
+            /// 增加对象缓存,并设置过期时间
+            /// </summary>
+            /// <param name="cacheKey"></param>
+            /// <param name="value"></param>
+            /// <param name="expire"></param>
+            /// <returns></returns>
+            public async Task SetAsync<T>(string cacheKey, T value, TimeSpan expire)
+            {
+                await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value)),
+                    new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expire });
+
+                await AddCacheKeyAsync(cacheKey);
+            }
+
+            public void SetPermanent<T>(string cacheKey, T value)
+            {
+                _cache.Set(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value)));
+                AddCacheKey(cacheKey);
+            }
+
+            public async Task SetPermanentAsync<T>(string cacheKey, T value)
+            {
+                await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(value)));
+                await AddCacheKeyAsync(cacheKey);
+            }
+
+            public void SetString(string cacheKey, string value, TimeSpan? expire = null)
+            {
+                if (expire == null)
+                    _cache.SetString(cacheKey, value, new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6) });
+                else
+                    _cache.SetString(cacheKey, value, new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expire });
+
+                AddCacheKey(cacheKey);
+            }
+
+            /// <summary>
+            /// 增加字符串缓存
+            /// </summary>
+            /// <param name="cacheKey"></param>
+            /// <param name="value"></param>
+            /// <returns></returns>
+            public async Task SetStringAsync(string cacheKey, string value)
+            {
+                await _cache.SetStringAsync(cacheKey, value, new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6) });
+
+                await AddCacheKeyAsync(cacheKey);
+            }
+
+            /// <summary>
+            /// 增加字符串缓存,并设置过期时间
+            /// </summary>
+            /// <param name="cacheKey"></param>
+            /// <param name="value"></param>
+            /// <param name="expire"></param>
+            /// <returns></returns>
+            public async Task SetStringAsync(string cacheKey, string value, TimeSpan expire)
+            {
+                await _cache.SetStringAsync(cacheKey, value, new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expire });
+
+                await AddCacheKeyAsync(cacheKey);
+            }
+
+            /// <summary>
+            /// 缓存最大角色数据范围
+            /// </summary>
+            /// <param name="userId"></param>
+            /// <param name="dataScopeType"></param>
+            /// <returns></returns>
+            public async Task SetMaxDataScopeType(long userId, int dataScopeType)
+            {
+                var cacheKey = CacheConst.KeyMaxDataScopeType + userId;
+                await SetStringAsync(cacheKey, dataScopeType.ToString());
+
+                await AddCacheKeyAsync(cacheKey);
+            }
+
+            /// <summary>
+            ///  根据父键清空
+            /// </summary>
+            /// <param name="key"></param>
+            /// <returns></returns>
+            public async Task DelByParentKeyAsync(string key)
+            {
+                var allkeys = await GetAllCacheKeysAsync();
+                if (allkeys == null) return;
+
+                var delAllkeys = allkeys.Where(u => u.StartsWith(key)).ToList();
+                delAllkeys.ForEach(Remove);
+                // 更新所有缓存键
+                allkeys = allkeys.Where(u => !u.StartsWith(key)).ToList();
+                await SetStringAsync(CacheConst.KeyAll, JsonConvert.SerializeObject(allkeys));
+            }
+        }
+        ```
+
+    - 在 Extensions.ServiceExtensions 中添加类 `CacheSetup`
+        ```cs
+        public static class CacheSetup
+        {
+            /// <summary>
+            /// 统一注册缓存
+            /// </summary>
+            /// <param name="services"></param>
+            public static void AddCacheSetup(this IServiceCollection services)
+            {
+                // 取用 App.GetOptions<RedisOptions>() 读取配置文件
+                var cacheOptions = App.GetOptions<RedisOptions>();
+                // 如果开启了Redis缓存
+                if (cacheOptions.Enable)
+                {
+                    // 配置启动Redis服务
+                    // 虽然可能影响项目启动速度，但是不能在运行的时候报错，所以是合理的
+                    services.AddSingleton<IConnectionMultiplexer>(sp =>
+                    {
+                        //获取连接字符串
+                        var configuration = ConfigurationOptions.Parse(cacheOptions.ConnectionString, true);
+                        configuration.ResolveDns = true;
+                        return ConnectionMultiplexer.Connect(configuration);
+                    });
+                    // 使用单例模式，初始化Redis连接池
+                    services.AddSingleton<ConnectionMultiplexer>(p => p.GetService<IConnectionMultiplexer>() as ConnectionMultiplexer);
+
+                    // 使用 Redis 的分布式缓存
+                    // 核心在如下语句，通过对 IDistributedCache 的实现类 RedisCacheImpl 进行注册
+                    // services.Add(ServiceDescriptor.Singleton<IDistributedCache, RedisCacheImpl>());
+                    services.AddStackExchangeRedisCache(options =>
+                    {
+                        options.ConnectionMultiplexerFactory = () => Task.FromResult(App.GetService<IConnectionMultiplexer>(false));
+                        if (!string.IsNullOrEmpty(cacheOptions.InstanceName)) options.InstanceName = cacheOptions.InstanceName;
+                    });
+                    // 注册 RedisBasketRepository 服务
+                    services.AddTransient<IRedisBasketRepository, RedisBasketRepository>();
+                }
+                else  // 如果没有开启Redis缓存
+                {
+                    // 使用内存缓存
+                    services.AddMemoryCache();
+                    // 使用分布式内存缓存
+                    // 核心在如下语句，通过对 IDistributedCache 的实现类 MemoryDistributedCache 进行注册
+                    // services.TryAdd(ServiceDescriptor.Singleton<IDistributedCache, MemoryDistributedCache>());
+                    services.AddDistributedMemoryCache();
+                }
+
+                // 注册缓存服务
+                services.AddSingleton<ICaching, Caching>();
+            }
+        }
+        ```
+
+3. 服务注册：在接口层 Program 类的 Main 函数中做如下修改
+
+    ```cs
+        // ...其他服务注册...
+
+        // 添加 Redis 缓存
+        builder.Services.AddCacheSetup();
+
+        // 构建应用程序
+        var app = builder.Build();
+        //...
+    ```
+
+4. 使用缓存：在控制器中使用如下方法使用缓存
+    - 记得设置接口层中的 appsetting.json 中的 `Redis:Enabled` 为 `true`
+    ```cs
+    private readonly IBaseService<Role, RoleVo> _roleService;
+    private readonly IOptions<RedisOptions> _redisOptions;
+    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly ICaching _caching;
+
+    public WeatherForecastController(ILogger<WeatherForecastController> logger,
+                        IBaseService<Role, RoleVo> roleService,
+                        IOptions<RedisOptions> options,
+                        IServiceScopeFactory scopeFactory,
+                        ICaching caching)
+    {
+        _logger = logger;
+        _roleService = roleService;
+        _redisOptions = options;
+        _scopeFactory = scopeFactory;
+        _caching = caching;
+    }
+
+    /// <summary>
+    /// 测试分布式缓存，这里修改返回值为 object
+    /// </summary>
+    /// <returns>测试使用的空字符串返回</returns>
+    [HttpGet(Name = "GetWeatherForecast")]
+    public async Task<object> Get()
+    {
+        Console.WriteLine("api GET begin");
+
+        var cacheKey = "cache-key";
+
+        List<string> cacheKeys = await _caching.GetAllCacheKeysAsync();
+
+        await Console.Out.WriteLineAsync($"缓存列表：{JsonConvert.SerializeObject(cacheKeys)}");
+
+        await Console.Out.WriteLineAsync("添加一个缓存");
+        await _caching.SetStringAsync(cacheKey, "Hi, Add Cache To REDIS!");
+        await Console.Out.WriteLineAsync($"缓存列表：{JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync())}");
+        await Console.Out.WriteLineAsync($"当前Key内容：{JsonConvert.SerializeObject(await _caching.GetStringAsync(cacheKey))}");
+
+        await Console.Out.WriteLineAsync("删除一个缓存");
+        await _caching.RemoveAsync(cacheKey);
+        await Console.Out.WriteLineAsync($"缓存列表：{JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync())}");
+
+        Console.WriteLine("api GET end");
+        return "";
     }
     ```
