@@ -409,3 +409,42 @@ ORDER BY {排序选择字段 [排序类型]},..n
 SELECT * FROM Student
 ORDER BY Sno ASC, Sage DESC
 ```
+
+
+### 多表查询
+```sql
+
+-- 例子
+SELECT *
+-- 默认笛卡尔积->拼接成新的元组
+-- 如果 SC 有13条数据，Course 有14条数据，则最终有13*14条数据
+FROM SC, Course
+-- 指定连接条件为 Cno 相同的部分
+WHERE SC.Cno = Course.Cno
+-- 指定具体字段
+    AND Sno = '202210250101'
+
+-- 选取选了课程号为 114T0020 的选课人数，按照性别分别统计
+SELECT Ssex, AVG(Grade), COUNT(*)
+FROM SC, Student
+WHERE SC.Sno = Student.Sno
+    AND Cno = '114T0020'
+GROUP BY Ssex
+
+-- 关于最终数据值
+-- 对下例
+SELECT COUNT(*) FROM Student --69
+SELECT COUNT(*) FROM Course -- 14
+SELECT COUNT(*) FROM SC --764
+
+SELECT COUNT(*)
+FROM SC, Student
+WHERE SC.Sno = Student.Sno
+-- 52716 = 764*69
+
+SELECT COUNT(*)
+FROM SC, Course
+WHERE SC.Cno = Course.Cno
+-- 10696 = 764*14
+```
+
