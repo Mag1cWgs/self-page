@@ -187,19 +187,30 @@
     * .NET 8.0
       * [仓储——服务架构](./ProjectDocs/cs/Back-end-Development/Csharp/DotNet8/1-Reponsitory-Service.md)
       * [自定义项目框架](./ProjectDocs/cs/Back-end-Development/Csharp/DotNet8/2-Customize-Project-Framework.md)
-      * [SqlSugar学习]
+      * [ORM 企业级运用方向](./ProjectDocs/cs/Back-end-Development/Csharp/DotNet8/3-ORM-Use.md)
+  
+  * ORM 对象关系映射框架 <!--放置在 cs/ORM -->
+    * EF Core
+    * SQL Sugar
+      * [入门使用](./ProjectDocs/cs/ORM/SqlSugar/1-BasicUse.md)
+      * 事务用法与进阶AOP
+      * 标准多库操作
+      * 自动分库分表
+      * 日志输出与自动缓存
 
-  * 数据库    <!--放置在 cs/Sql -->
-    * [参考链接](/ProjectDocs/cs/sql/Reference.md)
-    * MySql 相关学习
-      * [MySql 概述](/ProjectDocs/cs/Sql/MySql/MySQL-front.md)
-      * [MySQL 语法基础](ProjectDocs\cs\Sql/MySql/SQL-basic.md)
-      * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySql/MySQL-statements-and-data-types.md)
-    * SqlServer
-      * [SQL Server 基本语法](/ProjectDocs/cs/Sql/SQL-Server/SQL-basic.md)
-    * SqlLite
-    * MongoDB
-    * Redis
+  * 数据库    
+    * 关系型数据库 SQL  <!--放置在 cs/Sql -->
+      * [参考链接](/ProjectDocs/cs/sql/Reference.md)
+      * MySql 相关学习
+        * [MySql 概述](/ProjectDocs/cs/Sql/MySql/MySQL-front.md)
+        * [MySQL 语法基础](ProjectDocs\cs\Sql/MySql/SQL-basic.md)
+        * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySql/MySQL-statements-and-data-types.md)
+      * SqlServer
+        * [SQL Server 基本语法](/ProjectDocs/cs/Sql/SQL-Server/SQL-basic.md)
+      * SqlLite
+    * 非关系型数据库  <!--放置在 cs/NoSql -->
+      * MongoDB 
+      * Redis
 
   * 设计模式  <!--放置在 cs/DesignPattern -->
     * [相关资料引用](/ProjectDocs/cs/DesignPattern/init.md)
