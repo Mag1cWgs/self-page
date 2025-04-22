@@ -18,40 +18,47 @@
     }
     ```
 
-- 建立共用层 Common
-    - 提供共用的工具类
-
 - 建立实体层 Model
     - 实体目的：
         - 作为数据传输对象（DTO）
         - 作为数据存储对象（Entity）
-        - 作为数据传输对象（DTO）和数据存储对象（Entity）之间的转换
-        - 不负责业务逻辑
-    - 通过对具体实体建立视图对象（ViewModel），来实现 DTO 和 Entity 之间的转换
+        - 建立视图对象（ViewModel）
+            - 留给服务层做 DTO 和 Entity 之间的转换
+    - 不负责业务逻辑
 
-- 建立仓储层 Respository
-    - 仓储目的：
-        - 控制实体对象/数据库连接对象（DB），将数据对外抛送
-        - 不负责业务逻辑
+- 建立共用层 Common
+    - 继承实体层
+    - 提供共用的工具类
 
 - 建立服务接口层 IService
+    - 继承 Common
     - 仓储层不应暴露给外部
     - 对仓储层抛出的对象数据进行处理
         - 防止数据泄露
     - 对 DTO 进行处理
 
+- 建立仓储层 Respository
+    - 继承 Common
+    - 仓储目的：
+        - 控制实体对象/数据库连接对象（DB），将数据对外抛送
+        - 不负责业务逻辑
+
 - 建立服务层 Service
-    - 继承 IService
+    - 继承 IService、Repository
     - 通过对 Respository、Model 的处理
         - 进行业务逻辑处理
 
+- 建立拓展层 Extensions
+    - 继承 Service 层
+    - 作为服务切片 AOP 层
+
 - 业务流程分析
-    1. 使用 Respository 层的 UserRespository.Query() 模拟从数据库中读取数据
-    2. 将读取的数据转换为 Model 层中定义的实体 Model.User
-    3. 在 UserService 层中将获取的 User 实体转换为 UserVo 实体，实现从 Entity -> DTO 转换
-    4. 在 Controller 层中将 UserVo 实体转换为 UserViewModel 实体，实现从 DTO -> ViewModel 转换
-    5. 在网页上发起 Get 请求，获取 UserViewModel 实体
-        - 通过 ViewModel 层的 UserViewModel 显示数据
+    1. 使用 Respository 层的 `UserRespository.Query()` 模拟从数据库中读取数据
+    2. 将读取的数据转换为 Model 层中定义的实体 `Model.User`
+    3. 在 UserService 层中将获取的 `User` 实体转换为 `UserVo` 实体，实现从 Entity -> DTO 转换
+    4. 在 Controller 层中将 `UserVo` 实体转换为 `UserViewModel` 实体，实现从 DTO -> ViewModel 转换
+    5. 在网页上发起 Get 请求，获取 `UserViewModel` 实体
+        - 通过 ViewModel 层的 `UserViewModel` 显示数据
 
 ---
 
