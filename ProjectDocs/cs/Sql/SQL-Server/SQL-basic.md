@@ -412,16 +412,67 @@ ORDER BY Sno ASC, Sage DESC
 
 
 ### 多表查询
-```sql
+- 同时涉及多张表的查询
 
+- 主要用于主键表和外键表连接查询
+    - 通常是主键表主码和外键表的外键进行等值链接查询
+
+- 构成
+    - `FROM`：给出连接的表的名称，可以使用 `AS` 作为别名
+    - `WHERE`：给出连接条件
+- 连接条件
+    - 通常是比较运算符或者是 `BETWEEN ... AND ...`
+- 连接分类：
+    - 等值链接：连接运算符为 `=` 时
+    - 自然连接：连接时去除重复数据
+    - 自身连接：一个表与自己链接，称为自身连接
+        - 由于一个表用两次，所以需要至少有一个别名
+        - 由于所有列均重复，则选取时需要加别名标记
+    - 内连接：
+        - 两个关系通过 `JOIN ... ON ...` 语法建立连接
+        - 语法：    
+            ```sql
+            表一 [INNER] JOIN 表二 ON 连接条件
+            ```
+        - 比如：
+            ```sql
+            SELECT *
+            FROM Course AS C
+                INNER JOIN Course AS CC -- INNER 可省略
+                ON C.Cpno = CC.Cno
+            ```
+    - 相应的回顾外连接：
+        - 需要指定是全外连接 / 左外连接 / 右外连接
+            ```sql
+            表一 {FULL/LEFT/RIGHT} JOIN 表二 ON 连接条件
+            ```
+        - 保留匹配项之外，不匹配项仍保留，不匹配元素用 NULL 代替
+            ```sql
+            SELECT *
+            FROM Course AS C
+                FULL JOIN Course AS CC -- 全外连接
+                ON C.Cpno = CC.Cno
+            -- 左外连接例子
+            -- 查询各学生所选课程数量
+            SELECT Student.Sno, -- 选取聚合条件对应值
+                    COUNT(*)
+                    COUNT(Cno)  -- 选取非 NULL 的课程号
+            FROM Student
+                LEFT JOIN SC    -- 使用左外连接保留不匹配元素
+                ON Student.Sno = SC.Sno
+            GROUP BY Student.Sno    -- 聚合条件是 学号
+            ```
+
+
+```sql
 -- 例子
-SELECT *
 -- 默认笛卡尔积->拼接成新的元组
 -- 如果 SC 有13条数据，Course 有14条数据，则最终有13*14条数据
-FROM SC, Course
 -- 指定连接条件为 Cno 相同的部分
-WHERE SC.Cno = Course.Cno
 -- 指定具体字段
+SELECT *
+FROM SC, Course
+WHERE SC.Cno = Course.Cno
     AND Sno = '202210250101'
 
 -- 选取选了课程号为 114T0020 的选课人数，按照性别分别统计
@@ -446,5 +497,65 @@ SELECT COUNT(*)
 FROM SC, Course
 WHERE SC.Cno = Course.Cno
 -- 10696 = 764*14
+
+-- 等值连接例：
+SELECT Student.*, SC.*
+FROM Student,SC
+WHERE Student.Sno = SC.Sno
+
+-- 自然连接例：
+-- 第一种：重复列只取一边
+-- 第二种：使用运算符筛选去重
+SELECT Student.Sno,
+    Sname, Ssex,Sage,Sdept,Cno,Grade
+
 ```
 
+### 嵌套查询
+- 查询块
+    - 一个 `SELECT ... FROM ... WHERE ...` 语句称为一个查询块
+- 嵌套查询
+    - 讲一个查询块嵌套在另一个查询块内的查询
+
+- 特点
+    - 体现 SQL 语言的结构化特点
+    - 部分嵌套查询可以用等价的连接查询来实现
+    - 子查询中不能使用 `ORDER BY` 语句
+
+- 例子
+    ```sql
+    -- 取得有18岁学生的系
+    SELECT Sdept
+    FROM Student
+    WHERE Sage = 18
+
+    -- 查询有18岁学生的系的所有学生信息
+    -- 不相关子查询：子查询不依赖于父查询
+    SELECT *
+    FROM Student
+    WHERE 
+        Sdept IN (SELECT Sdept
+                FROM Student
+                WHERE Sage = 18)
+    
+    -- 相关子查询：子查询依赖于父查询而存在
+    -- 查询同时选了一号课程和二号课程的学生
+    -- 不能使用 WHERE Cno = '1' AND Cno = '2'
+    -- 使用 EXISTS(集合) 返回判断  是否为空集的布尔值
+    SELECT *
+    FROM SC AS ScOut
+    WHERE
+        Cno = '1'
+        AND
+        EXISTS(SELECT * FROM SC
+                WHERE ScOut.Sno = SC.Sno AND Cno='2')
+    
+    -- 也可以查询选了一号课程但没有选二号课程的学生
+    SELECT *
+    FROM SC AS ScOut
+    WHERE
+        Cno = '1'
+        AND
+        NOT EXISTS(SELECT * FROM SC
+                WHERE ScOut.Sno = SC.Sno AND Cno='2')
+    ```
