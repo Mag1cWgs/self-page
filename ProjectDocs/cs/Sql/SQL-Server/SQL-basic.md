@@ -40,11 +40,44 @@ CREATE TABLE 表名
 )
 ```
 
+
+
+---
+
+
+
+
 ## DML 操作语言
 
-### 删除
-#### 删除数据库
-#### 删除表
+### 插入
+```sql
+-- 对指定表插入数据
+INSERT
+INTO <表名> [<属性列>[...n]]
+VALUES [(常量)[,...n]]
+
+-- 将子查询结果插入指定表
+INSERT [<属性列>[..n]]
+INTO <表名>
+子查询语句
+-- 类似下列语句
+-- 插入子查询
+SELECT [<属性列>[,...n]]
+INTO <表名>
+子查询语句
+
+-- 比如
+INSERT
+INTO Student
+SELECT '202210250101', '示例', 1
+UNION SELECT '202210250102','0',2
+-- 再或者
+SELECT
+    '实例名' AS Sname,
+    'IS' AS Sdept
+INTO TempStudent
+UNION SELECT '实例名2', 'IS'
+```
 
 
 ### 修改
@@ -140,18 +173,13 @@ CREATE TABLE 表名
 > ```
 
 
-
 ```sql
 ALTER TABLE 表名
 ALTER COLUMN 列名 数据类型 [约束，比如 NOT NULL]
 -- ALTER COLUMN Sno varchar(12) NOT NULL
 
-
-
 ALTER TABLE 表名
 ADD 添加的列名 AS {表达式}
-
-
 
 ALTER TABLE 表名
 ADD CONSTRAINT 约束(目标列)
@@ -161,6 +189,139 @@ ADD CONSTRAINT 约束(目标列)
 --                          REFERENCES Student (Sno) -- 具体关联数据 Student.Sno
 
 ```
+
+#### 修改数据
+- 语法格式
+    ```sql
+    -- 修改指定表中满足 WHERE 条件的属性列数值
+    UPDATE <表名>
+    SET <待更新的列名>=<更新值的表达式>[,...n]
+    [FROM <参考表名>]
+    [WHERE 条件]
+    ```
+
+- 几种情形
+    - 修改某一个元组的值
+    - 修改多个元组的值
+    - 带子查询的修改语句
+    - 带 `FROM` 子句的修改语句
+
+- 例子
+    ```sql
+    -- 查询目标值
+    SELECT *
+    FROM Student
+    WHERE Sno = '202210250101'
+
+    -- 需要根据主键查询并修改目标值
+    UPDATE Student
+    SET Sname = '示例名'
+    WHERE Sno = '202210250101'
+
+    -- 改变同一条数据（元组）中多个值
+    UPDATE Student
+    SET Sname = '示例名2', Ssex = '男', Sdept = 'Ma'
+    WHERE Sno = '202210250201'
+
+    -- 不使用 WHERE 语句
+    UPDATE Studnet
+    SET Sage = Sage + 1
+
+    -- 使用 WHERE 语句
+    UPDATE SC
+    SET Grade = Grade * Grade / 100
+    WHERE Cno = '2'
+
+    -- 对查询子句改写
+
+    -- 原有查询子句
+    SELECT
+        '实例名' AS Sname,
+        'IS' AS Sdept
+    INTO TempStudent
+    UNION SELECT '实例名2', 'IS'
+
+    -- 改写为更新语句
+    UPDATE Student
+    SET Sdept = TempStudent.Sdept
+    FROM TempStudent
+    WHERE Student.Sname = TempStudent.Sname
+
+    -- 可以通过如下方法避免建立 TempStudent 表
+
+    -- 原有查询表
+    SELECT * 
+    FROM Student,
+        (SELECT
+            '实例名' AS Sname,
+            'IS' AS Sdept
+        INTO TempStudent
+        UNION SELECT '实例名2', 'IS') AS T
+    WHERE Student.Sname = T.Sname
+
+    -- 改写后的语句
+    UPDATE Student
+    SET Sdept = T.Sdept
+    FROM Student,
+        (SELECT
+            '实例名' AS Sname,
+            'IS' AS Sdept
+        INTO TempStudent
+        UNION SELECT '实例名2', 'IS') AS T
+    WHERE Student.Sname = T.Name
+    ```
+
+### 删除
+#### 删除数据库
+```sql
+DROP
+TABLE <表名>
+```
+
+#### 删除表
+- 只是删除符合条件的数据
+- 语法格式如下
+    - 实际只需要改写 `SELECT` 语句，从 `<表名>` 保留
+    ```sql
+    DELETE [FROM] <表名>
+    [FROM] <参照表名>
+    [WHERE <条件>]
+    ```
+- 例子
+    ```sql
+    -- 查询无选课学生的课程
+    SELECT *
+    FROM Course
+    WHERE 
+        NOT EXISTS(SELECT *
+                FROM SC
+                WHERE Course.Cno = SC.Cno)
+    -- 删除对应课程
+    -- 只需要改成 DELETE
+    DELETE Course
+    WHERE 
+        NOT EXISTS(SELECT *
+                FROM SC
+                WHERE Course.Cno = SC.Cno) 
+
+    -- 查询未选课的学生
+    SELECT *
+    FROM Student
+    WHERE 
+        NOT EXISTS(SELECT *
+                FROM SC
+                WHERE Course.Cno = SC.Cno)
+    -- 同样删除
+    DELETE FROM Student
+    WHERE 
+        NOT EXISTS(SELECT *
+                FROM SC
+                WHERE Course.Cno = SC.Cno)
+    ```
+
+
+---
+
 
 
 ## DQL 查询语言
@@ -559,3 +720,8 @@ SELECT Student.Sno,
         NOT EXISTS(SELECT * FROM SC
                 WHERE ScOut.Sno = SC.Sno AND Cno='2')
     ```
+
+### 集合查询
+
+## 
+
