@@ -31,7 +31,7 @@ USE 数据库名
 GO
 ```
 
-#### 定义表
+### 定义表
 ```sql
 CREATE TABLE 表名
 (
@@ -40,6 +40,119 @@ CREATE TABLE 表名
 )
 ```
 
+### 定义视图
+
+>[!note|label:视图相关知识点]
+> - 视图的常用操作
+>     - 定义
+>         - 建立
+>         - 删除
+>     - 查询
+>     - 受限更新
+> - 视图的作用
+>     1. 简化用户操作
+>     1. 使用户以多种角度看待同一数据
+>     1. 对重构数据库提供一定程度的逻辑独立性
+>     1. 对机密数据提供安全保护
+>     1. 适当利用视图可以清晰表达查询
+
+- 视图是虚表，从一个/几个基本表（或视图）导出的表
+- 只存放视图的定义，不存放视图对应的数据
+- 基表中数据变化时，从视图中查询的数据也随之改变
+
+
+- 建立视图语法
+    ```sql
+    -- 语法
+    CREATE
+    VIEW <视图名> [(<列名>[,...n])]
+        AS <子查询>
+    [WITH CHECK OPTION]
+    
+    -- 示例1
+    CREATE
+    VIEW V_Student
+        AS  SELECT Student.*, Cno, Grade
+            FROM Student, SC
+            WHERE Student.Sno = SC.Sno
+        
+    -- 示例2
+    CREATE
+    VIEW V_SC
+        AS  SELECT Student.*, Course.*, Grade
+            FROM Student, SC, Course
+            WHERE Student.Sno = SC.Sno
+                AND Course.Cno = SC.Cno
+        -- 查询例
+        SELECT Grade
+        FROM V_SC
+        WHERE Sname = '李勇' AND Cname = '数据库'
+
+    -- 示例3
+    -- 原有查询语句
+    SELECT Sno,
+        -- CONVERT(Decimal(5,2),待转换列) 输出长5，小数位2的decimal
+        -- AVG(待转换列) 输出 FLOAT 
+        CONVERT(Decimal(5,2), AVG(CONVERT(Decimal(5,2),Grade)))
+    FROM SC
+    GROUP BY Sno
+    -- 使用视图
+    -- 如果使用函数，则必须要指定列名
+    -- 可以如下指定列名
+    CREATE
+    VIEW V_AVG_Grade(Sno, AVG_Grade)
+        AS  SELECT Sno,
+                CONVERT(Decimal(5,2), AVG(CONVERT(Decimal(5,2),Grade)))
+            FROM SC
+            GROUP BY Sno
+    -- 或者用如下方法指定列名
+    CREATE
+    VIEW V_AVG_Grade02
+        AS  SELECT Sno,
+                CONVERT(Decimal(5,2), AVG(CONVERT(Decimal(5,2),Grade))) AS AVG_Grade
+            FROM SC
+            GROUP BY Sno 
+
+    ```
+
+### 定义索引
+
+>[!note|label:索引相关知识点]
+> - 方便查找，加快查询速度
+> - 谁可以建立索引
+>     - DBA
+>     - 建表人（表的属主）
+>     - 如果定义列时，使用 `PRIMARY KEY`/`UNIQUE` 关键字时，DBMS 会自动为该列建立索引
+> - 谁维护索引
+>     - DBMS 自动弯沉
+> - 使用索引
+>     - DBMS 自动选择是否使用索引，使用哪些索引
+> - 好处
+>     - 可以加快查询速度
+>         - msSQL 使用
+>     - 可以保证数据唯一性
+>     - 加快连接速度
+> - 连接操作的执行过程
+>     - 嵌套循环法 NESTED-LOOP
+>     - 排序合并法 SORT-MERGE
+>         - 索引的必要性和重要性
+>         - 常用于 `=` 连接
+> - 实现索引的技术手段
+>     - RDBMS 中一般使用
+>         - B+ 树：动态平衡
+>         - HASH：查询快
+>     - 由 RDBMS 自动选择
+> - 索引分类
+>     - 唯一索引 `UNIQUE` / 非唯一索引
+>     - 聚簇索引 `CLUSTERED` / 非聚簇索引 `NONCLUSTERED`
+
+- 语法如下
+    ```sql
+    CREATE
+    [UNIQUE] [CLUSTERED | NONCLUSTERED]
+    INDEX <索引名>  -- 一般为 IX_表名_列名
+    ON <表名>[(<列名>[,...n])]
+    ```
 
 
 ---
@@ -50,6 +163,10 @@ CREATE TABLE 表名
 ## DML 操作语言
 
 ### 插入
+
+#### 插入数据库
+
+#### 插入表
 ```sql
 -- 对指定表插入数据
 INSERT
@@ -81,6 +198,7 @@ UNION SELECT '实例名2', 'IS'
 
 
 ### 修改
+
 #### 修改数据库
 
 #### 修改表
@@ -318,6 +436,20 @@ TABLE <表名>
                 FROM SC
                 WHERE Course.Cno = SC.Cno)
     ```
+
+#### 删除视图
+语法如下：
+```sql
+DROP
+VIEW <视图名>
+```
+
+#### 删除索引
+```sql
+DROP
+INDEX <索引名>
+```
+
 
 
 ---
@@ -723,5 +855,21 @@ SELECT Student.Sno,
 
 ### 集合查询
 
-## 
+### 视图查询
+- 与正常的表查询一致
 
+```sql
+-- 例1
+SELECT Student.*,
+    AVG_Grade
+FROM Student, V_AVG_Grade -- 此处的V_AVG_Grade是上文建立的
+WHERE Student.Sno = V_AVG_Grade.Sno
+
+-- 也可以如下使用
+CREATE
+VIEW V_Student_AVG_Grade
+    AS  SELECT Student.*, V_AVG_Student
+        FROM Student LEFT JOIN V_AVG_Grade
+        WHERE Student.Sno = V_AVG_Grade.Sno
+SELECT * FROM V_Student_AVG_Grade
+```
