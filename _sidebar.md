@@ -202,11 +202,13 @@
     * 关系型数据库 SQL  <!--放置在 cs/Sql -->
       * [参考链接](/ProjectDocs/cs/sql/Reference.md)
       * [数据关联性理论](/ProjectDocs/cs/Sql/Relational-Data-Theory.md)
+      * [数据库设计](/ProjectDocs/cs/Sql/Database-Design.md)
       * MySql 相关学习
         * [MySql 概述](/ProjectDocs/cs/Sql/MySql/MySQL-front.md)
         * [MySQL 语法基础](ProjectDocs\cs\Sql/MySql/SQL-basic.md)
         * [Sql 常用语句与数据结构](/ProjectDocs/cs/Sql/MySql/MySQL-statements-and-data-types.md)
       * SqlServer
+        * [本科课程考察](/ProjectDocs/cs/Sql/SQL-Server/Exam.md)
         * [SQL Server 基本语法](/ProjectDocs/cs/Sql/SQL-Server/SQL-basic.md)
         * [数据库完整性](/ProjectDocs/cs/Sql/SQL-Server/Data-Integrity.md)
       * SqlLite
